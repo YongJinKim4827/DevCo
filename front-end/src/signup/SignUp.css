@@ -1,0 +1,16 @@
+.signUpContainer{
+    display: flex;
+    align-items: center;
+}
+
+.signUpForm {
+    width: 30vw;
+    height: 70vh;
+    border: 1px solid gray;
+    padding : 20px;
+}
+
+form .content {
+    overflow-y: auto;
+    height: 60vh;
+}
