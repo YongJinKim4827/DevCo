@@ -1,0 +1,42 @@
+/*
+* CSS 네이밍 규칙
+* 형태 - 의미 - 순서 -상태 ex)
+*/
+.div-header-wrapper {
+    display: flex;
+    justify-content: space-around;
+    height: 90px;
+    margin-top: 10px;
+    border-bottom: 1px solid gray;
+    min-width: 450px;
+    /* max-width: 900px; */
+}
+
+.div-chat-alarm {
+    width : 27px;
+    height : 27px;
+    position : absolute;
+    top : 12px;
+    right : -10px;
+    background-color : red;
+    color : white;
+    border-radius : 20px;
+}
+
+.div-chat-alarm:hover {
+    cursor : pointer;
+}
+
+.img-header {
+    width : 35px;
+    height : 35px;
+    margin-bottom : 3px;
+}
+
+.img-header:hover {
+    cursor : pointer;
+}
+
+.a-deco:active{
+    color: red !important;
+}
