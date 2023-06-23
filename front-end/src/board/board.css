@@ -1,0 +1,48 @@
+.div-board-content-wrapper {
+    display: flex;
+    border-top : 1px solid gray;
+    border-bottom : 1px solid gray;
+    align-items: center;
+    padding: 5px;
+    height: 110px;
+    width : 70vw;
+    max-width: 800px;
+    min-width: 450px;
+    
+}
+
+.div-reply {
+    display : flex;
+    justify-content: center;
+    flex-direction: column;
+    border : 1px solid gray;
+    width: 75px;
+    height: 75px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: small;
+}
+
+.div-write-info {
+    display: flex;
+    font-size: smaller;
+}
+
+.div-board-content {
+    display: flex;
+    flex-direction: column;
+    /* text 처리*/
+    /* overflow: hidden; */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.div-board-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 800px;
+    width: 100%;
+    border-collapse: collapse;
+
+}
