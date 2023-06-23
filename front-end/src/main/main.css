@@ -1,0 +1,46 @@
+.div-main-content {
+    display : flex;
+    min-width : 450px;
+    height : 50vh;
+    min-height: 500px;
+    padding: 20px;
+    margin : 5px 5px 20px 5px;
+    justify-content: space-between;
+}
+
+.div-main-category{
+    height: 30px;
+}
+
+.div-content {
+    
+}
+
+a{
+    color: black !important;
+}
+
+a:hover {
+    font-weight: bold;
+    color: #0090F9 !important;
+}
+
+@media screen and (max-width : 1300px)
+{
+    .div-left{
+        display: none;
+    }
+
+    .div-right{
+        display: none;
+    }
+}
+
+/* @media screen and (max-width : 1300px)
+{
+    .div-main-content-virtical {
+        display:flex;
+        flex-direction: column;
+        height : 40%;
+    }
+} */
