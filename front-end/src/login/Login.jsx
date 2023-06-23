@@ -19,6 +19,8 @@ const Login = () => {
 
     const LoginHandler = (event) => {
         event.preventDefault();
+        navigate("/")
+        return;
         console.log(`User Id : ${userId} , Password : ${userPassword}`);
         //TO-DO : 비밀번호를 암호화 부분 필요
         axios.post("/login", {
