@@ -1,0 +1,39 @@
+[
+    {"boardNo" : "1", "writer" : "맥심형", "boardTitle": "Spring 질문", "boardType" : "QUST", "replyCount": 10, "views" : 100, "writeDate" : "2023-06-22 14:13:15", "recommendation" : 23},
+    {"boardNo" : "2", "writer" : "커피형", "boardTitle": "React 질문", "boardType" : "QUST", "replyCount": 50, "views" : 100, "writeDate" : "2023-06-22 14:15:15", "recommendation" : 0},
+    {"boardNo" : "3", "writer" : "기훈이형", "boardTitle": "Mybatis 질문", "boardType" : "QUST", "replyCount": 22, "views" : 100, "writeDate" : "2023-06-22 14:16:14", "recommendation" : 203},
+    {"boardNo" : "4", "writer" : "전요한목사", "boardTitle": "Next.js 질문", "boardType" : "QUST", "replyCount": 11, "views" : 100, "writeDate" : "2023-06-22 14:16:15", "recommendation" : 3},
+    {"boardNo" : "5", "writer" : "강인구", "boardTitle": "Spring AOP 질문", "boardType" : "QUST", "replyCount": 15, "views" : 100, "writeDate" : "2023-06-22 14:17:15", "recommendation" : 2},
+    {"boardNo" : "6", "writer" : "앞이안보요", "boardTitle": "Spring Boot 에러 질문", "boardType" : "QUST", "replyCount": 22, "views" : 100, "writeDate" : "2023-06-22 15:13:15", "recommendation" : 1},
+    {"boardNo" : "7", "writer" : "그럴리가", "boardTitle": "이거 어떻게 하나요??", "boardType" : "QUST", "replyCount": 5, "views" : 100, "writeDate" : "2023-06-22 11:12:15", "recommendation" : 2},
+    {"boardNo" : "8", "writer" : "삐처리필요", "boardTitle": "객체지향이란 무엇인가요?",  "boardType" : "QUST", "replyCount": 9, "views" : 100, "writeDate" : "2023-06-22 13:13:15", "recommendation" : 35},
+    {"boardNo" : "9", "writer" : "코로나로", "boardTitle": "회사에서 업무를 하려고하는데 질문이 있습니다!", "boardType" : "QUST", "replyCount": 10, "views" : 100, "writeDate" : "2023-06-22 19:13:15", "recommendation" : 23},
+    {"boardNo" : "10", "writer" : "쿠쿤", "boardTitle": "Javascript 질문 급해요..!", "boardType" : "QUST", "replyCount": 11, "views" : 100, "writeDate" : "2023-06-22 16:09:15", "recommendation" : 23},
+
+    {"boardNo" : "53", "writer" : "언제잘해져", "boardTitle": "이거 사보신분",  "boardType" : "COMM", "replyCount": 10, "views" : 100, "writeDate" : "2023-06-21 14:13:15", "recommendation" : 23},
+    {"boardNo" : "52", "writer" : "노란햇병아리", "boardTitle": "공백이요",     "boardType" : "COMM", "replyCount": 50, "views" : 100, "writeDate" : "2023-06-23 14:15:15", "recommendation" : 0},
+    {"boardNo" : "51", "writer" : "클라우드달인", "boardTitle": "미치것구먼유", "boardType" : "COMM", "replyCount": 22, "views" : 100, "writeDate" : "2023-06-25 14:16:14", "recommendation" : 0},
+    {"boardNo" : "50", "writer" : "숨셔숨", "boardTitle": "모각코하실분", "boardType" : "COMM", "replyCount": 11, "views" : 100, "writeDate" : "2023-06-20 14:16:15", "recommendation" : 1},
+    {"boardNo" : "55", "writer" : "자바칩쿠키", "boardTitle": "부산 모각코 구합니다.", "boardType" : "COMM", "replyCount": 15, "views" : 100, "writeDate" : "2023-06-01 14:17:15", "recommendation" : 3},
+    {"boardNo" : "56", "writer" : "포터베어", "boardTitle": "부산 G-Star 가실분~", "boardType" : "COMM", "replyCount": 22, "views" : 100, "writeDate" : "2023-06-03 15:13:15", "recommendation" : 5},
+    {"boardNo" : "57", "writer" : "기환환기", "boardTitle": "죄송합니다.", "boardType" : "COMM", "replyCount": 5, "views" : 100, "writeDate" : "2023-06-22 11:12:15", "recommendation" : 6},
+    {"boardNo" : "58", "writer" : "우루부부우", "boardTitle": "컴퓨터 견적 좀 봐주세요",  "boardType" : "COMM", "replyCount": 9, "views" : 100, "writeDate" : "2023-06-29 13:13:15", "recommendation" : 21},
+    {"boardNo" : "59", "writer" : "대칭강박증", "boardTitle": "노트북 뭐사야할까요??요까할야사뭐 북트노", "boardType" : "COMM", "replyCount": 10, "views" : 100, "writeDate" : "2023-06-30 19:13:15", "recommendation" : 103},
+    {"boardNo" : "60", "writer" : "병아리의붉은날개", "boardTitle": "혹시..디아블로하시는분...?", "boardType" : "COMM", "replyCount": 11, "views" : 100, "writeDate" : "2023-05-22 16:09:15", "recommendation" : 2},
+
+    {"boardNo" : "40", "writer" : "7광구", "boardTitle": "Spring 학습 공유", "boardType" : "INTSH", "replyCount": 10, "views" : 100, "writeDate" : "2023-06-22 14:13:15", "recommendation" : 23},
+    {"boardNo" : "41", "writer" : "박수쳐", "boardTitle": "React 학습 공유", "boardType" : "INTSH", "replyCount": 50, "views" : 100, "writeDate" : "2023-06-21 14:15:15", "recommendation" : 0},
+    {"boardNo" : "43", "writer" : "박수치워", "boardTitle": "OST 7계층 공부 공유", "boardType" : "INTSH", "replyCount": 22, "views" : 100, "writeDate" : "2023-06-21 14:16:14", "recommendation" : 203},
+    {"boardNo" : "44", "writer" : "세미나", "boardTitle": "AWS 공부 공유", "boardType" : "INTSH", "replyCount": 11, "views" : 100, "writeDate" : "2023-06-21 14:16:15", "recommendation" : 3},
+    {"boardNo" : "45", "writer" : "이너피스", "boardTitle": "개발자라면 알아야할 AI 뉴스", "boardType" : "INTSH", "replyCount": 15, "views" : 100, "writeDate" : "2023-06-20 14:17:15", "recommendation" : 2},
+    {"boardNo" : "46", "writer" : "404NotFound", "boardTitle": "Java를 통해서 Word 변환", "boardType" : "INTSH", "replyCount": 22, "views" : 100, "writeDate" : "2023-06-23 15:13:15", "recommendation" : 1},
+    {"boardNo" : "47", "writer" : "200OK", "boardTitle": "[20230622] 개발자라면 알아야할 것들", "boardType" : "INTSH", "replyCount": 5, "views" : 100, "writeDate" : "2023-06-26 11:12:15", "recommendation" : 2},
+    {"boardNo" : "48", "writer" : "물맥이는코더", "boardTitle": "SOLID 학습 공유",  "boardType" : "INTSH", "replyCount": 9, "views" : 100, "writeDate" : "2023-06-21 13:13:15", "recommendation" : 35},
+    {"boardNo" : "49", "writer" : "수술자국", "boardTitle": "NodeJS 학습 공유", "boardType" : "INTSH", "replyCount": 10, "views" : 100, "writeDate" : "2023-06-25 19:13:15", "recommendation" : 23},
+    {"boardNo" : "42", "writer" : "파라나늘", "boardTitle": "React Redux 학습 공유", "boardType" : "INTSH", "replyCount": 11, "views" : 100, "writeDate" : "2023-06-23 16:09:15", "recommendation" : 23},
+
+    {"boardNo" : "31", "writer" : "주인장", "boardTitle": "커뮤니티 규칙", "boardType" : "NOTICE", "replyCount": 11, "views" : 1305, "writeDate" : "2023-06-23 15:13:43", "recommendation" : 23},
+    {"boardNo" : "32", "writer" : "주인장", "boardTitle": "정기점검 안내", "boardType" : "NOTICE", "replyCount": 2, "views" : 25, "writeDate" : "2023-06-25 07:15:15", "recommendation" : 100},
+    {"boardNo" : "33", "writer" : "건물주", "boardTitle": "커뮤니티 가입", "boardType" : "NOTICE", "replyCount": 50, "views" : 432, "writeDate" : "2023-06-27 02:16:14", "recommendation" : 203}
+
+]
