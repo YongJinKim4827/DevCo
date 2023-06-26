@@ -44,5 +44,47 @@
     min-width: 800px;
     width: 100%;
     border-collapse: collapse;
+}
 
+/*
+* writing page
+*/
+.div-writing-content-wrapper{
+    display : flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.div-writing-content-wrapper span{
+    font-weight: bold;
+}
+
+/*
+* View
+*/
+.div-writer-area-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+/*
+* Reply 
+*/
+
+.div-view-area-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+
+.div-reply-content-wrapper {
+    display : flex;
+    flex-direction: column;
+}
+
+.div-reply-content-wrapper span{
+    font-size: x-small;
+    margin-top: 7px;
+    margin-left: 10px;
 }

@@ -9,3 +9,4 @@ const QUESTION = "question";
 const COUUMNITY = "community";
 const KNOWLEDGE = "knowledge";
 const NOTICE = "notice";
+const WRITING = "writing";

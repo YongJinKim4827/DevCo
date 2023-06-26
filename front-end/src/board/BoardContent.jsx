@@ -1,9 +1,15 @@
 import React from 'react'
 import './board.css'
+import { useNavigate } from 'react-router-dom'
 
 const BoardContent = ({category, content}) => {
+    const navigation = useNavigate();
     const write = () => {
         
+    }
+
+    const moveViewPage = () => {
+        navigation("/view")
     }
   return (
     <div className='div-board-content-wrapper'>
@@ -24,7 +30,7 @@ const BoardContent = ({category, content}) => {
             </div>
             <div style={{display : "flex", flexDirection : "column", width : "59vw", maxWidth:"700px", minWidth : "350px"}}>
                 <a href={"#"} style={{fontWeight : "bold"}}>{content.boardTitle}</a>
-                <a href={"#"} style={{overflow : "hidden", textOverflow : "ellipsis", whiteSpace : "nowrap"}}>
+                <a style={{overflow : "hidden", textOverflow : "ellipsis", whiteSpace : "nowrap"}} onClick={moveViewPage}>
                     [앵커]
                     오늘은 어제보다 기온이 더 오르겠고, 주말인 내일과 모레도 더위가 이어지겠습니다.
                     일요일 제주도와 남해안부터 올여름 장마가 시작될 것으로 보여 대비해야 합니다.
