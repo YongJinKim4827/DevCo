@@ -4,6 +4,8 @@ import Footer from '../common/Footer'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Main from './Main'
 import BoardList from '../board/BoardList'
+import Writing from '../board/Writing'
+import View from '../board/View'
 
 const Layout = () => {
   return (
@@ -15,6 +17,8 @@ const Layout = () => {
             <Route path="/knowledge" element={<BoardList category={KNOWLEDGE}/>}/>
             <Route path="/community" element={<BoardList category={COUUMNITY}/>}/>
             <Route path="/notice" element={<BoardList category={NOTICE}/>}/>
+            <Route path="/writing" element={<Writing/>}/>
+            <Route path="/view" element={<View/>}/>
         </Routes>
         <Footer/>
     </div>
