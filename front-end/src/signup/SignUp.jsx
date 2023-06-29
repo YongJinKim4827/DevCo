@@ -11,7 +11,8 @@ const SignUp = () =>  {
         checkPassword : false,
         userName : '',
         gender : '',
-        email : ''
+        email : '',
+        userRole : ""
     });
 
     const onChange = (event) => {
@@ -39,17 +40,16 @@ const SignUp = () =>  {
         signUpInfo.userPassword
         ]);
 
-    const SignUpHandler = (event) => {
+    const signUpHandler = (event) => {
         event.preventDefault();
         console.dir(signUpInfo);
-        axios.post("/signup")
+        axios.post(`${REQUEST_ORIGIN}/signup`, signUpInfo)
         .then((res) => {
             console.log(res);
         })
         .catch((err) => {
             console.log(err);
         })
-
     }
 
     const moveLoginPage = () => {
@@ -58,7 +58,7 @@ const SignUp = () =>  {
 
     return (
         <div className='signUpContainer'>
-            <form action="" method="POST" onSubmit={SignUpHandler} className='signUpForm'>
+            <form action="" method="POST" onSubmit={signUpHandler} className='signUpForm'>
                 <div className='content'>
                 <div className="mb-3">
                     <label htmlFor="signUpIdInput" className="form-label">ID</label>
@@ -88,10 +88,15 @@ const SignUp = () =>  {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="signUpIdGender" className="form-label">성별</label>
-                    <input type="text" className="form-control" 
+                    <select id='signUpIdGender' className="form-select" aria-label="Default select example" placeholder='성별을 선택해주세요.' onChange={onChange} defaultValue={"N"}>
+                        <option value="N" disabled>성별을 선택해주세요.</option>
+                        <option value="M">남성</option>
+                        <option value="F">여성</option>
+                    </select>
+                    {/* <input type="text" className="form-control" 
                         id="signUpIdGender"
                         value={signUpInfo.gender} onChange={onChange}
-                        />
+                        /> */}
                 </div>
                 <div className="mb-3">
                     <label htmlFor= "signUpEmail" className="form-label">본인확인 이메일</label>
