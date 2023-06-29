@@ -18,7 +18,7 @@ const Layout = () => {
             <Route path="/community" element={<BoardList category={COUUMNITY}/>}/>
             <Route path="/notice" element={<BoardList category={NOTICE}/>}/>
             <Route path="/writing" element={<Writing/>}/>
-            <Route path="/view" element={<View/>}/>
+            <Route path="/view/:category/:boardNo" element={<View/>}/>
         </Routes>
         <Footer/>
     </div>

@@ -1,5 +1,8 @@
 import React from 'react'
 import './common.css'
+import logoImg from '../assets/img/uncle-sam.png';
+import messageImg from '../assets/img/free-icon-chat-2450503.png';
+import userImg from '../assets/img/free-icon-default-user.png';
 
 const Header = () => {
   const moveChattingPage = () => {
@@ -10,7 +13,7 @@ const Header = () => {
   return (
     <div className='div-header-wrapper'>
       <div style={{display : "flex"}}>
-        <img src="src\assets\img\uncle-sam.png"
+        <img src={logoImg}
                         style={{width : "80px", height : "80px", marginBottom : "3px"}}
         />
         <div style={{display : "inline", alignSelf : "center", marginLeft : "10px"}}>
@@ -34,13 +37,13 @@ const Header = () => {
       </div>
       <div style={{display : "flex"}}>
         <div style={{display : "inline", alignSelf : "center", position : "relative"}} >
-            <img src="src\assets\img\free-icon-chat-2450503.png" className='img-header' />
+            <img src={messageImg} className='img-header' />
             <div className='div-chat-alarm'>
               <span>+5</span>
             </div>
         </div>
         <div style={{display : "inline", alignSelf : "center", marginLeft : "20px"}}>
-          <img src="src\assets\img\free-icon-default-user.png" className='img-header'/>
+          <img src={userImg} className='img-header'/>
         </div>
       </div>
     </div>

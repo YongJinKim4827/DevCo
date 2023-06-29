@@ -10,3 +10,10 @@ const COUUMNITY = "community";
 const KNOWLEDGE = "knowledge";
 const NOTICE = "notice";
 const WRITING = "writing";
+
+const HOST_NAME = window.location.hostname;;
+const PORT = "8080";
+const PROTOCOL = "http:"
+const REQUEST_ORIGIN = `${PROTOCOL}//${HOST_NAME}:${PORT}`
+const SAMPLE_DATA_TEST = "SAMPLE";
+const DB_DATA_TEST = "DB"
