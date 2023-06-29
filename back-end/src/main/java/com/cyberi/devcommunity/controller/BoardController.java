@@ -3,10 +3,7 @@ package com.cyberi.devcommunity.controller;
 import com.cyberi.devcommunity.dto.BoardItem;
 import com.cyberi.devcommunity.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sun.swing.BakedArrayList;
 
 import java.util.ArrayList;
@@ -23,11 +20,23 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @RequestMapping(value = "/select", method = RequestMethod.GET)
-    public List<BoardItem> selectBoardList(BoardItem boardItem){
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public List<BoardItem> selectBoardList(@RequestParam("category") String catrgory){
+        BoardItem param = new BoardItem();
+        param.setBoardType(catrgory.toUpperCase());
         List<BoardItem> items = new ArrayList();
-        items = boardService.selectBoardList(boardItem);
+        items = boardService.selectBoardList(param);
         return items;
+    }
+
+    @RequestMapping(value = "/select", method = RequestMethod.GET)
+    public BoardItem selectBoardItem(@RequestParam("category") String category, @RequestParam("boardNo") String boardNo) throws Exception{
+        BoardItem result = new BoardItem();
+        BoardItem param = new BoardItem();
+        param.setBoardType(category.toUpperCase());
+        param.setBoardNo(boardNo);
+        result = boardService.selectBoardItem(param);
+        return result;
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -37,7 +46,7 @@ public class BoardController {
         return item;
     }
 
-    @RequestMapping(value = "/registy", method = RequestMethod.POST)
+    @RequestMapping(value = "/registry", method = RequestMethod.POST)
     public BoardItem registryBoardItem(@RequestBody BoardItem boardItem){
         BoardItem item = new BoardItem();
         item = boardService.registryBoardItem(boardItem);

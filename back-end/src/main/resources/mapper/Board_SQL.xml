@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cyberi.devcommunity.repository.mybatis.MybatisBoardRepository">
+    <resultMap id="boardResultMap" type="com.cyberi.devcommunity.dto.BoardItem">
+        <result property="boardNo"          column="BOARD_NO"           />
+        <result property="boardContent"     column="BOARD_CONTENT"
+            jdbcType="CLOB" javaType="java.lang.String"
+        />
+        <result property="share"            column="BOARD_SHARE"        />
+        <result property="views"            column="VIEWS"              />
+        <result property="boardType"        column="BOARD_TYPE"         />
+        <result property="boardTitle"       column="BOARD_TITLE"        />
+        <result property="writeDate"        column="WRITE_DATE"         />
+        <result property="writer"           column="WRITER"             />
+        <result property="recommendation"   column="RECOMMENDATION"     />
+        <result property="like"             column="BOARD_LIKE"     />
+        <result property="replyCount"       column="REPLY_COUNT"        />
+    </resultMap>
+
+    <!-- 게시글 리스트 조회 -->
+    <select id="selectBoardList" resultMap="boardResultMap">
+        SELECT
+            B.BOARD_NO AS BOARD_NO, SUBSTR( B.BOARD_CONTENT, 1, 100 ) AS BOARD_CONTENT /*100자 까지만 로딩*/,
+            B.BOARD_SHARE AS BOARD_SHARE, B.VIEWS AS VIEWS, B.BOARD_TYPE AS BOARD_TYPE,
+            B.BOARD_TITLE AS BOARD_TITLE, B.BOARD_LIKE AS BOARD_LIKE,
+            TO_CHAR(B.WRITE_DATE, 'YYYY-MM-DD HH:MM:SS') AS WRITE_DATE, B.WRITER AS WRITER,
+            (
+                SELECT
+                    COUNT(REPLY_NO)
+                FROM
+                    REPLY_INFO
+                WHERE BOARD_NO = B.BOARD_NO
+            ) AS REPLY_COUNT
+        FROM
+          BOARD_INFO B
+        WHERE 1=1
+        AND B.BOARD_SHARE = 'Y'
+        <if test="boardType != '' and boardType != null">
+            AND B.BOARD_TYPE = #{boardType}
+        </if>
+        <if test="boardNo != '' and boardNo != null">
+            AND B.BOARD_NO = #{boardNo}
+        </if>
+    </select>
+
+    <!-- 게시글 내용 조회 -->
+    <select id="selectBoardItem" resultMap="boardResultMap">
+        SELECT
+            BOARD_NO, BOARD_CONTENT,
+            BOARD_SHARE, VIEWS, BOARD_TYPE,
+            BOARD_TITLE, TO_CHAR(WRITE_DATE, 'YYYY-MM-DD HH:MM:SS') AS WRITE_DATE,
+            WRITER
+        FROM
+          BOARD_INFO
+        WHERE 1=1
+        AND BOARD_SHARE = 'Y'
+        AND BOARD_NO = #{boardNo}
+    </select>
+
+    <insert id="registryBoard">
+        INSERT INTO BOARD_INFO
+        (
+            BOARD_TITLE,
+            BOARD_CONTENT,
+            BOARD_SHARE,
+            WRITER,
+            WRITE_DATE
+        ) VALUES (
+            #{boardTitle},
+            #{boardContent},
+            #{share},
+            #{writer, jdbcType=VARCHAR},
+            SYSDATE
+        )
+
+    </insert>
+
+    <update id="updateBoard">
+        UPDATE BOARD_INFO SET
+            BOARD_CONTENT = #{boardContent}
+            BOARD_TITLE = #{boardTitle}
+            BOARD_SHARE = #{share}
+            WRTIE_DATE = SYSDATE
+        WHERE 1=1
+        AND BOARD_NO = #{boardNo}
+    </update>
+
+    <update id="increaseViews">
+            UPDATE BOARD_INFO SET
+            BOARD_SHARE = BOARD_SHARE + 1
+        WHERE 1=1
+        AND BOARD_NO = #{boardNo}
+    </update>
+
+    <delete id="deleteBoard">
+        DELETE FROM BOARD_INFO
+        WHERE BOARD_NO = #{boardNo}
+    </delete>
+</mapper>

@@ -16,29 +16,41 @@ public class BoardService {
         this.boardRepository = boardRepository;
     }
 
-    public List<BoardItem> selectBoardList(BoardItem boardItem){
-        BoardItem param = new BoardItem();
+    public List<BoardItem> selectBoardList(BoardItem param){
         List<BoardItem> items = new ArrayList();
         items = boardRepository.selectBoardItems(param);
         return items;
     }
 
+    public BoardItem selectBoardItem(BoardItem param) throws Exception{
+        BoardItem result = new BoardItem();
+        try {
+            result = boardRepository.selectBoardItem(param);
+            return result;
+        }catch(Exception e){
+            System.out.println(e);
+            throw new Exception();
+        }
+    }
+
     public BoardItem registryBoardItem(BoardItem boardItem){
         BoardItem registryBoardItem = new BoardItem();
-        registryBoardItem = boardRepository.registryBoardItem(boardItem);
+        int registryResult = 0;
+        registryResult = boardRepository.registryBoardItem(boardItem);
         return registryBoardItem;
     }
 
     public BoardItem updateBoardItem(BoardItem boardItem){
         BoardItem updateBoardItem = new BoardItem();
-        updateBoardItem = boardRepository.updateBoardItem(boardItem);
+        int updateResult = 0;
+        updateResult = boardRepository.updateBoardItem(boardItem);
         return updateBoardItem;
     }
 
     public int deleteBoardItem(BoardItem boardItem){
-        int result = 0;
-        boardRepository.deleteBoardItem(boardItem);
-        return result;
+        int deleteResult = 0;
+        deleteResult = boardRepository.deleteBoardItem(boardItem);
+        return deleteResult;
     }
 
 }
