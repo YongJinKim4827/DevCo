@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -404,
-    "scrollLeft": -76,
-    "zoomLevel": 0.9,
+    "scrollTop": -37,
+    "scrollLeft": -9,
+    "zoomLevel": 1,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -389,7 +389,7 @@
           "active": false,
           "left": 501.46,
           "top": 764.4274,
-          "zIndex": 6,
+          "zIndex": 5,
           "widthName": 60,
           "widthComment": 70.61181640625
         },
@@ -517,10 +517,10 @@
           }
         ],
         "ui": {
-          "active": true,
+          "active": false,
           "left": 1072.8088,
           "top": 624.2702,
-          "zIndex": 10,
+          "zIndex": 6,
           "widthName": 60,
           "widthComment": 60
         },
@@ -582,7 +582,7 @@
           "active": false,
           "left": 58.5559,
           "top": 537.6664,
-          "zIndex": 4,
+          "zIndex": 3,
           "widthName": 102.6611328125,
           "widthComment": 100.2236328125
         },
@@ -644,7 +644,7 @@
           "active": false,
           "left": 487.5557,
           "top": 53.2225,
-          "zIndex": 5,
+          "zIndex": 4,
           "widthName": 115.14697265625,
           "widthComment": 70.61181640625
         },
@@ -749,7 +749,7 @@
           },
           {
             "name": "READED",
-            "comment": "읽음여",
+            "comment": "읽음여부",
             "dataType": "VARCHAR",
             "default": "",
             "option": {
@@ -775,7 +775,7 @@
           "active": false,
           "left": 507.2223,
           "top": 277.7779,
-          "zIndex": 3,
+          "zIndex": 9,
           "widthName": 110.82421875,
           "widthComment": 71.3291015625
         },
