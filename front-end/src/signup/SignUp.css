@@ -1,6 +1,7 @@
 .signUpContainer{
     display: flex;
     align-items: center;
+    min-width: 450px;
 }
 
 .signUpForm {
@@ -8,6 +9,7 @@
     height: 70vh;
     border: 1px solid gray;
     padding : 20px;
+    min-width: 450px;
 }
 
 form .content {
