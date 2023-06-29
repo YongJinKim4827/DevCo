@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/")
 public class UserController {
@@ -22,29 +21,33 @@ public class UserController {
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public void signUp(@RequestBody UserItem data){
-        System.out.println("허허허");
+    public void signUp(@RequestBody UserItem data) throws Exception{
+        userService.signUp(data);
     }
 
     @RequestMapping(value = "/user/select", method = RequestMethod.GET)
-    public List<UserItem> selectUserItem(){
+    public List<UserItem> selectUserItem() throws Exception{
         List<UserItem> items = new ArrayList();
+        UserItem param = new UserItem();
+        items = userService.selectUserItem(param);
         return items;
     }
 
     @RequestMapping(value = "/user/update", method = RequestMethod.POST)
-    public UserItem updateUserItem(@RequestBody UserItem data) {
+    public UserItem updateUserItem(@RequestBody UserItem data) throws Exception{
         UserItem item = new UserItem();
+        userService.updateUserItem(data);
         return item;
     }
 
     @RequestMapping(value = "/user/delete", method = RequestMethod.POST)
-    public int deleteUserItem(@RequestBody UserItem data){
+    public int deleteUserItem(@RequestBody UserItem data) throws Exception{
         int result = 0;
+        userService.deleteUserItem(data);
         return result;
     }
     @RequestMapping(value = "/user/test", method = RequestMethod.GET)
-    public String test(){
+    public String test() throws Exception{
         UserItem userItem = new UserItem();
         List<UserItem> items = new ArrayList();
         items = userService.selectUserItem(userItem);

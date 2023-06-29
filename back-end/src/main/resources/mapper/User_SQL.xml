@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userRepository">
+    <resultMap id="userResultMap" type="com.cyberi.devcommunity.dto.UserItem">
+        <result property="userId"   column="USER_ID" />
+        <result property="userPassword" column="PASSWORD" />
+        <result property="userName" column="USER_NAME" />
+        <result property="email"    column="EMAIL" />
+        <result property="gender"   column="GENDER" />
+    </resultMap>
+
+    <select id="selectUserItem" resultMap="userResultMap">
+        SELECT
+          USER_ID, PASSWORD, USER_NAME, EMAIL, GENDER
+        FROM
+          USER_INFO
+        WHERE 1=1
+    </select>
+
+    <insert id="registryUser" parameterType="com.cyberi.devcommunity.dto.UserItem">
+        INSERT INTO USER_INFO
+        (
+          USER_ID,
+          PASSWORD,
+          USER_NAME,
+          BIRTH,
+          GENDER,
+          EMAIL
+        ) VALUES (
+          #{userId, jdbcType=VARCHAR},
+          #{userPassword, jdbcType=VARCHAR},
+          #{userName, jdbcType=VARCHAR},
+          #{birth, jdbcType=DATE},
+          #{gender, jdbcType=VARCHAR},
+          #{email, jdbcType=VARCHAR}
+        )
+
+    </insert>
+
+
+<insert id="insertTest" parameterType="com.cyberi.devcommunity.dto.UserItem">
+        INSERT INTO USER_INFO
+        (
+          USER_ID,
+          PASSWORD,
+          USER_NAME,
+          GENDER,
+          EMAIL
+        ) VALUES (
+          'USER',
+          '1234',
+          'UserName',
+          'F',
+          'EMAIL'
+        )
+
+    </insert>
+
+    <update id="updateUser">
+        UPDATE USER_INFO SET
+          <if test="userPassword != '' and userPassword != null">
+              PASSWORD = #{userPassword, jdbcType=VARCHAR},
+          </if>
+          USER_NAME = #{userName, jdbcType=VARCHAR},
+          EMAIL = #{email, jdbcType=VARCHAR},
+          GENDER = #{gender, jdbcType=VARCHAR},
+          BIRTH = #{birth, jdbcType=VARCHAR}
+        WHERE 1=1
+        AND USER_ID = #{userId, jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM USER_INFO
+        WHERE USER_ID = #{userId, jdbcType=VARCHAR}
+    </delete>
+</mapper>
