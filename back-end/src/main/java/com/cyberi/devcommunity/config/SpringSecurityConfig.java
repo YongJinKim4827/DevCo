@@ -19,7 +19,7 @@ public class SpringSecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/signup").permitAll()
+                .antMatchers("/signup","/user/**","/board/**","/reply/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
