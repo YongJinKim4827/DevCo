@@ -46,6 +46,12 @@
     border-collapse: collapse;
 }
 
+.a-board-content {
+    overflow : hidden;
+    text-overflow : ellipsis;
+    white-space : nowrap;
+}
+
 /*
 * writing page
 */

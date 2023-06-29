@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import axios from 'axios';
 
 const Writing = () => {
   const [isWriting, setIsWriting] = useState(true);
@@ -8,10 +9,9 @@ const Writing = () => {
   const [contentItem, setContentItem] = useState({
     boardTitle : "",
     boardType : "",
-    boardContent : "",
+    boardContent : window.location.pathname.split("/")[1].toUpperCase(),
     share : "Y",
   });
-
   useEffect(()=> {
     // editorRef.current.focus();
   },[]);
@@ -28,13 +28,19 @@ const Writing = () => {
     // editorRef.current.getInstance().getHTML();
     //Mark Down 형식으로 값 가져오기
     // editorRef.current.getInstance().getMarkdown();
-    setContentItem({...contentItem, boardContent : editorRef.current.getInstance().getHTML()});
+    setContentItem({...contentItem, boardContent : editorRef.current.getInstance().getMarkdown()});
   }
 
   const onSubmit = (event) => {
     event.preventDefault();
-    debugger;
-    let formData = new FormData();
+    axios.post(`${REQUEST_ORIGIN}/board/registry`, contentItem)
+      .then((res) => {
+        console.log(res);
+        history.goBack();
+      }).catch((err)=>{
+        console.log(err);
+      })
+    
   }
 
 
