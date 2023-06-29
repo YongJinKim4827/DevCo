@@ -23,19 +23,21 @@ public class ReplyService {
 
     public ReplyItem registryReply(ReplyItem replyItem){
         ReplyItem item = new ReplyItem();
-        item = replyRepository.registryReply(replyItem);
+        int registryResult = 0;
+        registryResult = replyRepository.registryReply(replyItem);
         return item;
     }
 
     public ReplyItem updateReply(ReplyItem replyItem){
         ReplyItem updateReplyItem = new ReplyItem();
-        updateReplyItem = replyRepository.updateReply(replyItem);
+        int updateResult = 0;
+        updateResult = replyRepository.updateReply(replyItem);
         return updateReplyItem;
     }
 
     public int deleteReply(ReplyItem replyItem){
-        int result = 0;
+        int deleteResult = 0;
         replyRepository.deleteReply(replyItem);
-        return result;
+        return deleteResult;
     }
 }
