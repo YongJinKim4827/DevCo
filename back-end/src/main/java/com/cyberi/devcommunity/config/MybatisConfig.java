@@ -9,7 +9,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
@@ -22,6 +24,7 @@ public class MybatisConfig {
     }
 
     @Bean(name = "sqlSessionFactory")
+    @Primary
     public SqlSessionFactory sqlSessionFactory(
             @Qualifier("dataSource") DataSource dataSource,
             ApplicationContext applicationContext) throws Exception {
@@ -29,12 +32,13 @@ public class MybatisConfig {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dataSource);
         sqlSessionFactory.setMapperLocations(
-                new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/mapper/**/*.xml")
+                new PathMatchingResourcePatternResolver().getResources("classpath:mapper/**/*.xml")
         );
         return sqlSessionFactory.getObject();
     }
 
-    @Bean(name="sqlSession")
+    @Bean(name="sqlSessionTemplate")
+    @Primary
     public SqlSessionTemplate sqlSession(SqlSessionFactory sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
