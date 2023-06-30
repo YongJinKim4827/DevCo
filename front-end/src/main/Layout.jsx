@@ -6,6 +6,8 @@ import Main from './Main'
 import BoardList from '../board/BoardList'
 import Writing from '../board/Writing'
 import View from '../board/View'
+import ChatRoom from '../chat/ChatRoomTest'
+import ChatWrapper from '../chat/ChatWrapper'
 
 const Layout = () => {
   return (
@@ -19,6 +21,7 @@ const Layout = () => {
             <Route path="/notice" element={<BoardList category={NOTICE}/>}/>
             <Route path="/writing" element={<Writing/>}/>
             <Route path="/view/:category/:boardNo" element={<View/>}/>
+            <Route path="/chat" element={<ChatWrapper/>}/>
         </Routes>
         <Footer/>
     </div>
