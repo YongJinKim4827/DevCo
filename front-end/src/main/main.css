@@ -8,12 +8,14 @@
     justify-content: space-between;
 }
 
-.div-main-category{
-    height: 30px;
+
+.div-main-content-wrapper {
+    display: flex;
+    justify-content: center;
 }
 
-.div-content {
-    
+.div-main-category{
+    height: 30px;
 }
 
 a{
