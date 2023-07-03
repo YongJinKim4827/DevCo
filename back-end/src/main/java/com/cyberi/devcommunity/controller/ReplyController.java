@@ -3,10 +3,7 @@ package com.cyberi.devcommunity.controller;
 import com.cyberi.devcommunity.dto.ReplyItem;
 import com.cyberi.devcommunity.service.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +20,10 @@ public class ReplyController {
     }
 
     @RequestMapping(value = "/select", method = RequestMethod.GET)
-    public List<ReplyItem> selectReply(){
+    public List<ReplyItem> selectReply(@RequestParam("boardNo") String boardNo){
         List<ReplyItem> items = new ArrayList<>();
         ReplyItem replyItem = new ReplyItem();
+        replyItem.setBoardNo(boardNo);
         items = replyService.selectReply(replyItem);
         return items;
     }

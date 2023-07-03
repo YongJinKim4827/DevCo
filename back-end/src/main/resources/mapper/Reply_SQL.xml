@@ -12,9 +12,9 @@
 
     <select id="selectReplyList" resultMap="replyResultMap">
         SELECT
-        REPLY_NO, REPLY_CONTENT, WRITER, BOARD_NO, REPLY_DATE
+          REPLY_NO, REPLY_CONTENT, WRITER, BOARD_NO, REPLY_DATE
         FROM
-        REPLY_INFO
+          REPLY_INFO
         WHERE 1=1
         AND BOARD_NO = #{boardNo}
     </select>
@@ -22,17 +22,16 @@
     <insert id="registryReply">
         INSERT INTO REPLY_INFO
         (
-        REPLY_CONTENT
-        WRITER,
-        BOARD_NO,
-        REPLY_DATE
+            REPLY_CONTENT,
+            WRITER,
+            BOARD_NO,
+            REPLY_DATE
         ) VALUES (
-        #{replyContent},
-        #{writer},
-        #{boardNo},
-        SYSTDATE
+            #{replyContent},
+            #{writer},
+            #{boardNo},
+            SYSDATE
         )
-
     </insert>
 
     <update id="updateReply">
@@ -41,7 +40,7 @@
         REPLY_DATE = SYSDATE
         WHERE 1=1
         AND BOARD_NO = #{boardNo}
-        AND REPLY_NO = ${replyNo}
+        AND REPLY_NO = #{replyNo}
     </update>
 
     <delete id="deleteReply">
