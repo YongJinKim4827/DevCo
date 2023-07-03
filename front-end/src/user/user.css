@@ -1,0 +1,19 @@
+.div-user-nav {
+    display: flex;
+    flex-direction: column;
+    flex : 0.3;
+    padding : 10px
+}
+
+.div-user-info-input{
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+
+.div-accountdelete-discription{
+    display: flex;
+    border-radius: 5px;
+    border : 1px solid black;
+    height: 50px;
+}
