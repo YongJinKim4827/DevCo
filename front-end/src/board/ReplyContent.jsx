@@ -1,19 +1,61 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Editor, Viewer } from '@toast-ui/react-editor';
 import './board.css'
-const ReplyContent = () => {
+import axios from 'axios';
+const ReplyContent = ({replyItem, onRefresh}) => {
+  const [replyContent, setReplyContent] = useState({
+    replyNo : '', 
+    replyContent : '',
+    writer : '',
+    replyDate : ''
+  });
+  
+  useEffect(() => {
+    console.log(replyItem.replyContent)
+    setReplyContent(replyItem);
+  },[])
+
+  const deleteReply = () => {
+    axios.post(`${REQUEST_ORIGIN}/reply/delete`, replyContent)
+    .then((res) => {
+      console.log(res);
+      onRefresh();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
+  const updateReply = () => {
+    axios.post(`${REQUEST_ORIGIN}/reply/update`, replyContent)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
   return (
     <div className='div-reply-content-wrapper'>
+      <div style={{flex : "0.9"}}>
         <div style={{display : "flex"}}>{/* 작성자 영역 */}
-            <a href='#'>작성자ID</a>
-            <span>작성 시간</span>
-        </div>
-        {/* 작성 내용 영역 */}
-            <Viewer
-                height="150px"
-                initialValue="and I'm Iron man" //저장한 컨텐츠 입력
-            />
-        
+              <a href='#'>{replyContent.writer}</a>
+              <span>{convertDate(replyContent.replyDate)}</span>
+          </div>
+          {/* 작성 내용 영역 */}
+          {
+                replyContent.replyContent !== '' ?
+                <Viewer
+                    height="900px" // 에디터 창 높이
+                    initialValue={replyContent.replyContent} //저장한 컨텐츠 입력
+                /> :
+                '' 
+            }
+      </div>
+      <div style={{flex : "0.1"}}>
+        <button onClick={deleteReply}>삭제</button>
+      </div>
     </div>
   )
 }
