@@ -6,12 +6,13 @@ import Main from './Main'
 import BoardList from '../board/BoardList'
 import Writing from '../board/Writing'
 import View from '../board/View'
-import ChatRoom from '../chat/ChatRoomTest'
 import ChatWrapper from '../chat/ChatWrapper'
+import UserSetting from '../user/UserLeftNav'
+import UserLayout from '../user/UserLayout'
 
 const Layout = () => {
   return (
-    <div>
+    <div style={{width : '100vw', display:"flex", justifyContent:"space-between", flexDirection:"column"}}>
         <Header/>
         <Routes>
             <Route path="/" element={<Main/>}/>
@@ -19,9 +20,10 @@ const Layout = () => {
             <Route path="/knowledge" element={<BoardList category={KNOWLEDGE}/>}/>
             <Route path="/community" element={<BoardList category={COUUMNITY}/>}/>
             <Route path="/notice" element={<BoardList category={NOTICE}/>}/>
-            <Route path="/writing" element={<Writing/>}/>
+            <Route path="/writing/:category" element={<Writing/>}/>
             <Route path="/view/:category/:boardNo" element={<View/>}/>
             <Route path="/chat" element={<ChatWrapper/>}/>
+            <Route path="/user/*" element={<UserLayout />}/>
         </Routes>
         <Footer/>
     </div>
