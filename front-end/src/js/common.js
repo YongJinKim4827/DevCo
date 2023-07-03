@@ -5,6 +5,9 @@ const calcuationTime = (date) => {
 
 const convertDate = (date) => {
     let convertDateType = new Date(date);
+    if(!date){
+        return;
+    }
     let convertDate = `${convertDateType.getFullYear()}-${addZero(convertDateType.getMonth() + 1)}-${addZero(convertDateType.getDate())}`
     let convertTime = `${addZero(convertDateType.getUTCHours())}:${addZero(convertDateType.getUTCMinutes())}:${addZero(convertDateType.getUTCSeconds())}`
     return `${convertDate} ${convertTime}`;

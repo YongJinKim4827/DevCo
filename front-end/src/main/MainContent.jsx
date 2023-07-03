@@ -3,7 +3,8 @@ import ContentItem from './ContentItem'
 import './main.css'
 const MainContent = ({mainItems}) => {
   return (
-    <div style={{width : "70vw"}}>
+    <div className='div-main-content-wrapper'>
+        <div style={{width : "70vw"}}>
         <div>
             광고영역(추후 대체 캐러샐을 하든 뭐든....)
         </div>
@@ -88,6 +89,8 @@ const MainContent = ({mainItems}) => {
                 <div>뭐 암거나 그냥 이미지라던가 글을 넣어야지</div>
             </div>
         </div>
+        </div>
+        
     </div>
   )
 }

@@ -5,6 +5,8 @@ const BOARD_CATEGORY = [
     {"name" : "공지사항",   "link" : "/notice"}
 ];
 
+const CATEGORY = ["QUESTION", "KNOWLEDGE", "NOTICE", "COMMUNITY"];
+
 const QUESTION = "question";
 const COUUMNITY = "community";
 const KNOWLEDGE = "knowledge";
@@ -17,3 +19,4 @@ const PROTOCOL = "http:"
 const REQUEST_ORIGIN = `${PROTOCOL}//${HOST_NAME}:${PORT}`
 const SAMPLE_DATA_TEST = "SAMPLE";
 const DB_DATA_TEST = "DB"
+
