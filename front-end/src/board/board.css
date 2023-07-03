@@ -41,7 +41,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 800px;
+    /* min-width: 800px; */
     width: 100%;
     border-collapse: collapse;
 }
@@ -50,6 +50,10 @@
     overflow : hidden;
     text-overflow : ellipsis;
     white-space : nowrap;
+}
+
+.a-board-content:hover {
+    cursor: pointer;
 }
 
 /*
@@ -86,7 +90,6 @@
 
 .div-reply-content-wrapper {
     display : flex;
-    flex-direction: column;
 }
 
 .div-reply-content-wrapper span{

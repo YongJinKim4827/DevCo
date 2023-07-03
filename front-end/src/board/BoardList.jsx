@@ -12,6 +12,7 @@ import writingImg from '../assets/img/free-icon-writing-6679504.png';
 const BoardList = ({category}) => {
     const navgaite = useNavigate();
     const [env, setEnv] = useState(DB_DATA_TEST);
+    const pages = [1,2,3,4,5];
     const [boardContentItem, setBoardContentItem] = useState([{
         boardNo : "",
         boardTitle : "",
@@ -36,7 +37,7 @@ const BoardList = ({category}) => {
     },[])
 
     const moveWritingPage = () => {
-        navgaite("/writing");
+        navgaite(`/writing/${category}`);
     }
 
     const onSearch = () => {
@@ -44,33 +45,41 @@ const BoardList = ({category}) => {
     }
 
   return (
-    <div>
-        <div>
-            <h2 style={{fontWeight : "bold"}}>{category}</h2>
-        </div>
-        <div style={{display : "flex", justifyContent : "center"}}>
-            <div>
-            <img src={refreshImg}
-                    style={{width : "18px", height : "18px", marginBottom : "3px"}}
-                />
+    <div style={{flex : "0.8"}}>
+        <div style={{display : "flex", alignItems : "center", flexDirection : "column"}}>
+            <div style={{width : "70vw", maxWidth : "800px", minWidth : "450px"}}>
+                <div style={{width : "50vw"}}>
+                    <h2 style={{fontWeight : "bold"}}>{category.toUpperCase()}</h2>
+                </div>
+                <div style={{display: "flex"}}>
+                    <div>
+                        <img src={refreshImg}
+                                style={{width : "18px", height : "18px", marginBottom : "3px"}}
+                            />
+                    </div>
+                    <div className="input-group mb-3" style={{width : "40vw"}}>
+                        <span className="input-group-text" id="basic-addon1">
+                            <img src={searchImg}
+                                style={{width : "18px", height : "18px", marginBottom : "3px"}}
+                            />
+                        </span>
+                        <input type="text" className="form-control"
+                            placeholder="검색" aria-label="search" aria-describedby="basic-addon1"/>
+                        <button>검색</button>
+                    </div>
+                    <button style={{height : "45px", marginLeft : "20px", width : "150px"}} onClick={moveWritingPage}>
+                        <img src={writingImg} style={{width : "25px", height : "25px"}}/>
+                        {/* <span style={{marginLeft : "5px", maxWidth : "45px"}}>작성하기</span> */}
+                        작성하기
+                    </button>
+                </div>
             </div>
-            <div className="input-group mb-3" style={{width : "40vw"}}>
-                <span className="input-group-text" id="basic-addon1">
-                    <img src={searchImg}
-                        style={{width : "18px", height : "18px", marginBottom : "3px"}}
-                    />
-                </span>
-                <input type="text" className="form-control" 
-                    placeholder="검색" aria-label="search" aria-describedby="basic-addon1"/>
-                <button>검색</button>
-            </div>
-            <button style={{height : "45px", marginLeft : "20px"}} onClick={moveWritingPage}>
-                    <img src={writingImg} style={{width : "25px", height : "25px"}}/>
-                    <span style={{marginLeft : "5px"}}>작성하기</span>
-            </button>
+            
+
+            
         </div>
         <div className='div-board-list' onLoad={onload}> {/* 게시물 리스트 */}
-            {
+            {/* {
                 env === DB_DATA_TEST ? 
                 boardContentItem.map((data, idx) => {
                     return <BoardContent key={`boardcontent_${idx}`} category={category} content = {data}/>
@@ -78,12 +87,28 @@ const BoardList = ({category}) => {
                 : sampleMainItem.map((data, idx) => {
                     return <BoardContent key={`boardcontent_${idx}`} category={category} content = {data}/>
                 })
-            }
+            } */}
             
+            {
+                boardContentItem.length === 0 ? 
+                <div className='div-board-content-wrapper' style={{justifyContent : 'center'}}>
+                    <span>해당 글이 존재하지 않습니다.</span>
+                </div>
+                : boardContentItem.map((data, idx) => {
+                    return <BoardContent key={`boardcontent_${idx}`} category={category} content = {data}/>
+                })
+            }
+
         </div>
-        <div>
+        <div style={{display : 'flex', justifyContent:"space-around", marginTop : "10px", marginBottom : "10px"}}>
             <a href='#'>◀ Previous</a>
-            <div></div>
+            <div>
+                {
+                    pages.map((no, idx) => {
+                        return (<a key={`pageNo_${idx+1}`} href='#'> {no}</a>)
+                    })
+                }
+            </div>
             <a href='#'>Next ▶</a>
         </div>
     </div>
