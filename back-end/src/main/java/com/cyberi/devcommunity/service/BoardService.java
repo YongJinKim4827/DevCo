@@ -25,6 +25,7 @@ public class BoardService {
     public BoardItem selectBoardItem(BoardItem param) throws Exception{
         BoardItem result = new BoardItem();
         try {
+            boardRepository.increaseViews(param);
             result = boardRepository.selectBoardItem(param);
             return result;
         }catch(Exception e){

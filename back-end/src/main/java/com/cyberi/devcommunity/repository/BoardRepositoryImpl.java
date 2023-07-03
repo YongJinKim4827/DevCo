@@ -38,8 +38,8 @@ public class BoardRepositoryImpl implements BoardRepository{
     }
 
     @Override
-    public int increaseViews() {
-        int result = sqlSession.update("increaseViews");
+    public int increaseViews(BoardItem boardItem) {
+        int result = sqlSession.update("increaseViews", boardItem);
         return 0;
     }
 
