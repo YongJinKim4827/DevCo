@@ -42,6 +42,7 @@
         <if test="boardNo != '' and boardNo != null">
             AND B.BOARD_NO = #{boardNo}
         </if>
+        ORDER BY B.BOARD_NO ASC
     </select>
 
     <!-- 게시글 내용 조회 -->
@@ -64,12 +65,14 @@
             BOARD_TITLE,
             BOARD_CONTENT,
             BOARD_SHARE,
+            BOARD_TYPE,
             WRITER,
             WRITE_DATE
         ) VALUES (
             #{boardTitle},
             #{boardContent},
             #{share},
+            #{boardType},
             #{writer, jdbcType=VARCHAR},
             SYSDATE
         )
@@ -88,7 +91,7 @@
 
     <update id="increaseViews">
             UPDATE BOARD_INFO SET
-            BOARD_SHARE = BOARD_SHARE + 1
+            VIEWS = VIEWS + 1
         WHERE 1=1
         AND BOARD_NO = #{boardNo}
     </update>
