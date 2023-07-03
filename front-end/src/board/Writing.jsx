@@ -2,10 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Writing = () => {
   const [isWriting, setIsWriting] = useState(true);
   const editorRef = useRef();
+  const param = useParams();
+  const navigation = useNavigate();
   const [contentItem, setContentItem] = useState({
     boardTitle : "",
     boardType : "",
@@ -13,7 +16,12 @@ const Writing = () => {
     share : "Y",
   });
   useEffect(()=> {
-    // editorRef.current.focus();
+    let category = param.category.toUpperCase();
+    let checkCategory = CATEGORY.findIndex((e) => e === category);
+    if(checkCategory < 0){
+      return;
+    }
+    setContentItem({...contentItem, boardType : category});
   },[]);
 
   const inputWriting = (event) => {
@@ -33,10 +41,11 @@ const Writing = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    debugger;
     axios.post(`${REQUEST_ORIGIN}/board/registry`, contentItem)
       .then((res) => {
         console.log(res);
-        history.goBack();
+        navigation(`/${contentItem.boardType.toLowerCase()}`)
       }).catch((err)=>{
         console.log(err);
       })
@@ -45,12 +54,12 @@ const Writing = () => {
 
 
   return (
-    <div>
-      <div>
+    <div style={{display : "flex", flex: "0.8", flexDirection : "column", alignItems : "center"}}>
+      <div style={{width : "70vw"}}>
         <h3>글 작성하기</h3>
         <span>당신의 궁금증을 말해주세요</span>        
       </div>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} style={{width : "70vw"}}>
         <div className='div-writing-content-wrapper'>
           <button type="button" className="btn btn-primary active" 
               data-bs-toggle="button" aria-pressed="true"
@@ -83,7 +92,6 @@ const Writing = () => {
           <Editor
             name = "content"
             ref={editorRef}
-            placeholder="내용을 입력해주세요."
             previewStyle="vertical" // 미리보기 스타일 지정
             height="300px" // 에디터 창 높이
             initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)

@@ -11,23 +11,7 @@ const BoardContent = ({category, content}) => {
 
     const moveViewPage = (event) => {
         let no = content.boardNo;
-        axios.get(`${REQUEST_ORIGIN}/board/select`, 
-        {
-            params:
-                {   category : category,
-                    boardNo : content.boardNo
-                }
-        })
-        .then((res) => {
-            navigation(`/view/${category}/${content.boardNo}`);
-            // navigation({
-            //     pathname : "/view",
-            //     search : `?category=${category}&boardNo=${content.boardNo}`
-            // });
-        })
-        .catch((err) => {
-            console.dir(err);
-        })
+        navigation(`/view/${category}/${content.boardNo}`);
     }
   return (
     <div className='div-board-content-wrapper'>
