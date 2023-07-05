@@ -13,4 +13,5 @@ public interface UserRepository {
     public UserItem updateUserItem(UserItem userItem); // 사용자 수정
     public int deleteUserItem(UserItem userItem); //사용자 삭제
     public List<UserItem> selectUserItem(UserItem userItem);//사용자 조회
+    public UserItem validUserCheck(String username);// 스프링 시큐리티 유저 확인
 }

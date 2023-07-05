@@ -8,6 +8,7 @@
         <result property="userName" column="USER_NAME" />
         <result property="email"    column="EMAIL" />
         <result property="gender"   column="GENDER" />
+        <result property="userRole"   column="USER_ROLE" />
     </resultMap>
 
     <select id="selectUserItem" resultMap="userResultMap">
@@ -16,6 +17,15 @@
         FROM
           USER_INFO
         WHERE 1=1
+    </select>
+
+    <select id="validUserCheck" resultMap="userResultMap">
+        SELECT
+          USER_ID, PASSWORD, USER_ROLE
+        FROM
+          USER_INFO
+        WHERE
+          USER_ID = #{userId}
     </select>
 
     <insert id="registryUser" parameterType="com.cyberi.devcommunity.dto.UserItem">
