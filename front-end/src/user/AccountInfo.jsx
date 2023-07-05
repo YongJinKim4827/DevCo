@@ -1,12 +1,44 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
+import { useEffect } from 'react';
 
 const AccountInfo = () => {
     const [deleteAgree, setDeleteAgree] = useState(false);
+    const [useChatting, setUseChatting] = useState(false);
     const navigation = useNavigate();
+    useEffect(()=> {
+        axios.get(`${REQUEST_ORIGIN}/user/select`,{
+            params : {
+                id : jwtDecode(userJwt).sub
+            }
+        })
+        .then((res) => {
+            let data = res.data[0];
+            let loadUseChatting = data.useChatting;
+            loadUseChatting.toUpperCase() === 'Y'? setUseChatting(true) : setUseChatting(false); 
+        }) 
+        .catch((err) => {
+            console.log(err);
+        })
+    },[])
     const onChangeDeleteAgree = (event) => {
         setDeleteAgree(event.target.checked);
+    }
+
+    const onChangeUseChatting = (event) =>{
+        setUseChatting(event.target.checked);
+        axios.post(`${REQUEST_ORIGIN}/user/chatting`, {
+            userId : jwtDecode(sampleJwt).sub,
+            useChatting : event.target.checked ? 'Y': 'N' 
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
     const deleteAccount = () => {
         // axios.post("/user/delete")
@@ -19,10 +51,14 @@ const AccountInfo = () => {
     }
   return (
     <div style={{width : "50vw", marginTop : '25px'}}>
-        <div className='div-accountinfo-wrapper'>
-            <h5 style={{fontWeight : 'bold'}}>이메일</h5>
-            <input type='text' />
+        <div style={{display : "flex", padding : "25px", justifyContent : "space-between", borderBottom : "1px solid #DCDEE1"}}>
+            <h5 style={{fontWeight : 'bold', marginTop : "5px"}}>채팅 활성화</h5>
+            <div className="form-check form-switch ">
+                <input className="form-check-input" style={{width:"50px", height :"25px"}}
+                    type="checkbox" id="flexSwitchCheckChecked" checked={useChatting} onChange={onChangeUseChatting}/>
+            </div>
         </div>
+
         <div style={{padding : '25px'}}>
             <h5 style={{fontWeight : 'bold'}}>계정삭제</h5>
             <div className='div-accountdelete-discription'>
