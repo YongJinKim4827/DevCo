@@ -7,86 +7,104 @@ import { useEffect } from 'react';
 import { useRef } from 'react';
 import ReceiveChat from './ReceiveChat';
 import SendChat from './SendChat';
+import axios from 'axios';
 
-const ChatRoom = () => {
+const ChatRoom = ({roomInfo}) => {
     const client = useRef({});
     const [chatMessages, setChatMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
     const [user, setUser] = useState('A-MAN');
+    debugger;
     const inputChat = (event) => {
         setInputMessage(event.target.value);
     }
 
     const sendMessage = () => {
-        publish(inputMessage);
+        // publish(inputMessage);
         setInputMessage("");
+    }
+
+    const selectChattingMessage = () => {
+        axios.get(`${REQUEST_ORIGIN}/chat/select`,{
+            params : {
+                roomNo : roomInfo.chattingRoomNo
+            }
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     }
 
     //Web Socket 부분
-    useEffect(()=> {
-        connect();
-        return () => disConnect();
-    },[]);
+    // useEffect(()=> {
+    //     connect();
+    //     return () => disConnect();
+    // },[]);
 
-    const connect = () => {
-        client.current = new StompJs.Client({
-            webSocketFactory : () => new Socket("http://localhost:8080/ws-stomp"),
-            connectHeaders: {
-                "AUTH-TOKEN" : "spring-chat-auth-token",
-            },
-            debug: (str) => {
-                console.log(str);
-            },
-            reconnectDelay : 5000,
-            heartbeatIncoming : 4000,
-            heartbeatOutgoing : 4000,
-            onConnect : () => {
-                subscribe();
-            },
-            onStompError: (frame) => {
-                console.error(frame);
-            }
-        });
+    // const connect = () => {
+    //     client.current = new StompJs.Client({
+    //         webSocketFactory : () => new Socket("http://localhost:8080/ws-stomp"),
+    //         connectHeaders: {
+    //             "AUTH-TOKEN" : "spring-chat-auth-token",
+    //         },
+    //         debug: (str) => {
+    //             console.log(str);
+    //         },
+    //         reconnectDelay : 5000,
+    //         heartbeatIncoming : 4000,
+    //         heartbeatOutgoing : 4000,
+    //         onConnect : () => {
+    //             subscribe();
+    //         },
+    //         onStompError: (frame) => {
+    //             console.error(frame);
+    //         }
+    //     });
+    //     client.current.activate();
+    // }
 
-        client.current.activate();
-    }
+    // const disConnect = () => {
+    //     client.current.deactivate();
+    // }
 
-    const disConnect = () => {
-        client.current.deactivate();
-    }
+    // const subscribe = () => {
+    //     client.current.subscribe(`/sub/chat/${roomInfo.chattingRoomNo}`, ({body}) => {
+    //         setChatMessages((chatMessage) => [...chatMessage, JSON.parse(body)]
+    //         );
+    //     });
+    // }
 
-    const subscribe = () => {
-        client.current.subscribe("/sub/chat/1", ({body}) => {
-            setChatMessages((chatMessage) => [...chatMessage, JSON.parse(body)]
-            );
-        });
-    }
-
-    const publish = (message) => {
-        if(!client.current.connected){
-            return;
-        }
-        client.current.publish({
-            destination : "/pub/chat",
-            body: JSON.stringify({roomSeq: 1, user: user, message})
-        });
-        setInputMessage("");
-    }
+    // const publish = (message) => {
+    //     if(!client.current.connected){
+    //         return;
+    //     }
+    //     client.current.publish({
+    //         destination : "/pub/chat",
+    //         body: JSON.stringify({roomSeq: 1, user: user, message})
+    //     });
+    //     setInputMessage("");
+    // }
 
     const userChange = (event) => {
         setUser(event.target.value);
     }
+
     return (
     <div className='div-chat-roomdetail-wrapper'>
         <div>
-        <select className="form-select" aria-label="Default select example" onChange={userChange}>
+        {/* <select className="form-select" aria-label="Default select example" onChange={userChange}>
             <option defaultValue="A-MAN">A</option>
             <option value="B-MAN">B</option>
             <option value="C-MAN">C</option>
-        </select>
+        </select> */}
         </div>
         <div className='div-chat-room-header'>
-            <span>Chat Header</span>
+            <div style={{display : "flex", alignItems : "center", fontWeight : "bold", marginLeft : "15px"}}>
+                <span>{roomInfo.roomName}</span>
+            </div>
         </div>
         <div className='div-chat-room-content'>
                 {chatMessages.map((item, idx) => {

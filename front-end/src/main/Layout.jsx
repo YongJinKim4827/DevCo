@@ -22,6 +22,7 @@ const Layout = () => {
             <Route path="/notice" element={<BoardList category={NOTICE}/>}/>
             <Route path="/writing/:category" element={<Writing/>}/>
             <Route path="/view/:category/:boardNo" element={<View/>}/>
+            <Route path="/chat/:user" element={<ChatWrapper/>}/>
             <Route path="/chat" element={<ChatWrapper/>}/>
             <Route path="/user/*" element={<UserLayout />}/>
         </Routes>
