@@ -1,10 +1,14 @@
 package com.cyberi.devcommunity.config;
 
+import com.cyberi.devcommunity.Util.JwtAuthenticationFilter;
+import com.cyberi.devcommunity.Util.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -13,24 +17,31 @@ import java.util.Arrays;
 
 @Configuration
 public class SpringSecurityConfig {
+
+    private final TokenProvider jwtTokenProvider;
+
+    public SpringSecurityConfig(TokenProvider jwtTokenProvider){
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .cors().and()
+                .formLogin().disable()
+                .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/signup","/user/**","/board/**","/reply/**", "/ws-stomp/**").permitAll()
+                .antMatchers("/signup", "/login", "/user/**","/board/**","/reply/**", "/ws-stomp/**").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/user/login")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
+                .and().addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {

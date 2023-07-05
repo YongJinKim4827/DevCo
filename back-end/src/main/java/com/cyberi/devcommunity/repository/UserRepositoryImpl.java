@@ -54,4 +54,13 @@ public class UserRepositoryImpl implements UserRepository{
         System.out.println("#####################################");
         return result;
     }
+
+    @Override
+    public UserItem validUserCheck(String username) {
+        UserItem result = new UserItem();
+        UserItem param = new UserItem();
+        param.setUserId(username);
+        result = sqlSession.selectOne("validUserCheck", param);
+        return result;
+    }
 }
