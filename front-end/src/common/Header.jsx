@@ -24,7 +24,7 @@ const Header = () => {
   }
   
   return (
-    <div className='div-header-wrapper' style={{flex : "0.1"}}>
+    <div className='div-header-wrapper'>
       <div className='div-header-logo' onClick={moveMainPage}>
         <img src={logoImg}
                         style={{width : "80px", height : "80px", marginBottom : "3px"}}
@@ -61,6 +61,7 @@ const Header = () => {
             <li><button className='dropdown-item' style={{borderRadius : '0px'}} onClick={moveAccountInfoPage}>내 계정</button></li>
             <li><button className='dropdown-item' style={{borderRadius : '0px'}} onClick={moveUserInfoPage}>내 정보</button></li>
             <li><button className='dropdown-item' style={{borderRadius : '0px'}}>로그아웃</button></li>
+            <li><button className='dropdown-item' style={{borderRadius : '0px'}} onClick={() => navigation("/login")}>로그인</button></li>
           </ul>
         </div>
       </div>
