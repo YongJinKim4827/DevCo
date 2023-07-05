@@ -26,9 +26,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/select", method = RequestMethod.GET)
-    public List<UserItem> selectUserItem() throws Exception{
+    public List<UserItem> selectUserItem(@RequestParam("id") String userId) throws Exception{
         List<UserItem> items = new ArrayList();
         UserItem param = new UserItem();
+        param.setUserId(userId);
         items = userService.selectUserItem(param);
         return items;
     }
@@ -38,6 +39,13 @@ public class UserController {
         UserItem item = new UserItem();
         userService.updateUserItem(data);
         return item;
+    }
+
+    @RequestMapping(value = "/user/chatting", method = RequestMethod.POST)
+    public int changUseChatting(@RequestBody UserItem userItem){
+        int result = 0;
+        result = userService.changeUseChatting(userItem);
+        return result;
     }
 
     @RequestMapping(value = "/user/delete", method = RequestMethod.POST)
@@ -52,5 +60,11 @@ public class UserController {
         List<UserItem> items = new ArrayList();
         items = userService.selectUserItem(userItem);
         return items.get(0).toString();
+    }
+
+    @RequestMapping(value = "/user/mail", method = RequestMethod.GET)
+    public String mailCheck(@RequestParam("mail") String mail){
+        String result = "";
+        return result;
     }
 }
