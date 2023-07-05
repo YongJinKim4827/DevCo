@@ -1,7 +1,7 @@
 .div-board-content-wrapper {
     display: flex;
-    border-top : 1px solid gray;
-    border-bottom : 1px solid gray;
+    border-top : 1px solid #DCDEE1;
+    border-bottom : 1px solid #DCDEE1;
     align-items: center;
     padding: 5px;
     height: 110px;
@@ -15,7 +15,7 @@
     display : flex;
     justify-content: center;
     flex-direction: column;
-    border : 1px solid gray;
+    border : 1px solid #DCDEE1;
     width: 75px;
     height: 75px;
     border-radius: 5px;
@@ -27,6 +27,15 @@
     display: flex;
     font-size: smaller;
 }
+.div-writer {
+    font-weight: bold;
+}
+.div-writer:hover {
+    cursor: pointer;
+    font-weight: bold;
+    color: #0090F9;
+}
+
 
 .div-board-content {
     display: flex;
@@ -120,7 +129,7 @@
 
 .div-reply-content-wrapper {
     display : flex;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #DCDEE1;
 }
 
 .div-reply-content-wrapper span{

@@ -55,13 +55,13 @@ const BoardList = ({category}) => {
                 <div style={{width : "50vw"}}>
                     <h2 style={{fontWeight : "bold"}}>{category.toUpperCase()}</h2>
                 </div>
-                <div style={{display: "flex"}}>
+                <div style={{display: "flex", justifyContent : "space-between"}}>
                     <div className='div-refresh-area' onClick={refreshBoard}>
                         <img src={refreshImg}
                                 style={{width : "25px", height : "25px", marginBottom : "3px"}}
                             />
                     </div>
-                    <div className="input-group mb-3" style={{width : "40vw"}}>
+                    <div className="input-group mb-3" style={{width : "40vw", maxWidth : "500px"}}>
                         <span className="input-group-text" id="basic-addon1">
                             <img src={searchImg}
                                 style={{width : "18px", height : "18px", marginBottom : "3px"}}
@@ -101,16 +101,19 @@ const BoardList = ({category}) => {
             }
 
         </div>
-        <div style={{display : 'flex', justifyContent:"space-around", marginTop : "10px", marginBottom : "10px"}}>
-            <a href='#'>◀ Previous</a>
-            <div>
-                {
-                    pages.map((no, idx) => {
-                        return (<a key={`pageNo_${idx+1}`} href='#'> {no}</a>)
-                    })
-                }
+        <div style={{display : 'flex', justifyContent:"center", marginTop : "10px", marginBottom : "10px"}}>
+            <div style={{display : "flex", justifyContent : "space-between", width : "30vw", maxWidth : "500px", minWidth : "250px"}}>
+                <a href='#'>◀ Previous</a>
+                <div>
+                    {
+                        pages.map((no, idx) => {
+                            return (<a key={`pageNo_${idx+1}`} href='#'> {no}</a>)
+                        })
+                    }
+                </div>
+                <a href='#'>Next ▶</a>
             </div>
-            <a href='#'>Next ▶</a>
+
         </div>
     </div>
   )
