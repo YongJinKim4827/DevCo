@@ -6,7 +6,7 @@ import UserLeftNav from './UserLeftNav'
 
 const UserLayout = () => {
   return (
-    <div style={{display : 'flex'}}>
+    <div style={{display : 'flex', flex : "0.8", justifyContent : "center"}}>
         <UserLeftNav />
         <Routes>
             <Route path='/' element={<UserInfo />}/>

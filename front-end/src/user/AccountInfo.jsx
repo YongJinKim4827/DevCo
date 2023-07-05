@@ -18,16 +18,15 @@ const AccountInfo = () => {
         // })
     }
   return (
-    <div style={{flex : '0.7', marginTop : '25px'}}>
-        <h4 style={{fontWeight : 'bold'}}>계정</h4>
-        <div className='div-user-info-input' style={{borderBottom : '1px solid black', height : '100px', padding : '25px'}}>
-            <span>이메일 정보</span>
+    <div style={{width : "50vw", marginTop : '25px'}}>
+        <div className='div-accountinfo-wrapper'>
+            <h5 style={{fontWeight : 'bold'}}>이메일</h5>
             <input type='text' />
         </div>
         <div style={{padding : '25px'}}>
             <h5 style={{fontWeight : 'bold'}}>계정삭제</h5>
             <div className='div-accountdelete-discription'>
-                솰라 솰라
+                이제는 되돌릴수 없슴다
             </div>
             <div style={{marginTop : '15px'}}>
                 <div>

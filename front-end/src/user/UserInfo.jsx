@@ -2,7 +2,7 @@ import React from 'react'
 
 const UserInfo = () => {
   return (
-        <div style={{flex : '0.6', marginLeft : '100px', marginTop : '50px'}}>
+        <div className='div-user-info-wrapper'>
             <h4 style={{fontWeight : 'bold'}}>회원 정보</h4>
             <div className='div-user-info-input'>
                 <label>아이디</label>
