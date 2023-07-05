@@ -1,19 +1,15 @@
 import React from 'react'
 import ChatRoomInfo from './ChatRoomInfo';
 import './chat.css'
-const ChatRoomList = () => {
-
-    const itemsSample = () => {
-        const result = [];
-        for(let i = 0; i < 15; i++){
-            result.push(<ChatRoomInfo key={`chatRoom_${i+1}`}/>)
-        }
-        return result;
-    }
+const ChatRoomList = ({roomItems, currentItem, click}) => {
   return (
     <div className='div-chat-roomlist-wrapper'>
         {
-            itemsSample()
+           roomItems.map((item,idx) => {
+                return  (
+                    <ChatRoomInfo key={`chatRoom_${idx+1}`} item={item} currentItem={currentItem} click = {click}/>
+                )
+           })
         }
     </div>
   )
