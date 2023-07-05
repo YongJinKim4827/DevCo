@@ -20,4 +20,5 @@ public class UserItem {
     private String gender;
     private String email;
     private String userRole;
+    private String useChatting;
 }
