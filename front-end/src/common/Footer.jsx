@@ -3,7 +3,7 @@ import logoImg from '../assets/img/uncle-sam.png';
 
 const Footer = () => {
   return (
-    <div style={{height : "100px", borderTop : '1px solid black', display : "flex", justifyContent:"center", flex : "0.1"}}>
+    <div className='div-footer-wrapper'>
       <div style={{display : "flex", justifyContent:"space-around", width : "80vw", maxWidth : "1500px", marginTop : "10px"}}>
         <div>
           <div className='div-header-logo'>
