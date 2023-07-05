@@ -72,6 +72,19 @@ const View = () => {
         replyRef.current;
         setInputReplyItem({...inputReplyItem, replyContent : replyRef.current.getInstance().getMarkdown()});
     }
+
+    const createChatting = () => {
+
+        axios.post(`${REQUEST_ORIGIN}/chat/create`,{
+            users : ["상대방","나"]
+        })
+        .then((res) => {
+
+        })
+        .catch((err) => {
+
+        })
+    }
     
     const onSubmit = (event) => {
         event.preventDefault();
@@ -95,7 +108,10 @@ const View = () => {
     <div style={{display : "flex", flexDirection : "column", flex : "0.8", alignItems : "center"}}>
         <div style={{marginTop : '25px'}}>
             <div className='div-writer-area-wrapper'>{/* 작성자 정보 영역 */}
-                <div><span style={{fontWeight : "bold"}}>{boardContent.writer}</span></div>
+                <div>
+                    <span style={{fontWeight : "bold"}}>{boardContent.writer}</span>
+                    <button style={{fontSize : "small"}} onClick={createChatting}> 1:1문의하기 </button>
+                </div>
                 <div style={{display : "flex"}}>
                     <span style={{fontSize : "small", marginTop : "4px"}}>{boardContent.writeDate}</span>
                     <div style={{marginLeft : "5px"}}>
@@ -118,7 +134,7 @@ const View = () => {
                 }
             </div>
             <div className='div-view-area-wrapper'>{/* 댓글 영역 */}
-                <div style={{padding : "30px", border : '1px solid black', borderRadius : '10px'}}>
+                <div style={{padding : "30px", border : '1px solid #DCDEE1', borderRadius : '10px'}}>
                     <form method='POST' onSubmit={onSubmit}>
                         <Editor
                             name = "content"

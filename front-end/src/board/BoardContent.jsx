@@ -27,11 +27,11 @@ const BoardContent = ({category, content}) => {
         }
         <div style={{marginLeft : "10px"}}>
             <div className='div-write-info'>
-                <div>{content.writer}</div>
-                <div>{convertDate(content.writeDate)}</div>
+                <div className='div-writer'>{content.writer}</div>
+                <div style={{marginLeft : "10px"}}>{convertDate(content.writeDate)}</div>
             </div>
             <div style={{display : "flex", flexDirection : "column", width : "59vw", maxWidth:"700px", minWidth : "350px"}}>
-                <a href={"#"} style={{fontWeight : "bold"}}>{content.boardTitle}</a>
+                <a className = "a-board-content" style={{fontWeight : "bold"}} onClick={moveViewPage}>{content.boardTitle}</a>
                 <a className = "a-board-content" onClick={moveViewPage}>
                     {content.boardContent}
                 </a>
