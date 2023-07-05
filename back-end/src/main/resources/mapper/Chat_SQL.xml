@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cyberi.devcommunity.repository.mybatis.MybatisReplyRepository">
+    <resultMap id="chatRoomResultMap" type="com.cyberi.devcommunity.dto.ChatRoomItem">
+        <result property="chattingRoomNo"           column="CHAT_ROOM_NO"        />
+        <result property="createRoomDate"       column="CREATE_ROOM_DATE"    />
+        <result property="recentMessage"        column="RECENT_MESSAGE"      />
+    </resultMap>
+
+    <!-- Chat Room -->
+    <select id="selectChatRoom">
+
+    </select>
+
+    <insert id="createChatRoom">
+        INSERT INTO CHATTING_ROOM
+          (
+            CREATE_ROOM_DATE
+          )VALUES (
+            SYSDATE
+          )
+    </insert>
+
+    <delete id="deleteChatRoom">
+        DELETE FROM CHATTING_ROOM_INFO
+        WHERE CHATTING_ROOM_NO = #{chattingRoomNo}
+    </delete>
+
+    <!-- Chatting -->
+    <select id="selectChatMessageInChatRoom">
+        SELECT USER_ID, CHATTING_ROOM_NO, CHAT_CONTENT, CHAT_DATE, READED
+        FROM USER_CHATTING_INFO
+        WHERE
+          CHATTING_ROOM_NO = #{chattingRoomNo}
+    </select>
+
+    <insert id="inputChatMessage">
+        INSERT INTO USER_CHATTING_INFO
+        (
+          USER_ID, CHATTING_ROOM_NO, CHAT_CONTENT, CHAT_DATE, READED
+        ) VALUES (
+          #{userId}, #{chattingRoomNo}, #{chatContent}, SYSDATE, 'N'
+        )
+    </insert>
+
+    <update id="readedChatting">
+        UPDATE USER_CHATTING_INFO SET
+          READED = 'Y'
+        WHERE CHATTING_ROOM_NO = #{chattingRoomNo}
+    </update>
+
+    <delete id="deleteChatMessage">
+        DELETE FROM USER_CHATTING_INFO
+        WHERE USER_ID = #{userId}
+        AND CHAT_CONTENT = #{chatContent}
+    </delete>
+</mapper>

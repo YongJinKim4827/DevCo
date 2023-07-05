@@ -37,7 +37,7 @@ public class SpringSecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/signup", "/login", "/user/**","/board/**","/reply/**", "/ws-stomp/**").permitAll()
+                .antMatchers("/signup", "/login", "/user/**","/board/**","/reply/**", "/ws-stomp/**", "/chat/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
