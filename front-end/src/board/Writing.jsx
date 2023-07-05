@@ -13,7 +13,7 @@ const Writing = () => {
     boardTitle : "",
     boardType : "",
     boardContent : window.location.pathname.split("/")[1].toUpperCase(),
-    share : "Y",
+    share : "N",
   });
   useEffect(()=> {
     let category = param.category.toUpperCase();
@@ -41,7 +41,6 @@ const Writing = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    debugger;
     axios.post(`${REQUEST_ORIGIN}/board/registry`, contentItem)
       .then((res) => {
         console.log(res);
@@ -49,21 +48,30 @@ const Writing = () => {
       }).catch((err)=>{
         console.log(err);
       })
-    
+  }
+
+  const onShare = (event) => {
+    if(event.target.checked){
+      setContentItem({...contentItem, share : 'Y'});
+    }else{
+      setContentItem({...contentItem, share : 'N'});
+    }
   }
 
 
   return (
-    <div style={{display : "flex", flex: "0.8", flexDirection : "column", alignItems : "center"}}>
+    <div className='div-writing-wrapper'>
       <div style={{width : "70vw"}}>
         <h3>글 작성하기</h3>
-        <span>당신의 궁금증을 말해주세요</span>        
+        <span>당신의 궁금증을 말해주세요</span>
       </div>
       <form onSubmit={onSubmit} style={{width : "70vw"}}>
-        <div className='div-writing-content-wrapper'>
-          <button type="button" className="btn btn-primary active" 
-              data-bs-toggle="button" aria-pressed="true"
-          >공유하기</button>
+        <div style={{display : "flex", justifyContent : "end"}}>
+          <div className="form-check form-switch ">
+            <label>공유</label>
+            {/* <labels className="form-check-label" htmlFor="flexSwitchCheckChecked">Checked switch checkbox input</label> */}
+            <input className="form-check-input" type="checkbox" id="flexSwitchCheckChecked" onChange={onShare}/>
+          </div>
         </div>
         <div className='div-writing-content-wrapper'>
           <span>제목</span>
