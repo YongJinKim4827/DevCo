@@ -46,6 +46,18 @@
     border-collapse: collapse;
 }
 
+.div-refresh-area {
+    display: flex;
+    flex: 0.1;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.div-refresh-area:hover {
+    cursor: pointer;
+}
+
 .a-board-content {
     overflow : hidden;
     text-overflow : ellipsis;
@@ -59,6 +71,13 @@
 /*
 * writing page
 */
+.div-writing-wrapper{
+    display: flex;
+    flex: 0.8;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 25px;
+}
 .div-writing-content-wrapper{
     display : flex;
     flex-direction: column;
@@ -69,6 +88,17 @@
 .div-writing-content-wrapper span{
     font-weight: bold;
 }
+
+.div-no-share {
+    background-color: #DCDEE1;
+    border-radius: 10px;
+}
+
+.div-share {
+    background-color: greenyellow;
+    border-radius: 10px;
+}
+
 
 /*
 * View
@@ -90,6 +120,7 @@
 
 .div-reply-content-wrapper {
     display : flex;
+    border-bottom: 1px solid black;
 }
 
 .div-reply-content-wrapper span{

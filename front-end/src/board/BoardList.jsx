@@ -23,6 +23,18 @@ const BoardList = ({category}) => {
     }]);
 
     useEffect(()=> {
+        onSearch();
+    },[])
+
+    const moveWritingPage = () => {
+        navgaite(`/writing/${category}`);
+    }
+
+    const refreshBoard = () =>{
+        onSearch();
+    }
+
+    const onSearch = () => {
         axios.get(`${REQUEST_ORIGIN}/board/`,{
             params : {
                 category : category
@@ -34,14 +46,6 @@ const BoardList = ({category}) => {
         .catch((err) => {
             console.dir(err);
         })
-    },[])
-
-    const moveWritingPage = () => {
-        navgaite(`/writing/${category}`);
-    }
-
-    const onSearch = () => {
-        axios.get("/question")
     }
 
   return (
@@ -52,9 +56,9 @@ const BoardList = ({category}) => {
                     <h2 style={{fontWeight : "bold"}}>{category.toUpperCase()}</h2>
                 </div>
                 <div style={{display: "flex"}}>
-                    <div>
+                    <div className='div-refresh-area' onClick={refreshBoard}>
                         <img src={refreshImg}
-                                style={{width : "18px", height : "18px", marginBottom : "3px"}}
+                                style={{width : "25px", height : "25px", marginBottom : "3px"}}
                             />
                     </div>
                     <div className="input-group mb-3" style={{width : "40vw"}}>
@@ -74,9 +78,6 @@ const BoardList = ({category}) => {
                     </button>
                 </div>
             </div>
-            
-
-            
         </div>
         <div className='div-board-list' onLoad={onload}> {/* 게시물 리스트 */}
             {/* {

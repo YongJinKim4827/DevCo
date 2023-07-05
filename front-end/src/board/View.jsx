@@ -48,7 +48,6 @@ const View = () => {
             });
             setBoardContent(boardResponse.data);
             setInputReplyItem({...inputReplyItem, boardNo : boardResponse.data.boardNo, writer : 'ADMIN'});
-            // setInputReplyItem({...inputReplyItem, writer : 'ADMIN'});
             refreshReply();
         }catch(err){
             console.log(err);
@@ -78,7 +77,15 @@ const View = () => {
         event.preventDefault();
         axios.post(`${REQUEST_ORIGIN}/reply/registry`, inputReplyItem)
         .then((res) => {
-            console.log(res);
+            setInputReplyItem({// 입력 댓글 state 초기화
+                replyNo: '',
+                replyContent : '',
+                writer : '',
+                writeDate : '',
+                boardNo : ''
+            });
+            replyRef.current?.getInstance().setHTML(" ");
+            refreshReply();
         })
         .catch((err) => {
             console.log(err);
@@ -86,11 +93,11 @@ const View = () => {
     }
     return (
     <div style={{display : "flex", flexDirection : "column", flex : "0.8", alignItems : "center"}}>
-        <div>
+        <div style={{marginTop : '25px'}}>
             <div className='div-writer-area-wrapper'>{/* 작성자 정보 영역 */}
                 <div><span style={{fontWeight : "bold"}}>{boardContent.writer}</span></div>
                 <div style={{display : "flex"}}>
-                    <span style={{fontSize : "small", marginTop : "4px"}}>{''}</span>
+                    <span style={{fontSize : "small", marginTop : "4px"}}>{boardContent.writeDate}</span>
                     <div style={{marginLeft : "5px"}}>
                         <img src={viewImg}
                             style={{width : "18px", height : "18px"}}
@@ -111,7 +118,7 @@ const View = () => {
                 }
             </div>
             <div className='div-view-area-wrapper'>{/* 댓글 영역 */}
-                <div>
+                <div style={{padding : "30px", border : '1px solid black', borderRadius : '10px'}}>
                     <form method='POST' onSubmit={onSubmit}>
                         <Editor
                             name = "content"
@@ -129,14 +136,14 @@ const View = () => {
                             ['code', 'codeblock']
                             ]}
                             onChange={inputReply}
-                            initialValue={' '}
+                            initialValue={" "}
                         ></Editor>
-                        <div style={{display:"flex", justifyContent : "end"}}>
+                        <div style={{display:"flex", justifyContent : "end", marginTop : '15px'}}>
                             <button type='submit'>댓글 작성</button>
                         </div>
                     </form>
                 </div>
-                <div>
+                <div style={{marginTop : "30px", marginBottom : "30px"}}>
                     {
                         replyItems.length > 0 ? 
                         replyItems.map((item, idx) => {
@@ -147,8 +154,6 @@ const View = () => {
                 </div>
         </div>
         </div>
-        
-        
     </div>
 
   )
