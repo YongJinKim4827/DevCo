@@ -20,4 +20,9 @@ public class SpringConfig {
     public ReplyRepository replyRepository(){
         return new ReplyRepositoryImpl();
     }
+
+    @Bean
+    ChatRepository chatRepository(){
+        return new ChatRepositryImpl();
+    }
 }
