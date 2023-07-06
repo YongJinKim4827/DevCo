@@ -15,10 +15,9 @@ public class UserItem {
     private String userId;
     private String userPassword;
     private String userName;
-    @DateTimeFormat(pattern = "yyyy-mm-dd HH:MM:SS")
-    private Date birth;
     private String gender;
     private String email;
     private String userRole;
     private String useChatting;
+    private Date signupDate;
 }
