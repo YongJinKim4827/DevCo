@@ -14,13 +14,12 @@ const ChatRoom = ({roomInfo}) => {
     const [chatMessages, setChatMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
     const [user, setUser] = useState('A-MAN');
-    debugger;
     const inputChat = (event) => {
         setInputMessage(event.target.value);
     }
 
     const sendMessage = () => {
-        // publish(inputMessage);
+        publish(inputMessage);
         setInputMessage("");
     }
 
@@ -39,54 +38,54 @@ const ChatRoom = ({roomInfo}) => {
     }
 
     //Web Socket 부분
-    // useEffect(()=> {
-    //     connect();
-    //     return () => disConnect();
-    // },[]);
+    useEffect(()=> {
+        connect();
+        return () => disConnect();
+    },[]);
 
-    // const connect = () => {
-    //     client.current = new StompJs.Client({
-    //         webSocketFactory : () => new Socket("http://localhost:8080/ws-stomp"),
-    //         connectHeaders: {
-    //             "AUTH-TOKEN" : "spring-chat-auth-token",
-    //         },
-    //         debug: (str) => {
-    //             console.log(str);
-    //         },
-    //         reconnectDelay : 5000,
-    //         heartbeatIncoming : 4000,
-    //         heartbeatOutgoing : 4000,
-    //         onConnect : () => {
-    //             subscribe();
-    //         },
-    //         onStompError: (frame) => {
-    //             console.error(frame);
-    //         }
-    //     });
-    //     client.current.activate();
-    // }
+    const connect = () => {
+        client.current = new StompJs.Client({
+            webSocketFactory : () => new Socket(`${REQUEST_ORIGIN}/ws-stomp`),
+            connectHeaders: {
+                "AUTH-TOKEN" : "spring-chat-auth-token",
+            },
+            debug: (str) => {
+                console.log(str);
+            },
+            reconnectDelay : 5000,
+            heartbeatIncoming : 4000,
+            heartbeatOutgoing : 4000,
+            onConnect : () => {
+                subscribe();
+            },
+            onStompError: (frame) => {
+                console.error(frame);
+            }
+        });
+        client.current.activate();
+    }
 
-    // const disConnect = () => {
-    //     client.current.deactivate();
-    // }
+    const disConnect = () => {
+        client.current.deactivate();
+    }
 
-    // const subscribe = () => {
-    //     client.current.subscribe(`/sub/chat/${roomInfo.chattingRoomNo}`, ({body}) => {
-    //         setChatMessages((chatMessage) => [...chatMessage, JSON.parse(body)]
-    //         );
-    //     });
-    // }
+    const subscribe = () => {
+        client.current.subscribe(`/sub/chat/${roomInfo.chattingRoomNo}`, ({body}) => {
+            setChatMessages((chatMessage) => [...chatMessage, JSON.parse(body)]
+            );
+        });
+    }
 
-    // const publish = (message) => {
-    //     if(!client.current.connected){
-    //         return;
-    //     }
-    //     client.current.publish({
-    //         destination : "/pub/chat",
-    //         body: JSON.stringify({roomSeq: 1, user: user, message})
-    //     });
-    //     setInputMessage("");
-    // }
+    const publish = (message) => {
+        if(!client.current.connected){
+            return;
+        }
+        client.current.publish({
+            destination : "/pub/chat",
+            body: JSON.stringify({roomSeq: 1, user: user, message})
+        });
+        setInputMessage("");
+    }
 
     const userChange = (event) => {
         setUser(event.target.value);
@@ -108,7 +107,6 @@ const ChatRoom = ({roomInfo}) => {
         </div>
         <div className='div-chat-room-content'>
                 {chatMessages.map((item, idx) => {
-                    console.log(chatMessages);
                     let prevUser = '';
                     if(idx > 0){
                         prevUser = chatMessages[idx-1].user;
