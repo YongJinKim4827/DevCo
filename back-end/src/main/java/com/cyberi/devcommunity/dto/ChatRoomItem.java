@@ -14,5 +14,7 @@ public class ChatRoomItem {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:MM:SS")
     private Date createRoomDate; //채팅방 생성 시간
     private List<String> users;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:MM:SS")
+    private Date endRoomtDate;//채팅 종료 시간
     private String recentMessage;
 }
