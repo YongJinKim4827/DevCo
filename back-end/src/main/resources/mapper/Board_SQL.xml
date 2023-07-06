@@ -42,6 +42,9 @@
         <if test="boardNo != '' and boardNo != null">
             AND B.BOARD_NO = #{boardNo}
         </if>
+        <if test="writer != null and writer != ''">
+            AND WRITER = #{writer}
+        </if>
         ORDER BY B.BOARD_NO ASC
     </select>
 
@@ -56,7 +59,13 @@
           BOARD_INFO
         WHERE 1=1
         AND BOARD_SHARE = 'Y'
-        AND BOARD_NO = #{boardNo}
+        <if test="boardNo != null and boardNo != ''">
+            AND BOARD_NO = #{boardNo}
+        </if>
+        <if test="writer != null and writer != ''">
+            AND WRITER = #{writer}
+        </if>
+
     </select>
 
     <insert id="registryBoard">

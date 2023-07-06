@@ -1,8 +1,8 @@
 package com.cyberi.devcommunity.controller;
 
+import com.cyberi.devcommunity.dto.UserHistoryItem;
 import com.cyberi.devcommunity.dto.UserItem;
 import com.cyberi.devcommunity.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,6 +65,13 @@ public class UserController {
     @RequestMapping(value = "/user/mail", method = RequestMethod.GET)
     public String mailCheck(@RequestParam("mail") String mail){
         String result = "";
+        return result;
+    }
+
+    @RequestMapping(value = "/user/history", method = RequestMethod.GET)
+    public List<UserHistoryItem> selectUserHistroy(@RequestParam("id") String userId){
+        List<UserHistoryItem> result = new ArrayList();
+        result = userService.selectUserHistory(userId);
         return result;
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface ReplyRepository {
     public List<ReplyItem> selectReply(ReplyItem replyItem);
+    public List<ReplyItem> selectReplyHistory(ReplyItem replyItem);
     public int registryReply(ReplyItem replyItem);
     public int updateReply(ReplyItem replyItem);
     public int deleteReply(ReplyItem replyItem);
