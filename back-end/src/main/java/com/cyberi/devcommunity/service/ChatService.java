@@ -25,6 +25,12 @@ public class ChatService {
         return result;
     }
 
+    //사용자가 읽지않은 메시지 갯수 조회
+    public int selectNonReadedMessage(ChatRoomItem chatRoomItem){
+        int result = 0;
+        return result;
+    }
+
     //채팅방 생성
     public int createChatRoom(ChatRoomItem chatRoomItem){
         int result = 0;

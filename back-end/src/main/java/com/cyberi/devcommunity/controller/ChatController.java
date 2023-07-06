@@ -2,9 +2,10 @@ package com.cyberi.devcommunity.controller;
 
 import com.cyberi.devcommunity.dto.ChatMessageItem;
 import com.cyberi.devcommunity.dto.ChatRoomItem;
+import com.cyberi.devcommunity.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.event.EventListener;
+//import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,21 +25,24 @@ import java.util.Set;
 public class ChatController {
     private static final Set<String> SESSION_IDS = new HashSet<>();
     private final SimpMessagingTemplate messagingTemplate;
+    private final ChatService chatService;
 
     @MessageMapping("/chat") // "/pub/chat"
     public void publishChat(ChatMessageItem chatMessage) {
         log.info("publishChat : {}", chatMessage);
+        int chattingCounter = 1;
         messagingTemplate.convertAndSend("/sub/chat/" + chatMessage.getRoomSeq(), chatMessage);
+        messagingTemplate.convertAndSend("/sub/recieve", chattingCounter);
     }
 
-    @EventListener(SessionConnectEvent.class)
+//    @EventListener(SessionConnectEvent.class)
     public void onConnect(SessionConnectEvent event) {
         String sessionId = event.getMessage().getHeaders().get("simpSessionId").toString();
         SESSION_IDS.add(sessionId);
         log.info("[connect] connections : {}", SESSION_IDS.size());
     }
 
-    @EventListener(SessionDisconnectEvent.class)
+//    @EventListener(SessionDisconnectEvent.class)
     public void onDisconnect(SessionDisconnectEvent event) {
         String sessionId = event.getSessionId();
         SESSION_IDS.remove(sessionId);
