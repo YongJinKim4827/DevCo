@@ -56,6 +56,18 @@ const SignUp = () =>  {
         window.location.replace("/");
     }
 
+    const confirmEmail = () => {
+        axios.post(`${REQUEST_ORIGIN}/email`, {
+            email : signUpInfo.email
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
     return (
         <div className='signUpContainer'>
             <form action="" method="POST" onSubmit={signUpHandler} className='signUpForm'>
@@ -87,27 +99,12 @@ const SignUp = () =>  {
                         />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="signUpIdGender" className="form-label">성별</label>
-                    <select id='signUpIdGender' className="form-select" aria-label="Default select example" placeholder='성별을 선택해주세요.' onChange={onChange} defaultValue={"N"}>
-                        <option value="N" disabled>성별을 선택해주세요.</option>
-                        <option value="M">남성</option>
-                        <option value="F">여성</option>
-                    </select>
-                    {/* <input type="text" className="form-control" 
-                        id="signUpIdGender"
-                        value={signUpInfo.gender} onChange={onChange}
-                        /> */}
-                </div>
-                <div className="mb-3">
                     <label htmlFor= "signUpEmail" className="form-label">본인확인 이메일</label>
                     <input type="email" className="form-control" 
                         id="signUpEmail" value={signUpInfo.email} onChange={onChange}
-                        />
+                    />
+                    <button type='button' onClick={confirmEmail}>이메일 인증</button>
                 </div>
-                {/* <div className="mb-3 form-check">
-                    <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                    <label className="form-check-label" htmlFor= "exampleCheck1">Check me out</label>
-                </div> */}
                 </div>
                 <div>
                     <button type='button' className="btn btn-primary" onClick={moveLoginPage}>{"< Prev"}</button>
