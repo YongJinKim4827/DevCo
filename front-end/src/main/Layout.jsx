@@ -9,6 +9,7 @@ import View from '../board/View'
 import ChatWrapper from '../chat/ChatWrapper'
 import UserSetting from '../user/UserLeftNav'
 import UserLayout from '../user/UserLayout'
+import UserHistory from '../user/UserHistory'
 
 const Layout = () => {
   return (
@@ -25,6 +26,7 @@ const Layout = () => {
             <Route path="/chat/:user" element={<ChatWrapper/>}/>
             <Route path="/chat" element={<ChatWrapper/>}/>
             <Route path="/user/*" element={<UserLayout />}/>
+            <Route path="/user/activity" element={<UserHistory />}/>
         </Routes>
         <Footer/>
     </div>

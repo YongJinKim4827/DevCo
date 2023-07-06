@@ -84,3 +84,55 @@
 .div-user-info-input input:focus{
     outline: 0.5px solid black;
 }
+
+/*
+*   User Histoty
+*/
+.div-user-history-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0.8;
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+.div-history-profile-wrapper{
+    display: flex;
+    width: 50vw;
+    justify-content: start;
+    align-items: center;
+    border-radius: 5px;
+    height: 100px;
+    border: 1px solid #DCDEE1;
+}
+
+.div-history-profile-wrapper h3{
+    margin-left: 25px;
+    font-weight: bold;
+}
+
+.div-hcontent-wrapper{  /*history content*/
+    border-bottom: 1px solid #DCDEE1;
+    width: 50vw;
+    margin-top: 25px;
+}
+
+.div-hcontent-header-wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+
+.div-hcontent-header{
+    color: #0090F9;
+    font-weight: bold;
+    border-radius: 10px;
+    border: 1px solid #DCDEE1;
+    width: 80px;
+    text-align: center;
+    font-size: small;
+}
+
+.a-history-content-link:hover {
+    cursor: pointer;
+}
