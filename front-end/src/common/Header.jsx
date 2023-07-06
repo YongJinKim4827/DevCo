@@ -1,12 +1,19 @@
-import React from 'react'
-import './common.css'
+import React from 'react';
+import './common.css';
+import * as StompJs from "@stomp/stompjs";
+import * as Socket  from "sockjs-client/dist/sockjs";
 import logoImg from '../assets/img/uncle-sam.png';
 import messageImg from '../assets/img/free-icon-chat-2450503.png';
 import userImg from '../assets/img/free-icon-default-user.png';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useRef } from 'react';
+import { useState } from 'react';
 
 const Header = () => {
+  const client = useRef({});
   const navigation = useNavigate();
+  const [chatCount, setChatCount] = useState(0);
   const moveChattingPage = () => {
     navigation("/chat");
   }
@@ -22,6 +29,56 @@ const Header = () => {
   const moveMainPage = () => {
     navigation("/");
   }
+
+  useEffect(()=> {
+      connect();
+      return () => disConnect();
+  },[]);
+
+  const connect = () => {
+      client.current = new StompJs.Client({
+          webSocketFactory : () => new Socket(`${REQUEST_ORIGIN}/ws-stomp`),
+          connectHeaders: {
+              "AUTH-TOKEN" : "spring-chat-auth-token",
+          },
+          debug: (str) => {
+              console.log(str);
+          },
+          reconnectDelay : 5000,
+          heartbeatIncoming : 4000,
+          heartbeatOutgoing : 4000,
+          onConnect : () => {
+              subscribe();
+          },
+          onStompError: (frame) => {
+              console.error(frame);
+          }
+      });
+      client.current.activate();
+  }
+
+  const disConnect = () => {
+      client.current.deactivate();
+  }
+
+  const subscribe = () => {
+      client.current.subscribe(`/sub/recieve`, ({body}) => {
+          setChatCount(body);
+      });
+  }
+
+  const publish = (message) => {
+      if(!client.current.connected){
+          return;
+      }
+      client.current.publish({
+          destination : "/pub/chat",
+          body: JSON.stringify({roomSeq: 1, user: user, message})
+      });
+      setInputMessage("");
+  }
+
+
   
   return (
     <div className='div-header-wrapper'>
@@ -51,9 +108,14 @@ const Header = () => {
       <div style={{display : "flex"}}>
         <div style={{display : "inline", alignSelf : "center", position : "relative"}} >
             <img src={messageImg} className='img-header' onClick={moveChattingPage}/>
-            <div className='div-chat-alarm' onClick={moveChattingPage}>
-              <span>+5</span>
-            </div>
+            {
+                chatCount !== 0 ? 
+                <div className='div-chat-alarm' onClick={moveChattingPage}>
+                  <span>{chatCount}</span>
+                </div>
+                : ''
+            }
+
         </div>
         <div style={{display : "inline", alignSelf : "center", marginLeft : "20px"}}>
           <img src={userImg} className='img-header'data-bs-toggle="dropdown" aria-expanded="false"/>

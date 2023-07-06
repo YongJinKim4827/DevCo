@@ -22,14 +22,17 @@
 }
 
 .div-chat-alarm {
-    width : 27px;
-    height : 27px;
+    background-color: #FF5442;
+    width: 30px;
+    height: 20px;
     position : absolute;
     top : 12px;
     right : -10px;
-    background-color : red;
     color : white;
-    border-radius : 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: smaller;
 }
 
 .div-chat-alarm:hover {
