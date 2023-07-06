@@ -18,4 +18,6 @@ public class ReplyItem {
     private String boardNo; //게시글 번호
     @DateTimeFormat(pattern = "yyyy-mm-dd HH:MM:SS")
     private Date replyDate;
+    private String boardTitle;
+    private String boardType;
 }

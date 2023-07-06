@@ -23,6 +23,12 @@ public class ReplyRepositoryImpl implements ReplyRepository{
     }
 
     @Override
+    public List<ReplyItem> selectReplyHistory(ReplyItem replyItem) {
+        List<ReplyItem> result = sqlSession.selectList("selectReplyHistory", replyItem);
+        return result;
+    }
+
+    @Override
     public int registryReply(ReplyItem replyItem) {
         int result = sqlSession.insert("registryReply", replyItem);
         return result;

@@ -8,6 +8,8 @@
         <result property="writer"           column="WRITER"             />
         <result property="boardNo"          column="BOARD_NO"           />
         <result property="replyDate"        column="REPLY_DATE"         />
+        <result property="boardTitle"          column="BOARD_TITLE"           />
+        <result property="boardType"        column="BOARD_TYPE"         />
     </resultMap>
 
     <select id="selectReplyList" resultMap="replyResultMap">
@@ -17,6 +19,17 @@
           REPLY_INFO
         WHERE 1=1
         AND BOARD_NO = #{boardNo}
+    </select>
+
+    <select id="selectReplyHistory" resultMap="replyResultMap">
+        SELECT
+          B.BOARD_NO AS BOARD_NO, R.REPLY_CONTENT AS REPLY_CONTENT,
+          B.BOARD_TITLE AS BOARD_TITLE, B.BOARD_TYPE AS BOARD_TYPE,
+          R.REPLY_NO AS REPLY_NO, R.REPLY_DATE AS REPLY_DATE, R.WRITER AS WRITER
+        FROM
+          BOARD_INFO B, REPLY_INFO R
+        WHERE B.BOARD_NO = R.BOARD_NO
+        AND R.WRITER = #{writer}
     </select>
 
     <insert id="registryReply">
