@@ -1,18 +1,35 @@
-.signUpContainer{
+.div-signup-wrapper{
     display: flex;
     align-items: center;
+    justify-content: center;
     min-width: 450px;
+    flex-direction: column;
 }
 
-.signUpForm {
-    width: 30vw;
+.form-signup {
+    width: 50vw;
     height: 70vh;
-    border: 1px solid gray;
+    /* border: 1px solid #DCDEE1; */
     padding : 20px;
     min-width: 450px;
+    border-radius: 10px;
+    color: #5D5C68;
 }
 
 form .content {
     overflow-y: auto;
     height: 60vh;
 }
+
+.btn-issuance {
+    font-size: small;
+    width : 22%;
+}
+
+.input-authNum {
+    margin-right: 10px;
+    border-radius: 5px;
+    width: 75%;
+    padding-left: 10px;
+}
+

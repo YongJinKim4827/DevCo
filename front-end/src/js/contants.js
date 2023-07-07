@@ -1,3 +1,6 @@
+const MAIN_LOGO = "../assets/img/uncle-sam.png'";
+const PROJECT_NAME = "DevCo";
+
 const BOARD_CATEGORY = [
     {"name" : "Q&A",       "link" : "/question"},
     {"name" : "지식공유",   "link" : "/knowledge"},
@@ -15,9 +18,9 @@ const WRITING = "writing";
 
 const HOST_NAME = window.location.hostname;;
 const PORT = "8080";
-const PROTOCOL = "http:"
-const REQUEST_ORIGIN = `${PROTOCOL}//${HOST_NAME}:${PORT}`
+const PROTOCOL = "http:";
+const REQUEST_ORIGIN = `${PROTOCOL}//${HOST_NAME}:${PORT}`;
 const SAMPLE_DATA_TEST = "SAMPLE";
-const DB_DATA_TEST = "DB"
+const DB_DATA_TEST = "DB";
 
 const userJwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5amtpbTIiLCJBVVRIIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjg4NTIzMzg4fQ.uVwVABko1vyGYlZ81i1UBQZO45XGISexVxWkaiygI8w";

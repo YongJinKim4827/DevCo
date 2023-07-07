@@ -3,6 +3,7 @@ import "./login.css";
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Welcome from '../common/Welcome';
 
 const Login = () => {
     const [userId, setUserId] = useState("");
@@ -42,8 +43,12 @@ const Login = () => {
     }
 
   return (
-    <div className='loginContainer'>
-        <form action="" method="POST" onSubmit={LoginHandler}>
+    <div className='div-login-wrapper'>
+        <Welcome />
+        <div style={{fontSize : "small"}}>
+            {PROJECT_NAME} 로그인
+        </div>
+        <form action="" method="POST" className="form-login" onSubmit={LoginHandler}>
             <div className="mb-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">ID</label>
                 <input type="text" className="form-control" id="userIdInput" aria-describedby="emailHelp" value={userId} onChange={onChangeUserId}/>
@@ -56,8 +61,16 @@ const Login = () => {
                 <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
                 <label className="form-check-label" htmlFor= "exampleCheck1">Check me out</label>
             </div> */}
-            <button type='submit' className="btn btn-primary">Login</button>
-            <button type='button' className="btn btn-primary" onClick={moveSignUpPage}>Sign Up</button>
+            <div style={{display : "flex", justifyContent : "center"}}>
+                <button type='submit' className="btn btn-primary" style={{width : "80%", backgroundColor : "#0B7FD3"}} disabled={false}>Login</button>
+            </div>
+            <div style={{display : "flex", justifyContent : "center", marginTop : "10px"}}>
+                <span>
+                    아직 회윈이 아니신가요? 
+                </span>
+                <a href='/signup' style={{marginLeft : "10px"}}>회원가입</a>
+            </div>
+            
         </form>
     </div>
   )
