@@ -1,6 +1,7 @@
 package com.cyberi.devcommunity.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -9,26 +10,34 @@ import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class EmailService {
 
+    ConcurrentHashMap mailAuthMap = new ConcurrentHashMap();
      @Autowired
      JavaMailSender emailSender;
 
-     public static final String ePw = createKey();
+     public static final String authNum = createKey();
+
+     @Value("${adminMail.id}")
+     public String adminMail;
+     @Value("${admin.name}")
+     public String adminName;
+
 
      private MimeMessage createMessage(String to)throws Exception{
          System.out.println("보내는 대상 : "+ to);
-         System.out.println("인증 번호 : "+ePw);
+         System.out.println("인증 번호 : "+authNum);
+         String title = "[DevCo] 인증번호";		// 메일 제목
          MimeMessage  message = emailSender.createMimeMessage();
 
          message.addRecipients(Message.RecipientType.TO, to);//보내는 대상
-         message.setSubject("이메일 인증 테스트");//제목
-
+         message.setSubject(title);
          String msgg="";
          msgg+= "<div style='margin:20px;'>";
-         msgg+= "<h1> 안녕하세요 임준호입니다. </h1>";
+         msgg+= "<h1> 안녕하세요 DevCo입니다. </h1>";
          msgg+= "<br>";
          msgg+= "<p>아래 코드를 복사해 입력해주세요<p>";
          msgg+= "<br>";
@@ -38,11 +47,11 @@ public class EmailService {
          msgg+= "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
          msgg+= "<div style='font-size:130%'>";
          msgg+= "CODE : <strong>";
-         msgg+= ePw+"</strong><div><br/> ";
+         msgg+= authNum+"</strong><div><br/> ";
          msgg+= "</div>";
          message.setText(msgg, "utf-8", "html");//내용
-         message.setFrom(new InternetAddress("properties에 입력한 이메일","limjunho"));//보내는 사람
-
+         message.setFrom(new InternetAddress(adminMail,adminName));//보내는 사람
+         mailAuthMap.put("to", authNum);
          return message;
      }
 
@@ -52,7 +61,6 @@ public class EmailService {
 
          for (int i = 0; i < 8; i++) { // 인증코드 8자리
              int index = rnd.nextInt(3); // 0~2 까지 랜덤
-
              switch (index) {
                  case 0:
                      key.append((char) ((int) (rnd.nextInt(26)) + 97));
@@ -68,7 +76,7 @@ public class EmailService {
                      break;
              }
          }
-         return key.toString();
+         return key.toString().toUpperCase();
      }
 
      public String sendSimpleMessage(String to)throws Exception {
@@ -80,6 +88,11 @@ public class EmailService {
              es.printStackTrace();
              throw new IllegalArgumentException();
          }
-         return ePw;
+         return authNum;
+     }
+
+     public String checkAuthNum(String authNum){
+         String result = "";
+         return result;
      }
 }

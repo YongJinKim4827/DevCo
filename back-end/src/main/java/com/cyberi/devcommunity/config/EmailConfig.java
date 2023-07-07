@@ -22,9 +22,9 @@ public class EmailConfig {
     private boolean startlls_required;
     @Value("${mail.smtp.socketFactory.fallback}")
     private boolean fallback;
-    @Value("${AdminMail.id}")
+    @Value("${adminMail.id}")
     private String id;
-    @Value("${AdminMail.password}")
+    @Value("${adminMail.password}")
     private String password;
 
      @Bean
@@ -43,6 +43,7 @@ public class EmailConfig {
     {
         Properties pt = new Properties();
         pt.put("mail.smtp.socketFactory.port", socketPort);
+        pt.setProperty("mail.transport.protocol", "smtp"); // 프로토콜 설정
         pt.put("mail.smtp.auth", auth);
         pt.put("mail.smtp.starttls.enable", starttls);
         pt.put("mail.smtp.starttls.required", startlls_required);
