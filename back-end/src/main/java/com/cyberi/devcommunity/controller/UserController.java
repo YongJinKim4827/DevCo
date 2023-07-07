@@ -2,8 +2,10 @@ package com.cyberi.devcommunity.controller;
 
 import com.cyberi.devcommunity.dto.UserHistoryItem;
 import com.cyberi.devcommunity.dto.UserItem;
+import com.cyberi.devcommunity.service.EmailService;
 import com.cyberi.devcommunity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,10 +16,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final EmailService emailService;
 
     @Autowired
-    public UserController(UserService userService){
+    public UserController(UserService userService, EmailService emailService){
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -54,6 +58,7 @@ public class UserController {
         userService.deleteUserItem(data);
         return result;
     }
+
     @RequestMapping(value = "/user/test", method = RequestMethod.GET)
     public String test() throws Exception{
         UserItem userItem = new UserItem();
@@ -62,9 +67,10 @@ public class UserController {
         return items.get(0).toString();
     }
 
-    @RequestMapping(value = "/user/mail", method = RequestMethod.GET)
-    public String mailCheck(@RequestParam("mail") String mail){
+    @RequestMapping(value = "/user/mail", method = RequestMethod.POST)
+    public String mailCheck(@RequestBody UserItem userItem) throws Exception{
         String result = "";
+        result = emailService.sendSimpleMessage(userItem.getEmail());
         return result;
     }
 
