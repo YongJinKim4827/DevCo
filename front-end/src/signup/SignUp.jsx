@@ -2,6 +2,7 @@ import React from 'react'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 import "./signup.css"
+import Welcome from '../common/Welcome';
 
 const SignUp = () =>  {
     const [signUpInfo, setSignUpInfo] = useState({
@@ -14,6 +15,8 @@ const SignUp = () =>  {
         email : '',
         userRole : ""
     });
+    const [authNum , setAuthNum] = useState('');
+    const [issuanceAuth, setIssuanceAuth] = useState(false);
 
     const onChange = (event) => {
         if(event.target.id === "signUpIdInput"){
@@ -56,21 +59,35 @@ const SignUp = () =>  {
         window.location.replace("/");
     }
 
-    const confirmEmail = () => {
-        axios.post(`${REQUEST_ORIGIN}/email`, {
-            email : signUpInfo.email
-        })
-        .then((res) => {
-            console.log(res);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+    const onIssuanceAuth = () => {
+        // axios.post(`${REQUEST_ORIGIN}/user/mail`, signUpInfo)
+        // .then((res) => {
+        //     console.log(res);
+        // })
+        // .catch((err) => {
+        //     console.log(err);
+        // })
+    }
+
+    const onCheckAuthNum = () => {
+        // axios.post(`${REQUEST_ORIGIN}/user/mail/confirm`, authNum)
+        // .then((res) => {
+        //     console.log(res);
+        // })
+        // .catch((err) => {
+        //     console.log(err);
+        // })
+    }
+
+    const onChangeAuthNum = (event) => {
+        setAuthNum(event.target.value);
     }
 
     return (
-        <div className='signUpContainer'>
-            <form action="" method="POST" onSubmit={signUpHandler} className='signUpForm'>
+        <div className='div-signup-wrapper'>
+            <Welcome />
+            <div style={{fontSize : "small"}}>회원가입시 필요한 정보를 입력해주세요</div>
+            <form action="" method="POST" onSubmit={signUpHandler} className='form-signup'>
                 <div className='content'>
                 <div className="mb-3">
                     <label htmlFor="signUpIdInput" className="form-label">ID</label>
@@ -100,15 +117,28 @@ const SignUp = () =>  {
                 </div>
                 <div className="mb-3">
                     <label htmlFor= "signUpEmail" className="form-label">본인확인 이메일</label>
-                    <input type="email" className="form-control" 
-                        id="signUpEmail" value={signUpInfo.email} onChange={onChange}
-                    />
-                    <button type='button' onClick={confirmEmail}>이메일 인증</button>
+                    <div style={{display : "flex"}}>
+                        <input type="email" className="form-control"  style={{marginRight : "5px", width : "80%"}}
+                            id="signUpEmail" value={signUpInfo.email} onChange={onChange}
+                        />
+                        <button type='button' className = "btn-issuance" onClick={onIssuanceAuth} data-bs-toggle="collapse" data-bs-target="#collapseExample" 
+                            aria-expanded="false" aria-controls="collapseExample"
+                        >인증번호 발송</button>
+                    </div>
+
+                    <div className="collapse" id="collapseExample" style={{marginTop : "10px"}}>
+                        <div className="card card-body" style={{display : "flex", flexDirection : "inherit"}}>
+                            <input type='text' className= "form-control input-authNum" onChange={onChangeAuthNum} placeholder='인증번호'/>
+                            <button style={{width : "24%"}}>인증</button>
+                        </div>
+                    </div>
                 </div>
                 </div>
-                <div>
-                    <button type='button' className="btn btn-primary" onClick={moveLoginPage}>{"< Prev"}</button>
-                    <button type='submit' className="btn btn-primary" >Sign Up</button>
+                <div style={{display : "flex", justifyContent : "center"}}>
+                    {/* <button type='button' className="btn btn-primary" onClick={moveLoginPage}>{"< Prev"}</button> */}
+                    <button type='submit' className="btn btn-primary" 
+                        style={{width : "80%", backgroundColor : "#0B7FD3"}} disabled={false}
+                    >Sign Up</button>
                 </div>
             </form>
         </div>
