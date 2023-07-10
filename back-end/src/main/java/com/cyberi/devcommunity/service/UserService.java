@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -146,6 +145,12 @@ public class UserService {
     public int changeUseChatting(UserItem userItem){
         int result = 0;
         result = userRepository.changeUseChatting(userItem);
+        return result;
+    }
+
+    public int updateUserByAdmin(UserItem userItem){
+        int result = 0;
+        result = userRepository.updateUserByAdmin(userItem);
         return result;
     }
 

@@ -1,5 +1,6 @@
 package com.cyberi.devcommunity.repository;
 
+import com.cyberi.devcommunity.dto.Member;
 import com.cyberi.devcommunity.dto.UserItem;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository{
@@ -36,6 +38,12 @@ public class UserRepositoryImpl implements UserRepository{
         int result = sqlSession.update("userRepository.changUseChatting", userItem);
         return result;
     }
+    
+    @Override
+    public int updateUserByAdmin(UserItem userItem) {
+        int result = sqlSession.update("userRepository.updateUserByAdmin", userItem);
+        return result;
+    }
 
     @Override
     public int deleteUserItem(UserItem userItem) {
@@ -59,4 +67,7 @@ public class UserRepositoryImpl implements UserRepository{
         result = sqlSession.selectOne("validUserCheck", param);
         return result;
     }
+
+
+    
 }
