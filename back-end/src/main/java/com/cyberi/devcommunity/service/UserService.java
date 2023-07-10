@@ -88,7 +88,7 @@ public class UserService {
         List<ChatMessageItem> chatHistory = new ArrayList();
         List<ChatRoomItem> chatRoomHistory = new ArrayList();
         ChatMessageItem chatMessageItem = new ChatMessageItem();
-        chatMessageItem.setUser(userId);
+        chatMessageItem.setUserId(userId);
 
         for(ChatRoomItem chatRoomItem : chatRoomHistory){
             UserHistoryItem userHistory = new UserHistoryItem();

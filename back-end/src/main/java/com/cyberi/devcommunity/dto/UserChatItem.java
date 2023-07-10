@@ -11,7 +11,7 @@ import java.util.Date;
 @Setter
 @ToString
 public class UserChatItem {
-    private String chatRoomNo;
-    @DateTimeFormat(pattern = "yyyy-mm-dd HH:MM:SS")
-    private Date createRoomDate;
+    private String chattingRoomNo;
+    private String userId;
+    private int userChattingRoomNo;
 }
