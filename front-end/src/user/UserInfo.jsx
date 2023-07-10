@@ -48,16 +48,8 @@ const UserInfo = () => {
                 <input type='text' value={userItem.userPassword ? "***************" : ''} onChange={changeUserItem}/>
             </div>
             <div className='div-user-info-input'>
-                <label>생일</label>
-                <input type='text' value={userItem.birth ? userItem.birth: ''} onChange={changeUserItem}/>
-            </div>
-            <div className='div-user-info-input'>
                 <label>이메일</label>
                 <input type='text' value={userItem.email ? userItem.email : ''} onChange={changeUserItem}/>
-            </div>
-            <div className='div-user-info-input'>
-                <label>성별</label>
-                <input type='text' value={userItem.gender ? userItem.gender : ''} onChange={changeUserItem}/>
             </div>
             <div style={{display : 'flex', justifyContent : 'end', marginTop : '10px'}}>
                 <button style={{color : '#0d6efd', fontWeight : 'bold'}}>저장</button>

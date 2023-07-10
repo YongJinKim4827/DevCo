@@ -23,6 +23,7 @@ const AccountInfo = () => {
             console.log(err);
         })
     },[])
+    
     const onChangeDeleteAgree = (event) => {
         setDeleteAgree(event.target.checked);
     }

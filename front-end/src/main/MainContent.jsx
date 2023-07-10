@@ -5,9 +5,6 @@ const MainContent = ({mainItems}) => {
   return (
     <div className='div-main-content-wrapper'>
         <div style={{width : "70vw"}}>
-        <div>
-            광고영역(추후 대체 캐러샐을 하든 뭐든....)
-        </div>
         <div className='div-main-content div-main-content-virtical'>
             <div style={{width:"45%", minWidth : "450px"}}>
                 <div className='div-main-category'>
@@ -84,9 +81,6 @@ const MainContent = ({mainItems}) => {
                         })
                     }
                 </div>
-            </div>
-            <div style={{width:"45%"}}>
-                <div>뭐 암거나 그냥 이미지라던가 글을 넣어야지</div>
             </div>
         </div>
         </div>
