@@ -15,6 +15,7 @@ const Writing = () => {
     boardContent : window.location.pathname.split("/")[1].toUpperCase(),
     share : "N",
   });
+  
   useEffect(()=> {
     let category = param.category.toUpperCase();
     let checkCategory = CATEGORY.findIndex((e) => e === category);

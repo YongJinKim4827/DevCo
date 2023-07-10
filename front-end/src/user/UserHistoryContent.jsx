@@ -7,7 +7,6 @@ const UserHistoryContent = ({item}) => {
     const moveLink = (item) => {
         console.log(item.boardNo)
         let link = "/";
-        debugger;
         navigation(link);
     }
   return (

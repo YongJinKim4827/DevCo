@@ -67,19 +67,6 @@ const Header = () => {
       });
   }
 
-  const publish = (message) => {
-      if(!client.current.connected){
-          return;
-      }
-      client.current.publish({
-          destination : "/pub/chat",
-          body: JSON.stringify({roomSeq: 1, user: user, message})
-      });
-      setInputMessage("");
-  }
-
-
-  
   return (
     <div className='div-header-wrapper'>
       <div className='div-header-logo' onClick={moveMainPage}>
