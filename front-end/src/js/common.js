@@ -20,3 +20,20 @@ const addZero = (number) => {
     }
     return addZeroNum;
 }
+
+const convertBoardType = (type) => {
+    let convertBoardType = "";
+    switch(type){
+        case "QUESTION" :
+            convertBoardType = "Q&A"; break;
+        case "KNOWLEDGE" :
+            convertBoardType = "지식공유"; break;
+        case "NOTICE" :
+            convertBoardType = "공지사항"; break;
+        case "COMMUNITY" :
+            convertBoardType = "커뮤니티"; break;
+        default :
+            convertBoardType = "Q&A"; break;
+    }
+    return convertBoardType;
+}

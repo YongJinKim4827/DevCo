@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import UserInfo from './UserInfo'
 import AccountInfo from './AccountInfo'
 import UserLeftNav from './UserLeftNav'
+import MyBoard from './MyBoard'
 
 const UserLayout = () => {
   return (
@@ -11,6 +12,7 @@ const UserLayout = () => {
         <Routes>
             <Route path='/' element={<UserInfo />}/>
             <Route path='/account' element={<AccountInfo />}/>
+            <Route path='/myboard' element={<MyBoard />}/>
         </Routes>
     </div>
   )
