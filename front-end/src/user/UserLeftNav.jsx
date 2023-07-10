@@ -12,6 +12,7 @@ const UserLeftNav = () => {
               <button onClick={(event) => {navigation("/user")}}>회원정보</button>
               <button onClick={(event) => {navigation("/user/account")}}>계정</button>
               <button onClick={(event) => {navigation("/user/activity")}}>활동이력</button>
+              <button onClick={(event) => {navigation("/user/myboard")}}>나의 게시글</button>
           </div>
           <div>
 
