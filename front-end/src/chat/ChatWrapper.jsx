@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import EmptyChat from './EmptyChat';
+import axios from 'axios';
 
 const ChatWrapper = () => {
   const [chatRoomItems, setChatRoomItems] = useState([]);
@@ -17,35 +18,39 @@ const ChatWrapper = () => {
     if(item.chattingRoomNo === selectChattingRoomItem.chattingRoomNo){
       setSelectChattingRoomItem({});
     }else{
+      //채팅방 전체 읽음 처리
+      axios.get(`${REQUEST_ORIGIN}/chat/read`, {
+        params : {
+          chattingRoomNo : item.chattingRoomNo
+        }
+      })
+      .then((res) => {
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      })
       setSelectChattingRoomItem(item);
     }
   }
 
+  const currentMessage = () => {//메세지 감지
+    selectChattingRoom();
+  }
+
   //로그인한 사용자의 채팅방 리스트 불러오기
   const selectChattingRoom = () => {
-    setChatRoomItems([
-      {
-        chattingRoomNo : '1',
-        creatRoomDate : new Date(),
-        users : ["ADMIN", "YJKIM"],
-        roomName : "ADMIN",
-        recentMessage : "안녕하세요~"
-      },
-      {
-        chattingRoomNo : '2',
-        creatRoomDate : new Date(),
-        users : ["나의라임오지는나무", "YJKIM"],
-        roomName : "나의라임오지는나무",
-        recentMessage : "안녕하세요~"
-      },
-      {
-        chattingRoomNo : '3',
-        creatRoomDate : new Date(),
-        users : ["네간", "YJKIM"],
-        roomName : "네간",
-        recentMessage : "잘가요~"
+    axios.get(`${REQUEST_ORIGIN}/chat/select/chattingroom`, {
+      params : {
+        userId : 'ADMIN'
       }
-    ])
+    })
+    .then((res) => {
+      setChatRoomItems(res.data)
+    })
+    .catch((err) => {
+
+    })
   }
 
 
@@ -60,9 +65,8 @@ const ChatWrapper = () => {
           click = {onClickChattingRoom}
         />
         {
-          selectChattingRoomItem.chattingRoomNo ? <ChatRoom roomInfo = {selectChattingRoomItem} /> : <EmptyChat /> 
+          selectChattingRoomItem.chattingRoomNo ? <ChatRoom roomInfo = {selectChattingRoomItem} inputCurrentMessage = {currentMessage}/> : <EmptyChat /> 
         }
-        
       </div>
     </div>
   )

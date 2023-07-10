@@ -9,7 +9,7 @@ import ReceiveChat from './ReceiveChat';
 import SendChat from './SendChat';
 import axios from 'axios';
 
-const ChatRoom = ({roomInfo}) => {
+const ChatRoom = ({roomInfo, inputCurrentMessage}) => {
     const client = useRef({});
     const [chatMessages, setChatMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
@@ -24,12 +24,13 @@ const ChatRoom = ({roomInfo}) => {
     }
 
     const selectChattingMessage = () => {
-        axios.get(`${REQUEST_ORIGIN}/chat/select`,{
+        axios.get(`${REQUEST_ORIGIN}/chat/select/message`,{
             params : {
-                roomNo : roomInfo.chattingRoomNo
+                chattingRoomNo : roomInfo.chattingRoomNo
             }
         })
         .then((res) => {
+            setChatMessages(res.data);
             console.log(res);
         })
         .catch((err) => {
@@ -39,9 +40,18 @@ const ChatRoom = ({roomInfo}) => {
 
     //Web Socket 부분
     useEffect(()=> {
+        setChatMessages([]);
+        selectChattingMessage();
         connect();
         return () => disConnect();
     },[]);
+
+    useEffect(()=> {
+        // setChatMessages([]);
+        selectChattingMessage();
+    },[roomInfo]);
+
+
 
     const connect = () => {
         client.current = new StompJs.Client({
@@ -80,11 +90,13 @@ const ChatRoom = ({roomInfo}) => {
         if(!client.current.connected){
             return;
         }
+
         client.current.publish({
             destination : "/pub/chat",
-            body: JSON.stringify({roomSeq: 1, user: user, message})
+            body: JSON.stringify({chattingRoomNo: roomInfo.chattingRoomNo, userId: 'ADMIN', chatContent: message})
         });
         setInputMessage("");
+        inputCurrentMessage();
     }
 
     const userChange = (event) => {
@@ -102,16 +114,18 @@ const ChatRoom = ({roomInfo}) => {
         </div>
         <div className='div-chat-room-header'>
             <div style={{display : "flex", alignItems : "center", fontWeight : "bold", marginLeft : "15px"}}>
-                <span>{roomInfo.roomName}</span>
+                <span>{roomInfo.userId}</span>
             </div>
         </div>
         <div className='div-chat-room-content'>
-                {chatMessages.map((item, idx) => {
+            {
+                chatMessages.length > 0 ?
+                chatMessages.map((item, idx) => {
                     let prevUser = '';
                     if(idx > 0){
                         prevUser = chatMessages[idx-1].user;
                     }
-                    if(item.user === user){
+                    if(item.userId === user){
                         return(
                             <SendChat key={`chat_${idx+1}`} messageItem = {item} />
                         )
@@ -120,7 +134,9 @@ const ChatRoom = ({roomInfo}) => {
                             <ReceiveChat key={`chat_${idx+1}`} messageItem = {item} prevUser = {prevUser}/>
                         )
                     }
-                })}
+                })
+                : ''
+            }
         </div>
         <div className='div-chat-room-footer'>
             <input type='text' style={{width : "80%", height : "100%"}} value={inputMessage} onChange={inputChat}/>

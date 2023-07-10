@@ -17,6 +17,7 @@
     border-collapse: collapse;
     border-radius: 5px;
 }
+
 /*
 *   Chat Room info
 */
@@ -29,6 +30,10 @@
     justify-content: space-between;
     border-collapse: collapse;
     padding : 12px;
+}
+
+.div-chat-info-active {
+    border-color: red;
 }
 
 .div-chat-info-wrapper:hover {
@@ -95,7 +100,9 @@
     flex: 1;
     flex-direction: column;
     padding: 15px;
-    /* background-color: #F2F2F2; */
+    max-height: 645px;
+    min-height: 645px;
+    overflow-y: scroll;
     background-color: #F0F6FA;
     margin-left: 5px;
     border-left: 1px solid #D8D8D8;
