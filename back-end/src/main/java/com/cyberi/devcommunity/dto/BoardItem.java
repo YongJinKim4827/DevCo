@@ -23,4 +23,6 @@ public class BoardItem {
     private String writer; // 작성자
     private int like;//좋아요 숫자
     private int replyCount; //댓글 갯수
+    private String loginUser;
+    private String boardLikeUser;
 }

@@ -14,8 +14,17 @@
         <result property="writeDate"        column="WRITE_DATE"         />
         <result property="writer"           column="WRITER"             />
         <result property="recommendation"   column="RECOMMENDATION"     />
-        <result property="like"             column="BOARD_LIKE"     />
+        <result property="like"             column="BOARD_LIKE"         />
         <result property="replyCount"       column="REPLY_COUNT"        />
+        <result property="boardLikeUser"       column="BOARD_LIKE_USER"    />
+    </resultMap>
+
+    <resultMap id="boardLikeMap" type="com.cyberi.devcommunity.dto.BoardLikeItem">
+        <result property="boardNo"          column="BOARD_NO"           />
+        <result property="isLike"           column="IS_LIKE"           />
+        <result property="likeUser"         column="LIKE_USER"           />
+        <result property="likeDate"         column="LIKE_DATE"           />
+
     </resultMap>
 
     <!-- 게시글 리스트 조회 -->
@@ -54,7 +63,16 @@
             BOARD_NO, BOARD_CONTENT,
             BOARD_SHARE, VIEWS, BOARD_TYPE,
             BOARD_TITLE, TO_CHAR(WRITE_DATE, 'YYYY-MM-DD HH:MM:SS') AS WRITE_DATE,
-            WRITER
+            WRITER, (
+                    SELECT LIKE_USER FROM BOARD_LIKE_INFO
+                    WHERE BOARD_NO = #{boardNo}
+                    AND LIKE_USER = #{loginUser}
+                    AND IS_LIKE = 'Y'
+            ) AS BOARD_LIKE_USER,
+            (
+                SELECT COUNT(IS_LIKE) FROM BOARD_LIKE_INFO
+                    WHERE BOARD_NO = #{boardNo}
+            )AS BOARD_LIKE
         FROM
           BOARD_INFO
         WHERE 1=1
@@ -75,6 +93,11 @@
         ORDER BY WRITE_DATE DESC
     </select>
 
+    <select id="selectLikeBoard" resultMap="boardLikeMap">
+        SELECT IS_LIKE, LIKE_USER FROM BOARD_LIKE_INFO
+        WHERE BOARD_NO = #{boardNo}
+        AND LIKE_USER = #{likeUser}
+    </select>
     <insert id="registryBoard">
         INSERT INTO BOARD_INFO
         (
@@ -92,15 +115,30 @@
             #{writer, jdbcType=VARCHAR},
             SYSDATE
         )
-
     </insert>
 
+    <insert id="insertLike">
+        INSERT INTO BOARD_LIKE_INFO
+        (
+            BOARD_NO, LIKE_USER, LIKE_DATE, IS_LIKE
+        ) VALUES (
+            #{boardNo}, #{likeUser}, SYSDATE, 'Y'
+        )
+    </insert>
+
+    <update id="updateLike">
+        UPDATE BOARD_LIKE_INFO SET
+            IS_LIKE = #{isLike}
+        WHERE BOARD_NO = #{boardNo}
+        AND LIKE_USER = #{likeUser}
+    </update>
+    
     <update id="updateBoard">
         UPDATE BOARD_INFO SET
-            BOARD_CONTENT = #{boardContent}
-            BOARD_TITLE = #{boardTitle}
-            BOARD_SHARE = #{share}
-            WRTIE_DATE = SYSDATE
+            BOARD_CONTENT = #{boardContent},
+            BOARD_TITLE = #{boardTitle},
+            BOARD_SHARE = #{share},
+            WRITE_DATE = SYSDATE
         WHERE 1=1
         AND BOARD_NO = #{boardNo}
     </update>
