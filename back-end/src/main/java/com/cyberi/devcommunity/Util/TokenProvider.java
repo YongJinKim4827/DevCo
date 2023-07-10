@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Component
 public class TokenProvider {
     private static final String AUTHORITIES_KEY = "AUTH";
-    private static final String BEARER_TYPE = "BEARER";
+    private static final String BEARER_TYPE = "Bearer";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60* 36;
     private final Key key;
@@ -55,7 +55,7 @@ public class TokenProvider {
 
 
         return JwtToken.builder()
-                .grantType("BEARE")
+                .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();

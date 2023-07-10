@@ -37,8 +37,14 @@ public class SpringSecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/signup", "/login", "/user/**","/board/**","/reply/**", "/ws-stomp/**", "/chat/**").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers(
+                    /* user */ "/user/select", "/user/update", "/user/delete", "/user/catting", "/user/history", "/user/myboard",
+                    /* board */ "/board/registry", "/board/update", "/board/delete", "/board/like"
+                ).hasRole("USER")
+                // .antMatchers("/board/update","board/delete", "/user/select")
+                .antMatchers("/**","/signup", "/login", "/user/**","/board/**","/reply/**", "/ws-stomp/**", "/chat/**").permitAll()
+                // .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
