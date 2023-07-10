@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Welcome from '../common/Welcome';
+import { setCookie, getCookie, removeCookie } from './Cookies';
 
 const Login = () => {
     const [userId, setUserId] = useState("");
@@ -29,7 +30,12 @@ const Login = () => {
             userPassword : userPassword
         })
         .then((res) => {
-            console.dir(res);
+            // console.dir(res);
+            setCookie("token", res.data, {
+                path: "/",
+                sameSite: "strict",
+            });
+            navigate("/")
         })
         .catch((err) => {
             console.log(err);
