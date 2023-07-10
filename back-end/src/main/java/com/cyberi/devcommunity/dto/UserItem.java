@@ -4,7 +4,6 @@ package com.cyberi.devcommunity.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -20,4 +19,5 @@ public class UserItem {
     private String userRole;
     private String useChatting;
     private Date signupDate;
+    private String userValid;
 }

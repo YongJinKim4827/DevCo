@@ -9,11 +9,12 @@
         <result property="email"        column="EMAIL"      />
         <result property="userRole"     column="USER_ROLE"  />
         <result property="useChatting"  column="USE_CHAT"   />
+        <result property="userValid"    column="USER_VALID"   />
     </resultMap>
 
     <select id="selectUserItem" resultMap="userResultMap">
         SELECT
-          USER_ID, PASSWORD, USER_NAME, EMAIL, USE_CHAT
+          USER_ID, PASSWORD, USER_NAME, EMAIL, USE_CHAT, USER_ROLE, USER_VALID
         FROM
           USER_INFO
         WHERE 1=1
@@ -63,6 +64,13 @@
     <update id="changUseChatting">
         UPDATE USER_INFO SET
           USE_CHAT = #{useChatting}
+        WHERE USER_ID = #{userId}
+    </update>
+
+    <update id="updateUserByAdmin">
+        UPDATE USER_INFO SET
+          USER_VALID = #{userValid},
+          USER_ROLE = #{userRole}
         WHERE USER_ID = #{userId}
     </update>
 
