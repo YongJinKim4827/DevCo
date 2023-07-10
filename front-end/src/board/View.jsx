@@ -7,7 +7,8 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
-
+import likeImg from '../assets/img/free-icon-like-2107854.png';
+import nolikeImg from '../assets/img/like.png';
 import viewImg from '../assets/img/view.png';
 const View = () => {
     const param = useParams();
@@ -22,8 +23,11 @@ const View = () => {
         replyCount : '',
         views : '',
         writeDate : '',
-        writer : ''
+        writer : '',
+        loginUser : "ADMIN" //현재 로그인한 사용자 정보. 게시물에 좋아요를 했는지 않했는지 판단
     });
+
+    const [isLike, setIsLike] = useState(false);
 
     const [inputReplyItem, setInputReplyItem] = useState({
         replyNo: '',
@@ -38,16 +42,22 @@ const View = () => {
     useEffect(()=> {
         selectBoard();
     },[])
-    
+
     const selectBoard = async () => {
         try{
             const boardResponse = await axios.get(`${REQUEST_ORIGIN}/board/select`,{
                 params : {
                     category : param.category,
-                    boardNo : param.boardNo
+                    boardNo : param.boardNo,
+                    user : "ADMIN"
                 }
             });
             setBoardContent(boardResponse.data);
+            if(boardResponse.data.boardLikeUser === "ADMIN"){
+                setIsLike(true);
+            }else{
+                setIsLike(false);
+            }
             setInputReplyItem({...inputReplyItem, boardNo : boardResponse.data.boardNo, writer : 'ADMIN'});
             refreshReply();
         }catch(err){
@@ -64,9 +74,18 @@ const View = () => {
         setReplyItems(replyResponse.data);
     }
 
+    const updateBoard = () => {
+        navigation(`/writing/${boardContent.boardType.toLowerCase()}/${boardContent.boardNo}`)
+    }
 
-    const registryReply = () => {
-        console.log("댓글 작성......");
+    const deleteBoard = () => {
+        axios.post(`${REQUEST_ORIGIN}/board/delete`, boardContent)
+        .then((res) => {
+            navigation(`/${boardContent.boardType.toLowerCase()}`)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     const inputReply = (event) => {
@@ -76,7 +95,7 @@ const View = () => {
 
     const createChatting = () => {
         axios.post(`${REQUEST_ORIGIN}/chat/create`,{
-            users : ['나의라임오짐', "ADMIN"]
+            users : [boardContent.writer, "ADMIN"]
         })
         .then((res) => {
             navigation("/chat")
@@ -104,13 +123,48 @@ const View = () => {
             console.log(err);
         })
     }
+
+    const onClickLike = () => {
+        if(isLike){
+            setIsLike(false);
+        }else{
+            setIsLike(true);
+        }
+        axios.post(`${REQUEST_ORIGIN}/board/like`,{
+            boardNo : boardContent.boardNo,
+            isLike : !isLike ? 'Y' : 'N',
+            likeUser : "ADMIN"
+        })
+        .then((res) => {
+
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
     return (
     <div style={{display : "flex", flexDirection : "column", flex : "0.8", alignItems : "center"}}>
         <div style={{marginTop : '25px'}}>
             <div className='div-writer-area-wrapper'>{/* 작성자 정보 영역 */}
-                <div>
+                <div style={{display : "flex"}}>
                     <span style={{fontWeight : "bold"}}>{boardContent.writer}</span>
                     <button style={{fontSize : "small", marginLeft : "5px"}} onClick={createChatting}> 1:1문의하기 </button>
+                    <button style={{fontSize : "small", marginLeft : "5px"}} onClick={updateBoard}> 수정하기 </button>
+                    <button style={{fontSize : "small", marginLeft : "5px"}} onClick={deleteBoard}> 삭제하기 </button>
+                    <div className='div-view-like' onClick={onClickLike}>
+                        {
+                            isLike ?
+                            <img src={likeImg}
+                            style={{width : "25px", height : "25px", marginBottom : "3px"}}
+                        />
+                        : 
+                        <img src={nolikeImg}
+                        style={{width : "25px", height : "25px"}}
+                    />
+                        }
+                    </div>
+                    
+
                 </div>
                 <div style={{display : "flex"}}>
                     <span style={{fontSize : "small", marginTop : "4px"}}>{convertDate(boardContent.writeDate)}</span>

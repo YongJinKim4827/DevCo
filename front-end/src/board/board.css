@@ -117,6 +117,15 @@
     flex-direction: column;
 }
 
+.div-view-like {
+    margin-top: 3px;
+    margin-left: 15px;
+}
+
+.div-view-like:hover{
+    cursor: pointer;
+}
+
 /*
 * Reply 
 */
