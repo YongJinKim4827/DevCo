@@ -4,11 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class ChatMessageItem {
-    private Integer roomSeq;
-    private String message;
-    private String user;
+    private String chatContent;
+    private String chattingRoomNo;
+    private int chatContentNo;
+    private String readed;
+    private Date chattingDate;
+    private String userId;
 }
