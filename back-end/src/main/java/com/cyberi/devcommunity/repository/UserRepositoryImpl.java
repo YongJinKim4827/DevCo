@@ -1,6 +1,5 @@
 package com.cyberi.devcommunity.repository;
 
-import com.cyberi.devcommunity.dto.Member;
 import com.cyberi.devcommunity.dto.UserItem;
 
 import org.apache.ibatis.session.SqlSession;
