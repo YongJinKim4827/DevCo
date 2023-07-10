@@ -4,6 +4,7 @@ import UserInfo from './UserInfo'
 import AccountInfo from './AccountInfo'
 import UserLeftNav from './UserLeftNav'
 import MyBoard from './MyBoard'
+import UserManage from './UserManage'
 
 const UserLayout = () => {
   return (
@@ -13,6 +14,7 @@ const UserLayout = () => {
             <Route path='/' element={<UserInfo />}/>
             <Route path='/account' element={<AccountInfo />}/>
             <Route path='/myboard' element={<MyBoard />}/>
+            <Route path='/admin' element={<UserManage />}/>
         </Routes>
     </div>
   )
