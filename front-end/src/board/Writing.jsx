@@ -22,7 +22,24 @@ const Writing = () => {
     if(checkCategory < 0){
       return;
     }
-    setContentItem({...contentItem, boardType : category});
+    if(param.boardNo){
+      axios.get(`${REQUEST_ORIGIN}/board/select`, {
+        params : {
+          category : param.category,
+          boardNo : param.boardNo
+      }
+      })
+      .then((res) => {
+        editorRef.current?.getInstance().setMarkdown(res.data.boardContent);
+        setContentItem(res.data);
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }else{
+      setContentItem({...contentItem, boardType : category});
+    }
   },[]);
 
   const inputWriting = (event) => {
@@ -51,6 +68,16 @@ const Writing = () => {
       })
   }
 
+  const updateBoard = () => {
+    axios.post(`${REQUEST_ORIGIN}/board/update`, contentItem)
+    .then((res) => {
+      console.log(res);
+      navigation(`/${contentItem.boardType.toLowerCase()}`)
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
+
   const onShare = (event) => {
     if(event.target.checked){
       setContentItem({...contentItem, share : 'Y'});
@@ -58,7 +85,6 @@ const Writing = () => {
       setContentItem({...contentItem, share : 'N'});
     }
   }
-
 
   return (
     <div className='div-writing-wrapper'>
@@ -71,30 +97,14 @@ const Writing = () => {
           <div className="form-check form-switch ">
             <label>공유</label>
             {/* <labels className="form-check-label" htmlFor="flexSwitchCheckChecked">Checked switch checkbox input</label> */}
-            <input className="form-check-input" type="checkbox" id="flexSwitchCheckChecked" onChange={onShare}/>
+            <input className="form-check-input" type="checkbox" id="flexSwitchCheckChecked" onChange={onShare} checked={
+              contentItem.share === "Y" ? true : false 
+            }/>
           </div>
         </div>
         <div className='div-writing-content-wrapper'>
           <span>제목</span>
-          <input name = "title" type='text' placeholder='제목을 입력해주세요.' style={{height : "40px"}} onChange={inputWriting}/>
-        </div>
-        <div style={{display: "none"}}>
-          <span>태그</span>
-          <select name = "tag" className="form-select form-select-sm" aria-label=".form-select-sm example">
-            {/* <option selected="true">Open this select menu</option> */}
-            <option defaultValue="1">One</option>
-            <option defaultValue="2">Two</option>
-            <option defaultValue="3">Three</option>
-          </select>
-        </div>
-        <div style={{display: "none"}}>
-          <span>토픽</span>
-          <select name = "topic" className="form-select form-select-sm" aria-label=".form-select-sm example">
-            {/* <option selected>Open this select menu</option> */}
-            <option defaultValue="1">One</option>
-            <option defaultValue="2">Two</option>
-            <option defaultValue="3">Three</option>
-          </select>
+          <input name = "title" type='text' placeholder='제목을 입력해주세요.' style={{height : "40px"}} onChange={inputWriting} defaultValue={contentItem.boardTitle}/>
         </div>
         <div className='div-writing-content-wrapper'>
           <span>내용</span>
@@ -113,14 +123,23 @@ const Writing = () => {
               ['table', 'image', 'link'],
               ['code', 'codeblock']
             ]}
+            // initialValue={contentItem.boardContent.length > 0 ? contsentItem.boardContent : ''}
             onChange={writeContent}
           ></Editor>
         </div>
         <div style={{display : "flex", justifyContent:"end"}}>
           <button style={{margin : "0px 5px 5px 5px"}}>취소</button>
-          <button type="submit" style={{margin : "0px 5px 5px 5px"}}
-            disabled={!isWriting}
+          {
+            param.boardNo ?
+            <button type="button" style={{margin : "0px 5px 5px 5px"}}
+              disabled={!isWriting} onClick={updateBoard}
+            >수정</button>
+            :
+            <button type="submit" style={{margin : "0px 5px 5px 5px"}}
+              disabled={!isWriting}
           >등록</button>
+          }
+
         </div>
       </form>
       
