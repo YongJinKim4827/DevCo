@@ -27,12 +27,13 @@ public class AuthService {
     public JwtToken login(UserItem item) throws Exception{
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         try{
-            System.out.println("Password : " + passwordEncoder.encode(item.getUserPassword()));
+            System.out.println("BCryptPasswordEncoder Password : " + passwordEncoder.encode(item.getUserPassword()));
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(item.getUserId(), item.getUserPassword());
             Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
             return jwtTokenProvider.generateToken(authentication);
         }catch(Exception e){
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
