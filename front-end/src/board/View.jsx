@@ -4,7 +4,7 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import ReplyContent from './ReplyContent';
 import './board.css';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -12,6 +12,7 @@ import viewImg from '../assets/img/view.png';
 const View = () => {
     const param = useParams();
     const replyRef = useRef();
+    const navigation = useNavigate();
     const [boardContent, setBoardContent] = useState({
         boardNo : '',
         boardTitle : '',
@@ -74,12 +75,11 @@ const View = () => {
     }
 
     const createChatting = () => {
-
         axios.post(`${REQUEST_ORIGIN}/chat/create`,{
-            users : ["상대방","나"]
+            users : ['나의라임오짐', "ADMIN"]
         })
         .then((res) => {
-
+            navigation("/chat")
         })
         .catch((err) => {
 
@@ -110,10 +110,10 @@ const View = () => {
             <div className='div-writer-area-wrapper'>{/* 작성자 정보 영역 */}
                 <div>
                     <span style={{fontWeight : "bold"}}>{boardContent.writer}</span>
-                    <button style={{fontSize : "small"}} onClick={createChatting}> 1:1문의하기 </button>
+                    <button style={{fontSize : "small", marginLeft : "5px"}} onClick={createChatting}> 1:1문의하기 </button>
                 </div>
                 <div style={{display : "flex"}}>
-                    <span style={{fontSize : "small", marginTop : "4px"}}>{boardContent.writeDate}</span>
+                    <span style={{fontSize : "small", marginTop : "4px"}}>{convertDate(boardContent.writeDate)}</span>
                     <div style={{marginLeft : "5px"}}>
                         <img src={viewImg}
                             style={{width : "18px", height : "18px"}}
