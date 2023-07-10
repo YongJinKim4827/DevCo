@@ -1,7 +1,9 @@
 package com.cyberi.devcommunity.controller;
 
+import com.cyberi.devcommunity.dto.BoardItem;
 import com.cyberi.devcommunity.dto.UserHistoryItem;
 import com.cyberi.devcommunity.dto.UserItem;
+import com.cyberi.devcommunity.service.BoardService;
 import com.cyberi.devcommunity.service.EmailService;
 import com.cyberi.devcommunity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,13 @@ public class UserController {
 
     private final UserService userService;
     private final EmailService emailService;
+    private final BoardService boardService;
 
     @Autowired
-    public UserController(UserService userService, EmailService emailService){
+    public UserController(UserService userService, EmailService emailService, BoardService boardService){
         this.userService = userService;
         this.emailService = emailService;
+        this.boardService = boardService;
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -78,6 +82,13 @@ public class UserController {
     public List<UserHistoryItem> selectUserHistroy(@RequestParam("id") String userId){
         List<UserHistoryItem> result = new ArrayList();
         result = userService.selectUserHistory(userId);
+        return result;
+    }
+
+    @RequestMapping(value = "/user/myboard", method = RequestMethod.GET)
+    public List<BoardItem> selectUserBoard(@RequestParam("id") String userId){
+        List<BoardItem> result = new ArrayList();
+        result = boardService.selectMyboard(userId);
         return result;
     }
 }

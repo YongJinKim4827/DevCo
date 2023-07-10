@@ -23,6 +23,12 @@ public class BoardRepositoryImpl implements BoardRepository{
     }
 
     @Override
+    public List<BoardItem> selectMyboard(BoardItem boardItem) {
+        List<BoardItem> result = sqlSession.selectList("selectMyBoard", boardItem);
+        return result;
+    }
+
+    @Override
     public BoardItem selectBoardItem(BoardItem boardItem) {
         BoardItem result = new BoardItem();
         List<BoardItem> items = new ArrayList();

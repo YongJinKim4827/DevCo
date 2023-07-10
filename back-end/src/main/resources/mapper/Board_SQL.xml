@@ -65,7 +65,14 @@
         <if test="writer != null and writer != ''">
             AND WRITER = #{writer}
         </if>
+    </select>
 
+
+    <select id="selectMyBoard" resultMap="boardResultMap">
+        SELECT BOARD_NO, WRITER, WRITE_DATE, BOARD_SHARE, BOARD_TYPE, BOARD_TITLE
+        FROM BOARD_INFO
+        WHERE WRITER = #{writer}
+        ORDER BY WRITE_DATE DESC
     </select>
 
     <insert id="registryBoard">

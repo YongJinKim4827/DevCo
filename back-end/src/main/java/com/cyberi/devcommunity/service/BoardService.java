@@ -22,6 +22,14 @@ public class BoardService {
         return items;
     }
 
+    public List<BoardItem> selectMyboard(String userId){
+        List<BoardItem> items = new ArrayList();
+        BoardItem param = new BoardItem();
+        param.setWriter(userId);
+        items = boardRepository.selectMyboard(param);
+        return items;
+    }
+
     public BoardItem selectBoardItem(BoardItem param) throws Exception{
         BoardItem result = new BoardItem();
         try {
