@@ -1,6 +1,7 @@
 package com.cyberi.devcommunity.repository;
 
 import com.cyberi.devcommunity.dto.BoardItem;
+import com.cyberi.devcommunity.dto.BoardLikeItem;
 
 import java.util.List;
 
@@ -12,4 +13,7 @@ public interface BoardRepository {
     public int increaseViews(BoardItem boardItem);
     public int registryBoardItem(BoardItem boardItem);
     public int deleteBoardItem(BoardItem boardItem);
+    public List<BoardLikeItem> selectLikeBoard(BoardLikeItem boardLikeItem);
+    public int insertLike(BoardLikeItem boardLikeItem);
+    public int updateLike(BoardLikeItem boardLikeItem);
 }

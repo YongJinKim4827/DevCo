@@ -1,6 +1,8 @@
 package com.cyberi.devcommunity.repository;
 
 import com.cyberi.devcommunity.dto.BoardItem;
+import com.cyberi.devcommunity.dto.BoardLikeItem;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -60,4 +62,24 @@ public class BoardRepositoryImpl implements BoardRepository{
         int result = sqlSession.delete("deleteBoard", boardItem);
         return result;
     }
+
+    @Override
+    public int insertLike(BoardLikeItem boardLikeItem) {
+        int result = sqlSession.insert("insertLike", boardLikeItem);
+        return result;
+    }
+
+    @Override
+    public List<BoardLikeItem> selectLikeBoard(BoardLikeItem boardLikeItem) {
+        List<BoardLikeItem> result = sqlSession.selectList("selectLikeBoard", boardLikeItem);
+        return result;
+    }
+
+    @Override
+    public int updateLike(BoardLikeItem boardLikeItem) {
+        int result = sqlSession.update("updateLike", boardLikeItem);
+        return result;
+    }
+
+    
 }

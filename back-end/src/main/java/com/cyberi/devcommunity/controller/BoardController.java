@@ -1,6 +1,7 @@
 package com.cyberi.devcommunity.controller;
 
 import com.cyberi.devcommunity.dto.BoardItem;
+import com.cyberi.devcommunity.dto.BoardLikeItem;
 import com.cyberi.devcommunity.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,11 +31,14 @@ public class BoardController {
     }
 
     @RequestMapping(value = "/select", method = RequestMethod.GET)
-    public BoardItem selectBoardItem(@RequestParam("category") String category, @RequestParam("boardNo") String boardNo) throws Exception{
+    public BoardItem selectBoardItem(@RequestParam("category") String category, 
+            @RequestParam("boardNo") String boardNo,
+            @RequestParam("user") String loginUser) throws Exception{
         BoardItem result = new BoardItem();
         BoardItem param = new BoardItem();
         param.setBoardType(category.toUpperCase());
         param.setBoardNo(boardNo);
+        param.setLoginUser(loginUser);
         result = boardService.selectBoardItem(param);
         return result;
     }
@@ -51,6 +55,13 @@ public class BoardController {
         BoardItem item = new BoardItem();
         item = boardService.registryBoardItem(boardItem);
         return item;
+    }
+
+    @RequestMapping(value = "/like", method = RequestMethod.POST)
+    public int likeBoardItem(@RequestBody BoardLikeItem likeItem){
+        int result = 0;
+        result = boardService.likeBoard(likeItem);
+        return result;
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)

@@ -2,6 +2,7 @@ package com.cyberi.devcommunity.service;
 
 
 import com.cyberi.devcommunity.dto.BoardItem;
+import com.cyberi.devcommunity.dto.BoardLikeItem;
 import com.cyberi.devcommunity.repository.BoardRepository;
 import org.springframework.stereotype.Service;
 
@@ -62,4 +63,18 @@ public class BoardService {
         return deleteResult;
     }
 
+    public int likeBoard(BoardLikeItem likeItem){
+        BoardLikeItem param = new BoardLikeItem();
+        int result = 0 ;
+        param.setBoardNo(likeItem.getBoardNo());
+        param.setLikeUser(likeItem.getLikeUser());
+        List<BoardLikeItem> likeResult = new ArrayList();
+        likeResult = boardRepository.selectLikeBoard(param);
+        if(likeResult.size() > 0){
+            result = boardRepository.updateLike(likeItem);
+        }else{
+            result = boardRepository.insertLike(likeItem);
+        }
+        return result;
+    }
 }
