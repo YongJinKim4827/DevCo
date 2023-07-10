@@ -2,20 +2,21 @@ package com.cyberi.devcommunity.controller;
 
 import com.cyberi.devcommunity.dto.ChatMessageItem;
 import com.cyberi.devcommunity.dto.ChatRoomItem;
+import com.cyberi.devcommunity.dto.UserChatItem;
 import com.cyberi.devcommunity.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 //import org.springframework.context.event.EventListener;
+import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -31,18 +32,20 @@ public class ChatController {
     public void publishChat(ChatMessageItem chatMessage) {
         log.info("publishChat : {}", chatMessage);
         int chattingCounter = 1;
-        messagingTemplate.convertAndSend("/sub/chat/" + chatMessage.getRoomSeq(), chatMessage);
+        chatService.inputChatMessage(chatMessage);
+        chattingCounter = chatService.selectNonReadedMessage(chatMessage.getUserId());
+        messagingTemplate.convertAndSend("/sub/chat/" + chatMessage.getChattingRoomNo(), chatMessage);
         messagingTemplate.convertAndSend("/sub/recieve", chattingCounter);
     }
 
-//    @EventListener(SessionConnectEvent.class)
+    @EventListener(SessionConnectEvent.class)
     public void onConnect(SessionConnectEvent event) {
         String sessionId = event.getMessage().getHeaders().get("simpSessionId").toString();
         SESSION_IDS.add(sessionId);
         log.info("[connect] connections : {}", SESSION_IDS.size());
     }
 
-//    @EventListener(SessionDisconnectEvent.class)
+    @EventListener(SessionDisconnectEvent.class)
     public void onDisconnect(SessionDisconnectEvent event) {
         String sessionId = event.getSessionId();
         SESSION_IDS.remove(sessionId);
@@ -52,6 +55,28 @@ public class ChatController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public int createChatting(@RequestBody ChatRoomItem chatRoomItem){
         int result = 0;
+        result = chatService.createChatRoom(chatRoomItem);
+        return result;
+    }
+
+    @RequestMapping(value = "/select/chattingroom", method = RequestMethod.GET)
+    public List<UserChatItem> selectChattingRoomItems(@RequestParam("userId") String userId){
+        List<UserChatItem> result = new ArrayList();
+        result = chatService.selectChatRoom(userId);
+        return result;
+    }
+
+    @RequestMapping(value = "/select/message", method = RequestMethod.GET)
+    public List<ChatMessageItem> selectMessage(@RequestParam("chattingRoomNo") String chattingRoomNo){
+        List<ChatMessageItem> result = new ArrayList();
+        result = chatService.selectChatMessageInChatRoom(chattingRoomNo);
+        return result;
+    }
+
+    @RequestMapping(value = "/read", method = RequestMethod.GET)
+    public int readedMessage(@RequestParam("chattingRoomNo") String chattingRoomNo){
+        int result = 0;
+        result = chatService.readedMessage(chattingRoomNo);
         return result;
     }
 }
