@@ -30,7 +30,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserDetails createUserDetails(UserItem userItem){
         return User.builder()
                 .username(userItem.getUserId())
-                .password(passwordEncoder.encode(userItem.getUserPassword()))
+                .password(userItem.getUserPassword())
+//                .password(passwordEncoder.encode(userItem.getUserPassword()))
                 //.password(passwordEncoder.encode("1234"))
                 .roles(userItem.getUserRole())
                 .build();
