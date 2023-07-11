@@ -51,10 +51,15 @@ public class ChatService {
             userChatItem.setChattingRoomNo(chattingRoomUUID);
             chatRepository.insertUserChattingRoom(userChatItem);
         }
+        //처음 대화메시지 생성
+        ChatMessageItem chatMessageItem = new ChatMessageItem();
+        chatMessageItem.setChatContent("[SYSTEM] 대화를 시작합니다.");
+        chatMessageItem.setUserId(chatRoomItem.getUsers().get(1));
+        chatMessageItem.setReaded("N");
+        chatMessageItem.setChattingRoomNo(chattingRoomUUID);
+        inputChatMessage(chatMessageItem);
         return result;
     }
-
-
 
     //채팅방 삭제
     public int deleteChatRoom(ChatRoomItem chatRoomItem){
