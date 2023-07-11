@@ -25,4 +25,5 @@ public class BoardItem {
     private int replyCount; //댓글 갯수
     private String loginUser;
     private String boardLikeUser;
+    private String searchCondition;
 }
