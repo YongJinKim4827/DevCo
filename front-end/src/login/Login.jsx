@@ -30,12 +30,17 @@ const Login = () => {
             userPassword : userPassword
         })
         .then((res) => {
-            // console.dir(res);
-            setCookie("token", res.data, {
-                path: "/",
-                sameSite: "strict",
-            });
-            navigate("/")
+            if(res.data.accessToken){
+                setCookie(`token`, res.data, {
+                    path: "/",
+                    sameSite: "strict",
+                });
+                navigate("/")
+            }else{
+                alert(LOGIN_FAIL)
+            }
+
+            
         })
         .catch((err) => {
             console.log(err);
