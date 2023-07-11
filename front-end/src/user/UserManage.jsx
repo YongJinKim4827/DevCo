@@ -7,7 +7,6 @@ import { getCookie } from '../login/Cookies';
 const UserManage = () => {
     const [userItems, setUserItems] = useState([]);
     useEffect(()=> {
-        debugger;
         axios.get(`${REQUEST_ORIGIN}/admin/user/select`,{
             headers : {
                 Authorization : `Bearer ${getCookie("token").accessToken}`

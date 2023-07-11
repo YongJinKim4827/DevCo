@@ -3,6 +3,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import jwtDecode from 'jwt-decode';
 import { useState } from 'react';
+import { getCookie } from '../login/Cookies';
 
 const UserInfo = () => {
     const [userItem, setUserItem] = useState({
@@ -22,6 +23,9 @@ const UserInfo = () => {
         axios.get(`${REQUEST_ORIGIN}/user/select`,{
             params : {
                 id : jwtDecode(userJwt).sub
+            },
+            headers : {
+                Authorization : `Bearer ${getCookie("token").accessToken}`
             }
         })
         .then((res) => {

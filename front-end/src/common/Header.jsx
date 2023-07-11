@@ -9,13 +9,19 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useRef } from 'react';
 import { useState } from 'react';
+import { getCookie, getJwtUser, getJwtRole, removeCookie } from '../login/Cookies';
 
 const Header = () => {
   const client = useRef({});
   const navigation = useNavigate();
   const [chatCount, setChatCount] = useState(0);
   const moveChattingPage = () => {
-    navigation("/chat");
+    if(getCookie(TOKEN)){
+      navigation("/chat");
+      return;
+    }else{
+      alert(PLEASE_LOGIN_MSG);
+    }
   }
 
   const moveUserInfoPage = () => {
@@ -27,6 +33,12 @@ const Header = () => {
   }
 
   const moveMainPage = () => {
+    navigation("/");
+  }
+
+  const logout = () => {
+    // debugger;
+    removeCookie(TOKEN);
     navigation("/");
   }
 
@@ -105,12 +117,23 @@ const Header = () => {
 
         </div>
         <div style={{display : "inline", alignSelf : "center", marginLeft : "20px"}}>
+          {
+            getCookie(TOKEN) ? <span>{getJwtUser()}</span>
+            :''
+          }
+          
           <img src={userImg} className='img-header'data-bs-toggle="dropdown" aria-expanded="false"/>
           <ul className="dropdown-menu">
-            <li><button className='dropdown-item' style={{borderRadius : '0px'}} onClick={moveAccountInfoPage}>내 계정</button></li>
-            <li><button className='dropdown-item' style={{borderRadius : '0px'}} onClick={moveUserInfoPage}>내 정보</button></li>
-            <li><button className='dropdown-item' style={{borderRadius : '0px'}}>로그아웃</button></li>
-            <li><button className='dropdown-item' style={{borderRadius : '0px'}} onClick={() => navigation("/login")}>로그인</button></li>
+            {
+              getCookie(TOKEN) ?
+              <div>
+                <li><button className='dropdown-item' style={{borderRadius : '0px'}} onClick={moveAccountInfoPage}>내 계정</button></li>
+                <li><button className='dropdown-item' style={{borderRadius : '0px'}} onClick={moveUserInfoPage}>내 정보</button></li>
+                <li><button className='dropdown-item' style={{borderRadius : '0px'}} onClick={logout}>로그아웃</button></li>
+              </div>
+              :
+              <li><button className='dropdown-item' style={{borderRadius : '0px'}} onClick={() => navigation("/login")}>로그인</button></li>
+            }
           </ul>
         </div>
       </div>

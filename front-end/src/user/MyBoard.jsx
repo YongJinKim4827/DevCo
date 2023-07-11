@@ -3,6 +3,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import MyBoardInfo from './MyBoardInfo'
+import { getCookie } from '../login/Cookies';
 
 const MyBoard = () => {
     const [myBoardItems, setMyBoardItems] = useState([]);
@@ -10,6 +11,9 @@ const MyBoard = () => {
         axios.get(`${REQUEST_ORIGIN}/user/myboard`,{
             params : {
                 id : 'ADMIN'
+            },
+            headers : {
+                Authorization : `Bearer ${getCookie("token").accessToken}`
             }
         })
         .then((res) => {
