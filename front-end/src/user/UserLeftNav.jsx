@@ -5,7 +5,6 @@ import { getJwtRole } from '../login/Cookies';
 
 const UserLeftNav = () => {
     const navigation = useNavigate();
-
   return (
         <>
           <div className='div-user-nav'>

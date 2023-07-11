@@ -28,8 +28,9 @@ const Writing = () => {
       axios.get(`${REQUEST_ORIGIN}/board/select`, {
         params : {
           category : param.category,
-          boardNo : param.boardNo
-      }
+          boardNo : param.boardNo,
+          user : getJwtUser()
+        }
       })
       .then((res) => {
         editorRef.current?.getInstance().setMarkdown(res.data.boardContent);

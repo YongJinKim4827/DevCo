@@ -8,6 +8,8 @@ import java.util.List;
 public interface BoardRepository {
     public List<BoardItem> selectBoardItems(BoardItem boardItem);
     public List<BoardItem> selectMyboard(BoardItem boardItem);
+    public List<BoardItem> selectMainBoardList(BoardItem boardItem);
+    public List<BoardItem> weeklyBoardList(BoardItem boardItem);
     public BoardItem selectBoardItem(BoardItem boardItem);
     public int updateBoardItem(BoardItem boardItem);
     public int increaseViews(BoardItem boardItem);

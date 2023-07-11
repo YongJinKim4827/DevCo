@@ -14,7 +14,10 @@ import { getCookie, getJwtUser, getJwtRole, removeCookie } from '../login/Cookie
 const Header = () => {
   const client = useRef({});
   const navigation = useNavigate();
-  const [chatCount, setChatCount] = useState(0);
+  const [userChatCount, setUserChatCount] = useState({
+    receiveUser : "",
+    chatCount : 0
+  });
   const moveChattingPage = () => {
     if(getCookie(TOKEN)){
       navigation("/chat");
@@ -54,7 +57,7 @@ const Header = () => {
               "AUTH-TOKEN" : "spring-chat-auth-token",
           },
           debug: (str) => {
-              console.log(str);
+              // console.log(str);
           },
           reconnectDelay : 5000,
           heartbeatIncoming : 4000,
@@ -75,7 +78,7 @@ const Header = () => {
 
   const subscribe = () => {
       client.current.subscribe(`/sub/recieve`, ({body}) => {
-          setChatCount(body);
+          setUserChatCount({receiveUser : JSON.parse(body).receiveUser, chatCount : JSON.parse(body).chatCount});
       });
   }
 
@@ -108,9 +111,9 @@ const Header = () => {
         <div style={{display : "inline", alignSelf : "center", position : "relative"}} >
             <img src={messageImg} className='img-header' onClick={moveChattingPage}/>
             {
-                chatCount !== 0 ? 
+                userChatCount.chatCount !== 0 && userChatCount.receiveUser === getJwtUser()? 
                 <div className='div-chat-alarm' onClick={moveChattingPage}>
-                  <span>{chatCount}</span>
+                  <span>{userChatCount.chatCount}</span>
                 </div>
                 : ''
             }
@@ -118,7 +121,7 @@ const Header = () => {
         </div>
         <div style={{display : "inline", alignSelf : "center", marginLeft : "20px"}}>
           {
-            getCookie(TOKEN) ? <span>{getJwtUser()}</span>
+            getCookie(TOKEN) ? <span style={{marginRight : "10px"}}>{getJwtUser()}</span>
             :''
           }
           

@@ -41,11 +41,16 @@
 
     <select id="validUserCheck" resultMap="userResultMap">
         SELECT
-          USER_ID, PASSWORD, USER_ROLE
+          USER_ID, PASSWORD, USER_ROLE, USER_VALID
         FROM
           USER_INFO
         WHERE
           USER_ID = #{userId}
+    </select>
+
+    <select id="checkUseChat">
+      SELECT USE_CHAT FROM USER_INFO
+      WHERE USER_ID = #{userId}
     </select>
 
     <insert id="registryUser" parameterType="com.cyberi.devcommunity.dto.UserItem">

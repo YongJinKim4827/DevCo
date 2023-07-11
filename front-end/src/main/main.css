@@ -27,6 +27,10 @@ a:hover {
     color: #0090F9 !important;
 }
 
+.a-main-title:hover{
+    cursor: pointer;
+}
+
 @media screen and (max-width : 1300px)
 {
     .div-left{

@@ -2,15 +2,12 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
-const MyBoardInfo = ({myBoardItem}) => {
+const MyBoardInfo = ({myBoardItem, onChange}) => {
     const navigation = useNavigate();
     const onClickTitle = () => {
         navigation(`/view/${myBoardItem.boardType.toLowerCase()}/${myBoardItem.boardNo}`)
     }
-
-    const onChangeShare = () => {
-
-    }
+    
   return (
     <div style={{padding : "10px", borderBottom : "1px solid #DCDEE1"}}>
         <div style={{marginLeft : '15px', display : "flex", justifyContent : "space-between"}}>
@@ -32,7 +29,7 @@ const MyBoardInfo = ({myBoardItem}) => {
                         checked={
                             myBoardItem.share === "Y" ? true : false
                         }
-                        onChange={onChangeShare}
+                        onChange={(event) => onChange(event, myBoardItem)}
                         />
                 </div>
             </div>

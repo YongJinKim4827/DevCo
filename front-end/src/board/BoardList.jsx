@@ -121,7 +121,7 @@ const BoardList = ({category}) => {
             }
 
         </div>
-        <div style={{display : 'flex', justifyContent:"center", marginTop : "10px", marginBottom : "10px"}}>
+        {/* <div style={{display : 'flex', justifyContent:"center", marginTop : "10px", marginBottom : "10px"}}>
             <div style={{display : "flex", justifyContent : "space-between", width : "30vw", maxWidth : "500px", minWidth : "250px"}}>
                 <a href='#'>◀ Previous</a>
                 <div>
@@ -134,7 +134,7 @@ const BoardList = ({category}) => {
                 <a href='#'>Next ▶</a>
             </div>
 
-        </div>
+        </div> */}
     </div>
   )
 }

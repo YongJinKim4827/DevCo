@@ -16,4 +16,7 @@ public class ChatMessageItem {
     private String readed;
     private Date chattingDate;
     private String userId;
+    private String receiveUser;
+    private int chatCount;
+    private String useChat;
 }

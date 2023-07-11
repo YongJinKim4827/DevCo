@@ -11,7 +11,6 @@
     <resultMap id="userChatResultMap" type="com.cyberi.devcommunity.dto.UserChatItem">
         <result property="chattingRoomNo"           column="CHATTINGROOM_NO"        />
         <result property="userId"                   column="USER_ID"                />
-
     </resultMap>
 
     <resultMap id="chattingMessageMap" type="com.cyberi.devcommunity.dto.ChatMessageItem">
@@ -21,16 +20,20 @@
         <result property="chatContentNo"            column="CHAT_CONTENT_NO"        />
         <result property="readed"                   column="READED"                 />
         <result property="chattingDate"             column="CHATTING_DATE"          />
+        <result property="receiveUser"             column="RECEIVE_USER"            />
+        <result property="chatCount"             column="CHAT_COUNT"                />
+        <result property="useChat"             column="USE_CHAT"                    />
     </resultMap>
 
     <!-- Chat Room -->
     <select id="selectChatRoom" resultMap="chattingMessageMap">
         SELECT
-                C.USER_ID AS USER_ID, C.CHATTINGROOM_NO AS CHATTINGROOM_NO, D.CHAT_CONTENT AS CHAT_CONTENT, D.CHATTING_DATE AS CHATTING_DATE
+                C.USER_ID AS USER_ID, C.CHATTINGROOM_NO AS CHATTINGROOM_NO, D.CHAT_CONTENT AS CHAT_CONTENT, 
+                D.CHATTING_DATE AS CHATTING_DATE, D.CHAT_COUNT AS CHAT_COUNT
             FROM
             (SELECT A.USER_ID AS USER_ID, A.CHATTINGROOM_NO AS CHATTINGROOM_NO
               FROM
-                USER_CHATTINGROOM_INFO A
+                USER_CHATTINGROOM_INFO A, USER_INFO U
               WHERE
                 A.CHATTINGROOM_NO IN (
                   SELECT
@@ -41,11 +44,19 @@
                   AND UC.USER_ID = #{userId}
                   )
               AND A.USER_ID != #{userId}
+              AND A.USER_ID = U.USER_ID
+              AND U.USE_CHAT = 'Y'
               ORDER BY A.CHATTINGROOM_NO
               ) C,
               (
                 SELECT
-                    B.CHATTINGROOM_NO AS CHATTINGROOM_NO, B.CHAT_CONTENT AS CHAT_CONTENT, B.CHATTING_DATE
+                    B.CHATTINGROOM_NO AS CHATTINGROOM_NO, B.CHAT_CONTENT AS CHAT_CONTENT, B.CHATTING_DATE,
+                    (
+                             SELECT COUNT(CHAT_CONTENT) FROM CHATTING_INFO
+                              WHERE RECEIVE_USER = #{userId}
+                              AND READED = 'N'
+                              AND CHATTINGROOM_NO = B.CHATTINGROOM_NO
+                    ) AS CHAT_COUNT
                 FROM(
                         SELECT CHATTINGROOM_NO, MAX(CHATTING_DATE) AS CHATTING_DATE
                         FROM CHATTING_INFO
@@ -59,10 +70,9 @@
 
     <select id="selectNonReadedMessage" resultMap="chattingMessageMap">
         SELECT CHAT_CONTENT FROM CHATTING_INFO
-        WHERE USER_ID = #{userId}
+        WHERE RECEIVE_USER = #{userId}
         AND READED = 'N'
     </select>
-
     <insert id="createChatRoom">
         INSERT INTO CHATTINGROOM_INFO
           (
@@ -102,16 +112,17 @@
     <insert id="inputChatMessage">
         INSERT INTO CHATTING_INFO
         (
-          USER_ID, CHATTINGROOM_NO, CHAT_CONTENT, CHATTING_DATE, READED
+          USER_ID, CHATTINGROOM_NO, CHAT_CONTENT, CHATTING_DATE, READED, RECEIVE_USER
         ) VALUES (
-          #{userId}, #{chattingRoomNo}, #{chatContent}, SYSDATE, 'N'
+          #{userId}, #{chattingRoomNo}, #{chatContent}, SYSDATE, 'N', #{receiveUser}
         )
     </insert>
 
     <update id="readedChatting">
         UPDATE CHATTING_INFO SET
-          READED = 'Y'
+        READED = 'Y'
         WHERE CHATTINGROOM_NO = #{chattingRoomNo}
+        AND RECEIVE_USER = #{userId}
     </update>
 
     <delete id="deleteChatMessage">

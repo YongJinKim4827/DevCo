@@ -4,14 +4,20 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import "./user.css"
 import { getCookie, getJwtUser } from '../login/Cookies';
+import { useParams } from 'react-router-dom'
 
 const UserHistory = () => {
     const [userHistoryItem, setUserHistoryItem] = useState([]);
     const [profileName, setProfileName]  = useState("");
+    const param = useParams();
     useEffect(() => {
+        let userId = getJwtUser();
+        if(param.user){
+            userId = param.user;
+        }
         axios.get(`${REQUEST_ORIGIN}/user/history`, {
             params : {
-                id : getJwtUser()
+                id : userId
             },
             headers : {
                 Authorization : `Bearer ${getCookie("token").accessToken}`
@@ -19,6 +25,7 @@ const UserHistory = () => {
         })
         .then((res) => {
             let data = res.data;
+            setProfileName(userId);
             data.sort((a,b) => {
                 return new Date(a.historyDate) - new Date(b.historyDate)
             })
@@ -35,7 +42,7 @@ const UserHistory = () => {
             <h3>
                 {profileName} 
             </h3>
-            <span style={{fontSize : "small", fontWeight : "bold"}}>님의 활동이력</span>
+            <span style={{fontSize : "small", fontWeight : "bold", marginLeft : "5px"}}>님의 활동이력</span>
         </div>
         <div style={{marginTop : "25px"}}>
             {

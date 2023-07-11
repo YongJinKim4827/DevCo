@@ -15,7 +15,7 @@ const BoardContent = ({category, content}) => {
     }
   return (
     <div className='div-board-content-wrapper'>
-        {
+        {/* {
             category === QUESTION ? (
             <div>
                 <div className='div-reply'>
@@ -24,7 +24,7 @@ const BoardContent = ({category, content}) => {
                 </div>
             </div>
             ) : ""
-        }
+        } */}
         <div style={{marginLeft : "10px"}}>
             <div className='div-write-info'>
                 <div className='div-writer'>{content.writer}</div>
@@ -32,9 +32,9 @@ const BoardContent = ({category, content}) => {
             </div>
             <div style={{display : "flex", flexDirection : "column", width : "59vw", maxWidth:"700px", minWidth : "350px"}}>
                 <a className = "a-board-content" style={{fontWeight : "bold"}} onClick={moveViewPage}>{content.boardTitle}</a>
-                <a className = "a-board-content" onClick={moveViewPage}>
+                {/* <a className = "a-board-content" onClick={moveViewPage}>
                     {content.boardContent}
-                </a>
+                </a> */}
                 <div style={{display : "flex", width : "100%", justifyContent : "space-between"}}>
                     <div><span></span></div>
                     <div style={{display : "flex", justifyContent : "space-between"}}>

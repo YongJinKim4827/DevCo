@@ -29,6 +29,7 @@ const Layout = () => {
               <Route path="/chat" element={<ChatWrapper/>}/>
               <Route path="/user/*" element={<UserLayout />}/>
               <Route path="/user/activity" element={<UserHistory />}/>
+              <Route path="/user/activity/:user" element={<UserHistory />}/>
               <Route path="/*" element={<NotFound/>}/>
           </Routes>
         <Footer/>

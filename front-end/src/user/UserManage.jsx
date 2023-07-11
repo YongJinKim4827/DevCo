@@ -22,12 +22,16 @@ const UserManage = () => {
     },[])
 
     const saveUserItem = (item) => {
-
         axios.post(`${REQUEST_ORIGIN}/admin/user/update`,
-        item
+        item,
+        {
+            headers : {
+                Authorization : `Bearer ${getCookie("token").accessToken}`
+            }
+        }
         )
         .then((res) => {
-            debugger;
+            alert("정상처리되었습니다.");
         })
         .catch((err) => {
 

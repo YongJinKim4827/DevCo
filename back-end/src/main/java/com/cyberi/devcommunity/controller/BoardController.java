@@ -21,6 +21,14 @@ public class BoardController {
         this.boardService = boardService;
     }
 
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    public List<BoardItem> mainBoardList(@RequestParam("type") String boardType){
+        List<BoardItem> items = new ArrayList();
+        BoardItem param = new BoardItem();
+        items = boardService.selectMainBoardList(param);
+        return items;
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<BoardItem> selectBoardList(@RequestParam("category") String catrgory){
         BoardItem param = new BoardItem();

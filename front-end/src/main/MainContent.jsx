@@ -8,14 +8,14 @@ const MainContent = ({mainItems}) => {
         <div className='div-main-content div-main-content-virtical'>
             <div style={{width:"45%", minWidth : "450px"}}>
                 <div className='div-main-category'>
-                    <span>Q&A</span>
+                    <h3 style={{fontWeight : "bold"}}>Q&A</h3>
                 </div>
                 <div style={{padding : "10px"}}>
                     {
                         mainItems.map((data, idx) => {
-                            if(data.boardType === "QUST"){
+                            if(data.boardType === "QUESTION"){
                                 return (
-                                    <ContentItem key={`board_id_${data.boardNo}`} contentItem={data}/>
+                                    <ContentItem key={`board_id_${idx}`} contentItem={data}/>
                                 )
                             }
                         })
@@ -23,13 +23,13 @@ const MainContent = ({mainItems}) => {
                 </div>
             </div>
             <div style={{width:"45%", minWidth : "450px"}}>
-                <div className='div-main-category'>커뮤니티</div>
+                <div className='div-main-category'> <h3 style={{fontWeight : "bold"}}>커뮤니티</h3></div>
                 <div style={{padding : "10px"}}>
                     {
                         mainItems.map((data, idx) => {
-                            if(data.boardType === "COMM"){
+                            if(data.boardType === "COMMUNITY"){
                                 return (
-                                    <ContentItem key={`board_id_${data.boardNo}`} contentItem={data}/>
+                                    <ContentItem key={`board_id_${idx}`} contentItem={data}/>
                                 )
                             }
                         })
@@ -39,13 +39,13 @@ const MainContent = ({mainItems}) => {
         </div>
         <div className='div-main-content div-main-content-virtical' >
             <div style={{width:"45%", minWidth : "450px"}}>
-                <div className='div-main-category'>주간베스트</div>
+                <div className='div-main-category'><h3 style={{fontWeight : "bold"}}>주간베스트</h3></div>
                 <div style={{padding : "10px"}}>
                     {
                         mainItems.map((data, idx) => {
-                            if(data.boardType === "QUST"){
+                            if(data.boardType.startsWith("W")){
                                 return (
-                                    <ContentItem key={`board_id_${data.boardNo}`} contentItem={data}/>
+                                    <ContentItem key={`board_id_${idx}`} contentItem={data}/>
                                 )
                             }
                         })
@@ -53,13 +53,13 @@ const MainContent = ({mainItems}) => {
                 </div>
             </div>
             <div  style={{width:"45%", minWidth : "450px"}}>
-                <div className='div-main-category'>지식공유</div>
+                <div className='div-main-category'><h3 style={{fontWeight : "bold"}}>지식공유</h3></div>
                 <div style={{padding : "10px"}}>
                     {
                         mainItems.map((data, idx) => {
-                            if(data.boardType === "INTSH"){
+                            if(data.boardType === "KNOWLEDGE"){
                                 return (
-                                    <ContentItem key={`board_id_${data.boardNo}`} contentItem={data}/>
+                                    <ContentItem key={`board_id_${idx}`} contentItem={data}/>
                                 )
                             }
                         })
@@ -69,11 +69,11 @@ const MainContent = ({mainItems}) => {
         </div>
         <div className='div-main-content div-main-content-virtical'>
             <div style={{width:"45%", minWidth : "450px"}}>
-                <div className='div-main-category'>공지사항</div>
+                <div className='div-main-category'><h3 style={{fontWeight : "bold"}}>공지사항</h3></div>
                 <div style={{padding : "10px"}}>
                     {
                         mainItems.map((data, idx) => {
-                            if(data.boardType === "QUST"){
+                            if(data.boardType === "NOTICE"){
                                 return (
                                     <ContentItem key={`board_id_${data.boardNo}`} contentItem={data}/>
                                 )

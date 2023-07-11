@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import { useEffect } from 'react';
-import { getCookie } from '../login/Cookies';
+import { getCookie,getJwtUser } from '../login/Cookies';
 
 const AccountInfo = () => {
     const [deleteAgree, setDeleteAgree] = useState(false);
@@ -12,7 +12,7 @@ const AccountInfo = () => {
     useEffect(()=> {
         axios.get(`${REQUEST_ORIGIN}/user/select`,{
             params : {
-                id : jwtDecode(userJwt).sub
+                id : getJwtUser()
             },
             headers : {
                 Authorization : `Bearer ${getCookie("token").accessToken}`
@@ -35,7 +35,7 @@ const AccountInfo = () => {
     const onChangeUseChatting = (event) =>{
         setUseChatting(event.target.checked);
         axios.post(`${REQUEST_ORIGIN}/user/chatting`, {
-            userId : jwtDecode(sampleJwt).sub,
+            userId : getJwtUser(),
             useChatting : event.target.checked ? 'Y': 'N' 
         })
         .then((res) => {
@@ -64,10 +64,10 @@ const AccountInfo = () => {
             </div>
         </div>
 
-        <div style={{padding : '25px'}}>
+        {/* <div style={{padding : '25px'}}>
             <h5 style={{fontWeight : 'bold'}}>계정삭제</h5>
             <div className='div-accountdelete-discription'>
-                이제는 되돌릴수 없슴다
+                해당 계정으로 생성된 모든 게시글과 댓글, 채팅들도 모두 삭제됩니다.
             </div>
             <div style={{marginTop : '15px'}}>
                 <div>
@@ -84,7 +84,7 @@ const AccountInfo = () => {
                     <button className='btn btn-danger' disabled = {!deleteAgree}>계정삭제</button>
                 </div>
             </div>
-        </div>
+        </div> */}
     </div>
   )
 }

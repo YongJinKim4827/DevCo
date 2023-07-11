@@ -26,4 +26,5 @@ public class BoardItem {
     private String loginUser;
     private String boardLikeUser;
     private String searchCondition;
+    private String useChat;
 }

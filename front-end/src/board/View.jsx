@@ -67,13 +67,19 @@ const View = () => {
         }
     }
 
-    const refreshReply = async() => {
-        const replyResponse = await axios.get(`${REQUEST_ORIGIN}/reply/select`,{
+    const refreshReply = () => {
+        setReplyItems([]);
+        axios.get(`${REQUEST_ORIGIN}/reply/select`,{
             params : {
                 boardNo : param.boardNo
             }
-        });
-        setReplyItems(replyResponse.data);
+        })
+        .then((res)=>{
+            setReplyItems(res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     const updateBoard = () => {
@@ -118,25 +124,45 @@ const View = () => {
     const onSubmit = (event) => {
         event.preventDefault();
         if(getCookie(TOKEN)){
-            debugger;
-            axios.post(`${REQUEST_ORIGIN}/reply/registry`, inputReplyItem)
-            .then((res) => {
-                setInputReplyItem({// 입력 댓글 state 초기화
-                    replyNo: '',
-                    replyContent : '',
-                    writer : '',
-                    writeDate : '',
-                    boardNo : ''
-                });
-                replyRef.current?.getInstance().setHTML(" ");
-                refreshReply();
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-            return;
+            if(inputReplyItem.replyNo){
+                axios.post(`${REQUEST_ORIGIN}/reply/update`, inputReplyItem)
+                .then((res) => {
+                    setInputReplyItem({// 입력 댓글 state 초기화
+                        replyNo: '',
+                        replyContent : '',
+                        writer : '',
+                        writeDate : '',
+                        boardNo : ''
+                    });
+                    setReplyItems([]);
+                    replyRef.current?.getInstance().setHTML(" ");
+                    refreshReply();
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+            }else{
+                axios.post(`${REQUEST_ORIGIN}/reply/registry`, inputReplyItem)
+                .then((res) => {
+                    setInputReplyItem({// 입력 댓글 state 초기화
+                        replyNo: '',
+                        replyContent : '',
+                        writer : '',
+                        writeDate : '',
+                        boardNo : ''
+                    });
+                    setReplyItems([]);
+                    replyRef.current?.getInstance().setHTML(" ");
+                    refreshReply();
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+            }
+            
+        }else{
+            alert(PLEASE_LOGIN_MSG);
         }
-        alert(PLEASE_LOGIN_MSG);
 
     }
 
@@ -165,7 +191,12 @@ const View = () => {
             return;
         }
         alert(PLEASE_LOGIN_MSG);
+    }
 
+    const updateReply = (reply) => {
+        // setInputReplyItem({});
+        replyRef.current?.getInstance().setHTML(reply.replyContent);
+        setInputReplyItem({...inputReplyItem, replyNo : reply.replyNo});
     }
     return (
     <div style={{display : "flex", flexDirection : "column", flex : "0.8", alignItems : "center"}}>
@@ -177,7 +208,7 @@ const View = () => {
                         boardContent.writer === getJwtUser() ?
                         ''
                         : 
-                        <button style={{fontSize : "small", marginLeft : "5px"}} onClick={createChatting}> 1:1문의하기 </button>
+                        <button style={{fontSize : "small", marginLeft : "5px"}} onClick={createChatting} disabled={boardContent.useChat === 'Y'? false: true}> 1:1문의하기 </button>
                     }
                     {
                         (getJwtUser() === boardContent.writer || getJwtRole() === ADMIN_USER)?
@@ -253,7 +284,7 @@ const View = () => {
                     {
                         replyItems.length > 0 ? 
                         replyItems.map((item, idx) => {
-                            return (<ReplyContent key={`replyContent_${idx}`} replyItem={item} onRefresh = {refreshReply}/>)
+                            return (<ReplyContent key={`replyContent_${idx}`} replyItem={item} onRefresh = {refreshReply} update = {updateReply}/>)
                         })
                         : '' 
                     }

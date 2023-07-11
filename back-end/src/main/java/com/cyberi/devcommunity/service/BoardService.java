@@ -17,6 +17,25 @@ public class BoardService {
         this.boardRepository = boardRepository;
     }
 
+    public List<BoardItem> selectMainBoardList(BoardItem param){
+        param.setBoardType("QUESTION");
+        List<BoardItem> questionItems = boardRepository.selectMainBoardList(param);
+        param.setBoardType("COMMUNITY");
+        List<BoardItem> knowItems = boardRepository.selectMainBoardList(param);
+        param.setBoardType("KNOWLEDGE");
+        List<BoardItem> communityItems = boardRepository.selectMainBoardList(param);
+        param.setBoardType("NOTICE");
+        List<BoardItem> noticeItems = boardRepository.selectMainBoardList(param);
+        List<BoardItem> weeklyItems = boardRepository.weeklyBoardList(param);
+        List<BoardItem> result = new ArrayList();
+        result.addAll(questionItems);
+        result.addAll(knowItems);
+        result.addAll(communityItems);
+        result.addAll(noticeItems);
+        result.addAll(weeklyItems);
+        return result;
+    }
+
     public List<BoardItem> selectBoardList(BoardItem param){
         List<BoardItem> items = new ArrayList();
         items = boardRepository.selectBoardItems(param);

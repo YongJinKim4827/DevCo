@@ -19,6 +19,7 @@
           REPLY_INFO
         WHERE 1=1
         AND BOARD_NO = #{boardNo}
+        ORDER BY REPLY_DATE DESC
     </select>
 
     <select id="selectReplyHistory" resultMap="replyResultMap">
@@ -48,9 +49,8 @@
     </insert>
 
     <update id="updateReply">
-        UPDATE REPLY_NO SET
+        UPDATE REPLY_INFO SET
         REPLY_CONTENT = #{replyContent}
-        REPLY_DATE = SYSDATE
         WHERE 1=1
         AND BOARD_NO = #{boardNo}
         AND REPLY_NO = #{replyNo}

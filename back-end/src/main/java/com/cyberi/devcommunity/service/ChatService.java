@@ -57,6 +57,7 @@ public class ChatService {
         chatMessageItem.setUserId(chatRoomItem.getUsers().get(1));
         chatMessageItem.setReaded("N");
         chatMessageItem.setChattingRoomNo(chattingRoomUUID);
+        chatMessageItem.setReceiveUser(chatRoomItem.getUsers().get(0));
         inputChatMessage(chatMessageItem);
         return result;
     }
@@ -75,11 +76,9 @@ public class ChatService {
     }
 
     //채팅글 읽음 처리
-    public int readedMessage(String chattingRoomNo){
+    public int readedMessage(ChatMessageItem chatMessageItem){
         int result = 0;
-        ChatRoomItem chatRoomItem = new ChatRoomItem();
-        chatRoomItem.setChattingRoomNo(chattingRoomNo);
-        result = chatRepository.readedMessage(chatRoomItem);
+        result = chatRepository.readedMessage(chatMessageItem);
         return result;
     }
 

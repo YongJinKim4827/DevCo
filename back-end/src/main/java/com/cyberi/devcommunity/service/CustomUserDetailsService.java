@@ -20,11 +20,20 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.print("");
-        UserItem userItem = userRepository.validUserCheck(username);
-        if(userItem == null){
+            try {
+                UserItem userItem = userRepository.validUserCheck(username);
+                if(userItem == null){
+                    return null;
+                }
+                if(userItem.getUserValid().equals("N")){
+                    throw new Exception();
+                }
+                return createUserDetails(userItem);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             return null;
-        }
-        return createUserDetails(userItem);
     }
 
     private UserDetails createUserDetails(UserItem userItem){

@@ -12,15 +12,22 @@ const ChatRoomInfo = ({item, currentItem, click}) => {
           <span style={{fontWeight : "bold", fontSize : "medium"}}>{
               item.userId
             }</span>
-          <span style={{fontSize : "small"}}>{item.chatContent}</span>
+            <div style={{overflow : "hidden", textOverflow : "ellipsis", whiteSpace : "nowrap"}}>
+            <span style={{fontSize : "small"}}>{item.chatContent}</span>
+
+            </div>
       </div>
       <div style={{display : "flex", alignItems : "end", flexDirection : "column", justifyContent : "space-between"}}>
         <div style={{fontSize : "smaller", }}>
           {convertDate(item.chattingDate)}
         </div>
-        {/* <div className='div-chatroom-alarm'>
-            300
-        </div> */}
+        {
+            item.chatCount !== 0 ? 
+            <div className='div-chatroom-alarm'>
+                {item.chatCount}
+            </div>
+            : ''
+        }
       </div>
     </div>
   )

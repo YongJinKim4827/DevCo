@@ -64,7 +64,6 @@ const SignUp = () =>  {
     }
 
     const onIssuanceAuth = () => {
-        debugger;
         if(signUpInfo.email.length > 0){
             axios.post(`${REQUEST_ORIGIN}/user/mail`, signUpInfo)
             .then((res) => {
@@ -82,7 +81,8 @@ const SignUp = () =>  {
     const onCheckAuthNum = () => {
         axios.post(`${REQUEST_ORIGIN}/user/mail/confirm`, authInfo)
         .then((res) => {
-            console.log(res);
+            
+            setIssuanceAuth(true);
         })
         .catch((err) => {
             console.log(err);
@@ -98,8 +98,10 @@ const SignUp = () =>  {
         .then((res) => {
             console.log(res);
             if(res.data > 0){
+                alert(CHECK_DUPLICATE_ID);
                 setUsableUserId(false);
             }else{
+                alert(CHECK_NO_DUPLICATE_ID);
                 setUsableUserId(true);
             }
         })
@@ -120,11 +122,14 @@ const SignUp = () =>  {
                 <div className='content'>
                 <div className="mb-3">
                     <label htmlFor="signUpIdInput" className="form-label">ID</label>
-                    <input type="text" className="form-control" 
-                        id="signUpIdInput"
-                        value={signUpInfo.userId} onChange={onChange}
-                        />
-                        <button type="button" onClick={onCheckUserId}>아이디 중복 확인</button>
+                    <div style={{display : "flex"}}>
+                        <input type="text" className="form-control" style={{width : "75%"}}
+                            id="signUpIdInput"
+                            value={signUpInfo.userId} onChange={onChange}
+                            />
+                            <button type="button" onClick={onCheckUserId} style={{width : "25%"}}>아이디 중복 확인</button>
+                    </div>
+
                 </div>
                 <div className="mb-3">
                     <label htmlFor= "signUpPassword" className="form-label">Password</label>
@@ -170,7 +175,7 @@ const SignUp = () =>  {
                         style={{width : "80%", backgroundColor : "#0B7FD3"}} disabled={
                             !(issuanceAuth && usableUserId)
                         }
-                    >Sign Up</button>
+                    >회원가입</button>
                 </div>
             </form>
         </div>

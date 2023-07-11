@@ -73,9 +73,9 @@ public class ChatRepositryImpl implements ChatRepository {
     }
 
     @Override
-    public int readedMessage(ChatRoomItem chatRoomItem) {
+    public int readedMessage(ChatMessageItem chatMessageItem) {
         int result = 0;
-        result = sqlSession.update("readedChatting", chatRoomItem);
+        result = sqlSession.update("readedChatting", chatMessageItem);
         return result;
     }
 }

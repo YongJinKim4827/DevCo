@@ -13,7 +13,7 @@ public interface ChatRepository {
     public int createChatRoom(ChatRoomItem chatRoomItem);
     public int insertUserChattingRoom(UserChatItem userChatItem);
     public int deleteChatRoom(ChatRoomItem chatRoomItem);
-    public int readedMessage(ChatRoomItem chatRoomItem);
+    public int readedMessage(ChatMessageItem chatMessageItem);
     public List<ChatMessageItem> selectChatMessageInChatRoom(ChatMessageItem chatMessageItem);
     public int inputChatMessage(ChatMessageItem chatMessageItem);
     public int deleteChatMesage(ChatMessageItem chatMessageItem);

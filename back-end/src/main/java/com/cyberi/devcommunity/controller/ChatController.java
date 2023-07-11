@@ -31,11 +31,14 @@ public class ChatController {
     @MessageMapping("/chat") // "/pub/chat"
     public void publishChat(ChatMessageItem chatMessage) {
         log.info("publishChat : {}", chatMessage);
+        ChatMessageItem result = new ChatMessageItem();
         int chattingCounter = 1;
         chatService.inputChatMessage(chatMessage);
-        chattingCounter = chatService.selectNonReadedMessage(chatMessage.getUserId());
+        chattingCounter = chatService.selectNonReadedMessage(chatMessage.getReceiveUser());
+        result.setReceiveUser(chatMessage.getReceiveUser());
+        result.setChatCount(chattingCounter);
         messagingTemplate.convertAndSend("/sub/chat/" + chatMessage.getChattingRoomNo(), chatMessage);
-        messagingTemplate.convertAndSend("/sub/recieve", chattingCounter);
+        messagingTemplate.convertAndSend("/sub/recieve", result);
     }
 
     @EventListener(SessionConnectEvent.class)
@@ -74,9 +77,17 @@ public class ChatController {
     }
 
     @RequestMapping(value = "/read", method = RequestMethod.GET)
-    public int readedMessage(@RequestParam("chattingRoomNo") String chattingRoomNo){
+    public int readedMessage(@RequestParam("chattingRoomNo") String chattingRoomNo,
+        @RequestParam("id") String userId){
+            ChatMessageItem param = new ChatMessageItem();
+            param.setUserId(userId);
+            param.setChattingRoomNo(chattingRoomNo);
         int result = 0;
-        result = chatService.readedMessage(chattingRoomNo);
+        result = chatService.readedMessage(param);
+        ChatMessageItem item = new ChatMessageItem();
+        item.setReceiveUser(userId);
+        item.setChatCount(result);
+        // messagingTemplate.convertAndSend("/sub/recieve", item);
         return result;
     }
 }

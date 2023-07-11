@@ -81,5 +81,17 @@ public class BoardRepositoryImpl implements BoardRepository{
         return result;
     }
 
+    @Override
+    public List<BoardItem> selectMainBoardList(BoardItem boardItem) {
+        List<BoardItem> result = sqlSession.selectList("mainBoardList", boardItem);
+        return result;
+    }
+
+    @Override
+    public List<BoardItem> weeklyBoardList(BoardItem boardItem) {
+        List<BoardItem> result = sqlSession.selectList("weeklyBest", boardItem);
+        return result;
+    }
+    
     
 }

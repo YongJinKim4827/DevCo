@@ -10,11 +10,10 @@ import SendChat from './SendChat';
 import axios from 'axios';
 import { getCookie, getJwtUser } from '../login/Cookies';
 
-const ChatRoom = ({roomInfo, inputCurrentMessage}) => {
+const ChatRoom = ({roomInfo, inputCurrentMessage, mousedown}) => {
     const client = useRef({});
     const [chatMessages, setChatMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
-    const [user, setUser] = useState('A-MAN');
     const inputChat = (event) => {
         setInputMessage(event.target.value);
     }
@@ -55,8 +54,6 @@ const ChatRoom = ({roomInfo, inputCurrentMessage}) => {
         selectChattingMessage();
     },[roomInfo]);
 
-
-
     const connect = () => {
         client.current = new StompJs.Client({
             webSocketFactory : () => new Socket(`${REQUEST_ORIGIN}/ws-stomp`),
@@ -87,6 +84,7 @@ const ChatRoom = ({roomInfo, inputCurrentMessage}) => {
         client.current.subscribe(`/sub/chat/${roomInfo.chattingRoomNo}`, ({body}) => {
             setChatMessages((chatMessage) => [...chatMessage, JSON.parse(body)]
             );
+            inputCurrentMessage();
         });
     }
 
@@ -94,13 +92,11 @@ const ChatRoom = ({roomInfo, inputCurrentMessage}) => {
         if(!client.current.connected){
             return;
         }
-
         client.current.publish({
             destination : "/pub/chat",
-            body: JSON.stringify({chattingRoomNo: roomInfo.chattingRoomNo, userId: getJwtUser(), chatContent: message})
+            body: JSON.stringify({chattingRoomNo: roomInfo.chattingRoomNo, userId: getJwtUser(), receiveUser : roomInfo.userId, chatContent: message})
         });
         setInputMessage("");
-        inputCurrentMessage();
     }
 
     const userChange = (event) => {
@@ -109,13 +105,6 @@ const ChatRoom = ({roomInfo, inputCurrentMessage}) => {
 
     return (
     <div className='div-chat-roomdetail-wrapper'>
-        <div>
-        {/* <select className="form-select" aria-label="Default select example" onChange={userChange}>
-            <option defaultValue="A-MAN">A</option>
-            <option value="B-MAN">B</option>
-            <option value="C-MAN">C</option>
-        </select> */}
-        </div>
         <div className='div-chat-room-header'>
             <div style={{display : "flex", alignItems : "center", fontWeight : "bold", marginLeft : "15px"}}>
                 <span>{roomInfo.userId}</span>
@@ -143,8 +132,8 @@ const ChatRoom = ({roomInfo, inputCurrentMessage}) => {
             }
         </div>
         <div className='div-chat-room-footer'>
-            <input type='text' style={{width : "80%", height : "100%"}} value={inputMessage} onChange={inputChat}/>
-            <button style={{width : "20%", height : "100%"}} onClick={sendMessage}>전송</button>
+            <input type='text' style={{width : "80%", height : "100%"}} value={inputMessage} onChange={inputChat} onMouseDown={(event) => mousedown(event, roomInfo)}/>
+            <button style={{width : "20%", height : "100%"}} onClick={sendMessage} >전송</button>
         </div>
     </div>
   )

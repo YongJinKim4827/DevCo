@@ -59,7 +59,7 @@ public class UserService {
 
     public List<UserHistoryItem> selectUserHistory(String userId){
         List<UserHistoryItem> result = new ArrayList();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyy-mm-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //게시글 이력 조회
         List<BoardItem> boardHistory = new ArrayList();
         BoardItem boardItem = new BoardItem();
