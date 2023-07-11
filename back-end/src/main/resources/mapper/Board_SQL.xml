@@ -31,7 +31,13 @@
         SELECT
             B.BOARD_NO AS BOARD_NO, SUBSTR( B.BOARD_CONTENT, 1, 100 ) AS BOARD_CONTENT /*100자 까지만 로딩*/,
             B.BOARD_SHARE AS BOARD_SHARE, B.VIEWS AS VIEWS, B.BOARD_TYPE AS BOARD_TYPE,
-            B.BOARD_TITLE AS BOARD_TITLE, B.BOARD_LIKE AS BOARD_LIKE,
+            B.BOARD_TITLE AS BOARD_TITLE,
+            (
+              SELECT COUNT(LIKE_USER) FROM BOARD_LIKE_INFO
+              WHERE IS_LIKE = 'Y'
+              AND BOARD_NO = B.BOARD_NO
+              )
+            AS BOARD_LIKE,
             TO_CHAR(B.WRITE_DATE, 'YYYY-MM-DD HH:MM:SS') AS WRITE_DATE, B.WRITER AS WRITER,
             (
                 SELECT
