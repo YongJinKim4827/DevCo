@@ -48,6 +48,15 @@ public class UserService {
         return items;
     }
 
+    public int checkDuplicateUserId(String userId) throws Exception{
+        int result = 0;
+        List<UserItem> items = new ArrayList<>();
+        UserItem param = new UserItem();
+        param.setUserId(userId);
+        result = userRepository.checkDuplicateUserId(param).size();
+        return result;
+    }
+
     public List<UserHistoryItem> selectUserHistory(String userId){
         List<UserHistoryItem> result = new ArrayList();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyy-mm-dd HH:mm:ss");

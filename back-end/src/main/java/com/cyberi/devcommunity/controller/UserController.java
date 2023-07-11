@@ -78,6 +78,20 @@ public class UserController {
         return result;
     }
 
+    @RequestMapping(value = "/user/id", method = RequestMethod.GET)
+    public int checkDuplicateUserId(@RequestParam("id") String userId) throws Exception{
+        int result = 0;
+        result = userService.checkDuplicateUserId(userId);
+        return result;
+    }
+
+    @RequestMapping(value = "/user/mail/confirm", method = RequestMethod.POST)
+    public String mailConfirm(@RequestBody UserItem userItem) throws Exception{
+        String result = "";
+        result = emailService.checkAuthNum(userItem);
+        return result;
+    }
+
     @RequestMapping(value = "/user/history", method = RequestMethod.GET)
     public List<UserHistoryItem> selectUserHistroy(@RequestParam("id") String userId){
         List<UserHistoryItem> result = new ArrayList();

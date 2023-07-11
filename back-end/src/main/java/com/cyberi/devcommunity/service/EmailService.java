@@ -1,5 +1,6 @@
 package com.cyberi.devcommunity.service;
 
+import com.cyberi.devcommunity.dto.UserItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
@@ -51,7 +52,7 @@ public class EmailService {
          msgg+= "</div>";
          message.setText(msgg, "utf-8", "html");//내용
          message.setFrom(new InternetAddress(adminMail,adminName));//보내는 사람
-         mailAuthMap.put("to", authNum);
+         mailAuthMap.put("to_"+to, authNum);
          return message;
      }
 
@@ -91,8 +92,12 @@ public class EmailService {
          return authNum;
      }
 
-     public String checkAuthNum(String authNum){
+     public String checkAuthNum(UserItem userItem){
+         String authNum = mailAuthMap.get("to_"+userItem.getEmail()).toString();
          String result = "";
+         if(authNum.equals(userItem.getAuthNum())){
+             result = "Email_OK";
+         }
          return result;
      }
 }

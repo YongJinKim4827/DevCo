@@ -67,6 +67,23 @@ public class UserRepositoryImpl implements UserRepository{
         return result;
     }
 
+    @Override
+    public List<UserItem> checkDuplicateUserId(UserItem userItem) {
+        List<UserItem> result = new ArrayList();
+        result = sqlSession.selectList("userRepository.checkDuplicateUserId", userItem);
+        return result;
+    }
 
-    
+    @Override
+    public List<UserItem> selectPassword(UserItem userItem) {
+        List<UserItem> result = new ArrayList();
+        result = sqlSession.selectList("userRepository.selectPassword", userItem);
+        return result;
+    }
+
+    @Override
+    public int passwordChange(UserItem userItem) {
+        int result = sqlSession.update("userRepository.passwordChange", userItem);
+        return result;
+    }
 }
