@@ -20,4 +20,5 @@ public class UserItem {
     private String useChatting;
     private Date signupDate;
     private String userValid;
+    private String authNum;
 }
