@@ -4,7 +4,7 @@ import logoImg from '../assets/img/uncle-sam.png';
 const Welcome = () => {
   return (
     <div className='div-welcome-wrapper'>
-        <img className='img-welcome-logo' src={logoImg}/>
+        {/* <img className='img-welcome-logo' src={logoImg}/> */}
         <h4 style={{fontWeight : "bold"}}>
             {PROJECT_NAME} 에 오신것을 환영합니다.
         </h4>

@@ -22,5 +22,6 @@ const PROTOCOL = "http:";
 const REQUEST_ORIGIN = `${PROTOCOL}//${HOST_NAME}:${PORT}`;
 const SAMPLE_DATA_TEST = "SAMPLE";
 const DB_DATA_TEST = "DB";
-
+const TOKEN = "token";
+const ADMIN_USER = "ADMIN"
 const userJwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5amtpbTIiLCJBVVRIIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjg4NTIzMzg4fQ.uVwVABko1vyGYlZ81i1UBQZO45XGISexVxWkaiygI8w";
