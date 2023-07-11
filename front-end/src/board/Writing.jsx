@@ -3,6 +3,7 @@ import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getCookie, getJwtUser } from '../login/Cookies';
 
 const Writing = () => {
   const [isWriting, setIsWriting] = useState(true);
@@ -14,6 +15,7 @@ const Writing = () => {
     boardType : "",
     boardContent : window.location.pathname.split("/")[1].toUpperCase(),
     share : "N",
+    writer : getJwtUser()
   });
   
   useEffect(()=> {
@@ -59,17 +61,38 @@ const Writing = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    axios.post(`${REQUEST_ORIGIN}/board/registry`, contentItem)
-      .then((res) => {
-        console.log(res);
-        navigation(`/${contentItem.boardType.toLowerCase()}`)
-      }).catch((err)=>{
-        console.log(err);
-      })
+    let confirmMsg = "";
+    if(contentItem.share === "N"){
+      confirmMsg = confirm(NO_SHARE_MSG);
+    }else{
+      confirmMsg = confirm(SHARE_MSG);
+    }
+    if(confirmMsg){
+      axios.post(`${REQUEST_ORIGIN}/board/registry`, contentItem,
+      {
+          headers : {
+              Authorization : `Bearer ${getCookie("token").accessToken}`
+          }
+      }
+      )
+        .then((res) => {
+          console.log(res);
+          navigation(`/${contentItem.boardType.toLowerCase()}`)
+        }).catch((err)=>{
+          console.log(err);
+        })
+        return;
+    }
+    return;
   }
 
   const updateBoard = () => {
-    axios.post(`${REQUEST_ORIGIN}/board/update`, contentItem)
+    axios.post(`${REQUEST_ORIGIN}/board/update`, contentItem,
+    {
+        headers : {
+            Authorization : `Bearer ${getCookie("token").accessToken}`
+        }
+    })
     .then((res) => {
       console.log(res);
       navigation(`/${contentItem.boardType.toLowerCase()}`)

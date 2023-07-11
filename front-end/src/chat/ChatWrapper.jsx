@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import EmptyChat from './EmptyChat';
 import axios from 'axios';
+import { getCookie, getJwtUser } from '../login/Cookies';
 
 const ChatWrapper = () => {
   const [chatRoomItems, setChatRoomItems] = useState([]);
@@ -22,6 +23,9 @@ const ChatWrapper = () => {
       axios.get(`${REQUEST_ORIGIN}/chat/read`, {
         params : {
           chattingRoomNo : item.chattingRoomNo
+        },
+        headers : {
+          Authorization : `Bearer ${getCookie("token").accessToken}`
         }
       })
       .then((res) => {
@@ -40,9 +44,13 @@ const ChatWrapper = () => {
 
   //로그인한 사용자의 채팅방 리스트 불러오기
   const selectChattingRoom = () => {
+    debugger
     axios.get(`${REQUEST_ORIGIN}/chat/select/chattingroom`, {
       params : {
-        userId : 'ADMIN'
+        userId : getJwtUser()
+      },
+      headers : {
+        Authorization : `Bearer ${getCookie("token").accessToken}`
       }
     })
     .then((res) => {

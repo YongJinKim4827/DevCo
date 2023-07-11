@@ -10,6 +10,8 @@ import { useState } from 'react';
 import likeImg from '../assets/img/free-icon-like-2107854.png';
 import nolikeImg from '../assets/img/like.png';
 import viewImg from '../assets/img/view.png';
+import { getCookie, getJwtUser, getJwtRole  } from '../login/Cookies';
+
 const View = () => {
     const param = useParams();
     const replyRef = useRef();
@@ -24,7 +26,7 @@ const View = () => {
         views : '',
         writeDate : '',
         writer : '',
-        loginUser : "ADMIN" //현재 로그인한 사용자 정보. 게시물에 좋아요를 했는지 않했는지 판단
+        loginUser : getJwtUser() //현재 로그인한 사용자 정보. 게시물에 좋아요를 했는지 않했는지 판단
     });
 
     const [isLike, setIsLike] = useState(false);
@@ -49,16 +51,16 @@ const View = () => {
                 params : {
                     category : param.category,
                     boardNo : param.boardNo,
-                    user : "ADMIN"
+                    user : getJwtUser()
                 }
             });
             setBoardContent(boardResponse.data);
-            if(boardResponse.data.boardLikeUser === "ADMIN"){
+            if(boardResponse.data.boardLikeUser === getJwtUser()){
                 setIsLike(true);
             }else{
                 setIsLike(false);
             }
-            setInputReplyItem({...inputReplyItem, boardNo : boardResponse.data.boardNo, writer : 'ADMIN'});
+            setInputReplyItem({...inputReplyItem, boardNo : boardResponse.data.boardNo, writer : getJwtUser()});
             refreshReply();
         }catch(err){
             console.log(err);
@@ -94,53 +96,76 @@ const View = () => {
     }
 
     const createChatting = () => {
-        axios.post(`${REQUEST_ORIGIN}/chat/create`,{
-            users : [boardContent.writer, "ADMIN"]
-        })
-        .then((res) => {
-            navigation("/chat")
-        })
-        .catch((err) => {
-
-        })
+        if(getCookie(TOKEN)){
+            axios.post(`${REQUEST_ORIGIN}/chat/create`,{
+                users : [boardContent.writer, getJwtUser()]
+            }, {
+                headers : {
+                    Authorization : `Bearer ${getCookie("token").accessToken}`
+                }
+            })
+            .then((res) => {
+                navigation("/chat")
+            })
+            .catch((err) => {
+    
+            })
+            return;
+        }
+        alert(PLEASE_LOGIN_MSG)
     }
     
     const onSubmit = (event) => {
         event.preventDefault();
-        axios.post(`${REQUEST_ORIGIN}/reply/registry`, inputReplyItem)
-        .then((res) => {
-            setInputReplyItem({// 입력 댓글 state 초기화
-                replyNo: '',
-                replyContent : '',
-                writer : '',
-                writeDate : '',
-                boardNo : ''
-            });
-            replyRef.current?.getInstance().setHTML(" ");
-            refreshReply();
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+        if(getCookie(TOKEN)){
+            debugger;
+            axios.post(`${REQUEST_ORIGIN}/reply/registry`, inputReplyItem)
+            .then((res) => {
+                setInputReplyItem({// 입력 댓글 state 초기화
+                    replyNo: '',
+                    replyContent : '',
+                    writer : '',
+                    writeDate : '',
+                    boardNo : ''
+                });
+                replyRef.current?.getInstance().setHTML(" ");
+                refreshReply();
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            return;
+        }
+        alert(PLEASE_LOGIN_MSG);
+
     }
 
     const onClickLike = () => {
-        if(isLike){
-            setIsLike(false);
-        }else{
-            setIsLike(true);
+        if(getCookie(TOKEN)){
+            if(isLike){
+                setIsLike(false);
+            }else{
+                setIsLike(true);
+            }
+            axios.post(`${REQUEST_ORIGIN}/board/like`,{
+                boardNo : boardContent.boardNo,
+                isLike : !isLike ? 'Y' : 'N',
+                likeUser : getJwtUser(),
+            },{
+                headers : {
+                    Authorization : `Bearer ${getCookie("token").accessToken}`
+                }
+            })
+            .then((res) => {
+    
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            return;
         }
-        axios.post(`${REQUEST_ORIGIN}/board/like`,{
-            boardNo : boardContent.boardNo,
-            isLike : !isLike ? 'Y' : 'N',
-            likeUser : "ADMIN"
-        })
-        .then((res) => {
+        alert(PLEASE_LOGIN_MSG);
 
-        })
-        .catch((err) => {
-            console.log(err);
-        })
     }
     return (
     <div style={{display : "flex", flexDirection : "column", flex : "0.8", alignItems : "center"}}>
@@ -148,9 +173,22 @@ const View = () => {
             <div className='div-writer-area-wrapper'>{/* 작성자 정보 영역 */}
                 <div style={{display : "flex"}}>
                     <span style={{fontWeight : "bold"}}>{boardContent.writer}</span>
-                    <button style={{fontSize : "small", marginLeft : "5px"}} onClick={createChatting}> 1:1문의하기 </button>
-                    <button style={{fontSize : "small", marginLeft : "5px"}} onClick={updateBoard}> 수정하기 </button>
-                    <button style={{fontSize : "small", marginLeft : "5px"}} onClick={deleteBoard}> 삭제하기 </button>
+                    {
+                        boardContent.writer === getJwtUser() ?
+                        ''
+                        : 
+                        <button style={{fontSize : "small", marginLeft : "5px"}} onClick={createChatting}> 1:1문의하기 </button>
+                    }
+                    {
+                        (getJwtUser() === boardContent.writer || getJwtRole() === ADMIN_USER)?
+                        <div>
+                            <button style={{fontSize : "small", marginLeft : "5px"}} onClick={updateBoard}> 수정하기 </button>
+                            <button style={{fontSize : "small", marginLeft : "5px"}} onClick={deleteBoard}> 삭제하기 </button>
+                        </div>
+                        :
+                        ''
+                    }
+
                     <div className='div-view-like' onClick={onClickLike}>
                         {
                             isLike ?
@@ -163,8 +201,6 @@ const View = () => {
                     />
                         }
                     </div>
-                    
-
                 </div>
                 <div style={{display : "flex"}}>
                     <span style={{fontSize : "small", marginTop : "4px"}}>{convertDate(boardContent.writeDate)}</span>

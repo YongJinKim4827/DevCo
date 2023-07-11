@@ -8,6 +8,7 @@ import { useRef } from 'react';
 import ReceiveChat from './ReceiveChat';
 import SendChat from './SendChat';
 import axios from 'axios';
+import { getCookie, getJwtUser } from '../login/Cookies';
 
 const ChatRoom = ({roomInfo, inputCurrentMessage}) => {
     const client = useRef({});
@@ -27,6 +28,9 @@ const ChatRoom = ({roomInfo, inputCurrentMessage}) => {
         axios.get(`${REQUEST_ORIGIN}/chat/select/message`,{
             params : {
                 chattingRoomNo : roomInfo.chattingRoomNo
+            },
+            headers : {
+              Authorization : `Bearer ${getCookie("token").accessToken}`
             }
         })
         .then((res) => {
@@ -93,7 +97,7 @@ const ChatRoom = ({roomInfo, inputCurrentMessage}) => {
 
         client.current.publish({
             destination : "/pub/chat",
-            body: JSON.stringify({chattingRoomNo: roomInfo.chattingRoomNo, userId: 'ADMIN', chatContent: message})
+            body: JSON.stringify({chattingRoomNo: roomInfo.chattingRoomNo, userId: getJwtUser(), chatContent: message})
         });
         setInputMessage("");
         inputCurrentMessage();
@@ -125,7 +129,7 @@ const ChatRoom = ({roomInfo, inputCurrentMessage}) => {
                     if(idx > 0){
                         prevUser = chatMessages[idx-1].user;
                     }
-                    if(item.userId === user){
+                    if(item.userId === getJwtUser()){
                         return(
                             <SendChat key={`chat_${idx+1}`} messageItem = {item} />
                         )

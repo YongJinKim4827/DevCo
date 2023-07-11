@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import refreshImg from '../assets/img/free-icon-reload-6066742.png';
 import searchImg from '../assets/img/free-icon-magnifier-39014.png';
 import writingImg from '../assets/img/free-icon-writing-6679504.png';
+import { getCookie, getJwtRole } from '../login/Cookies' 
 
 const BoardList = ({category}) => {
     const navgaite = useNavigate();
@@ -27,7 +28,11 @@ const BoardList = ({category}) => {
     },[])
 
     const moveWritingPage = () => {
-        navgaite(`/writing/${category}`);
+        if(getCookie(TOKEN)){
+            navgaite(`/writing/${category}`);
+            return;
+        }
+        alert(PLEASE_LOGIN_MSG);
     }
 
     const refreshBoard = () =>{
@@ -71,11 +76,26 @@ const BoardList = ({category}) => {
                             placeholder="검색" aria-label="search" aria-describedby="basic-addon1"/>
                         <button>검색</button>
                     </div>
-                    <button style={{height : "45px", marginLeft : "20px", width : "150px"}} onClick={moveWritingPage}>
-                        <img src={writingImg} style={{width : "25px", height : "25px"}}/>
-                        {/* <span style={{marginLeft : "5px", maxWidth : "45px"}}>작성하기</span> */}
-                        작성하기
-                    </button>
+                    {
+                        category === "notice" ? 
+                        
+                        getJwtRole() === ADMIN_USER ?
+                        <button style={{height : "45px", marginLeft : "20px", width : "150px"}} onClick={moveWritingPage}>
+                            <img src={writingImg} style={{width : "25px", height : "25px"}}/>
+                            {/* <span style={{marginLeft : "5px", maxWidth : "45px"}}>작성하기</span> */}
+                            작성하기
+                        </button>
+
+                        : ''
+                        
+                        :
+                        <button style={{height : "45px", marginLeft : "20px", width : "150px"}} onClick={moveWritingPage}>
+                            <img src={writingImg} style={{width : "25px", height : "25px"}}/>
+                            {/* <span style={{marginLeft : "5px", maxWidth : "45px"}}>작성하기</span> */}
+                            작성하기
+                        </button>
+                    }
+
                 </div>
             </div>
         </div>

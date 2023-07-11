@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import { useEffect } from 'react';
+import { getCookie } from '../login/Cookies';
 
 const AccountInfo = () => {
     const [deleteAgree, setDeleteAgree] = useState(false);
@@ -12,6 +13,9 @@ const AccountInfo = () => {
         axios.get(`${REQUEST_ORIGIN}/user/select`,{
             params : {
                 id : jwtDecode(userJwt).sub
+            },
+            headers : {
+                Authorization : `Bearer ${getCookie("token").accessToken}`
             }
         })
         .then((res) => {

@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Editor, Viewer } from '@toast-ui/react-editor';
 import './board.css'
 import axios from 'axios';
+import { getCookie, getJwtRole, getJwtUser } from '../login/Cookies';
+
 const ReplyContent = ({replyItem, onRefresh}) => {
   const [replyContent, setReplyContent] = useState({
     replyNo : '', 
@@ -52,8 +54,12 @@ const ReplyContent = ({replyItem, onRefresh}) => {
                 '' 
           }
       </div>
+      
       <div style={{flex : "0.1", marginTop : "20px"}}>
-        <button onClick={deleteReply}>삭제</button>
+        {
+          getJwtRole() === ADMIN_USER || getJwtUser() === replyItem.writer ? <button onClick={deleteReply}>삭제</button>: ''
+        }
+        
       </div>
     </div>
   )

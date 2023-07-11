@@ -3,6 +3,7 @@ import UserHistoryContent from './UserHistoryContent'
 import { useEffect } from 'react'
 import axios from 'axios'
 import "./user.css"
+import { getCookie, getJwtUser } from '../login/Cookies';
 
 const UserHistory = () => {
     const [userHistoryItem, setUserHistoryItem] = useState([]);
@@ -10,7 +11,10 @@ const UserHistory = () => {
     useEffect(() => {
         axios.get(`${REQUEST_ORIGIN}/user/history`, {
             params : {
-                id : "ADMIN"
+                id : getJwtUser()
+            },
+            headers : {
+                Authorization : `Bearer ${getCookie("token").accessToken}`
             }
         })
         .then((res) => {
