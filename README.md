@@ -1,2 +1,2 @@
-# MY_SHARE_MEMO
-나만의 공유노트
+# Dev Community 개발
+개발 커뮤니티 제작
