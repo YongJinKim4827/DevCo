@@ -15,9 +15,13 @@ const SignUp = () =>  {
         email : '',
         userRole : ""
     });
-    const [authNum , setAuthNum] = useState('');
+    const [authInfo , setAuthInfo] = useState({
+        email : '',
+        authNum : ''
+    });
     const [issuanceAuth, setIssuanceAuth] = useState(false);
-
+    const [usableUserId, setUsableUserId] = useState(false);
+    
     const onChange = (event) => {
         if(event.target.id === "signUpIdInput"){
             setSignUpInfo({...signUpInfo, userId : event.target.value});
@@ -60,27 +64,52 @@ const SignUp = () =>  {
     }
 
     const onIssuanceAuth = () => {
-        // axios.post(`${REQUEST_ORIGIN}/user/mail`, signUpInfo)
-        // .then((res) => {
-        //     console.log(res);
-        // })
-        // .catch((err) => {
-        //     console.log(err);
-        // })
+        debugger;
+        if(signUpInfo.email.length > 0){
+            axios.post(`${REQUEST_ORIGIN}/user/mail`, signUpInfo)
+            .then((res) => {
+                console.log(res);
+                setAuthInfo({...authInfo, email : signUpInfo.email})
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            return;
+        }
+        alert(PLEASE_INPUT_EMAIL_MSG);
     }
 
     const onCheckAuthNum = () => {
-        // axios.post(`${REQUEST_ORIGIN}/user/mail/confirm`, authNum)
-        // .then((res) => {
-        //     console.log(res);
-        // })
-        // .catch((err) => {
-        //     console.log(err);
-        // })
+        axios.post(`${REQUEST_ORIGIN}/user/mail/confirm`, authInfo)
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    const onCheckUserId = () => {
+        axios.get(`${REQUEST_ORIGIN}/user/id`, {
+            params : {
+                id : signUpInfo.userId
+            }
+        })
+        .then((res) => {
+            console.log(res);
+            if(res.data > 0){
+                setUsableUserId(false);
+            }else{
+                setUsableUserId(true);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     const onChangeAuthNum = (event) => {
-        setAuthNum(event.target.value);
+        setAuthInfo({...authInfo, authNum : event.target.value});
     }
 
     return (
@@ -95,6 +124,7 @@ const SignUp = () =>  {
                         id="signUpIdInput"
                         value={signUpInfo.userId} onChange={onChange}
                         />
+                        <button type="button" onClick={onCheckUserId}>아이디 중복 확인</button>
                 </div>
                 <div className="mb-3">
                     <label htmlFor= "signUpPassword" className="form-label">Password</label>
@@ -129,7 +159,7 @@ const SignUp = () =>  {
                     <div className="collapse" id="collapseExample" style={{marginTop : "10px"}}>
                         <div className="card card-body" style={{display : "flex", flexDirection : "inherit"}}>
                             <input type='text' className= "form-control input-authNum" onChange={onChangeAuthNum} placeholder='인증번호'/>
-                            <button style={{width : "24%"}}>인증</button>
+                            <button type='button' style={{width : "24%"}} onClick={onCheckAuthNum}>인증</button>
                         </div>
                     </div>
                 </div>
@@ -137,7 +167,9 @@ const SignUp = () =>  {
                 <div style={{display : "flex", justifyContent : "center"}}>
                     {/* <button type='button' className="btn btn-primary" onClick={moveLoginPage}>{"< Prev"}</button> */}
                     <button type='submit' className="btn btn-primary" 
-                        style={{width : "80%", backgroundColor : "#0B7FD3"}} disabled={false}
+                        style={{width : "80%", backgroundColor : "#0B7FD3"}} disabled={
+                            !(issuanceAuth && usableUserId)
+                        }
                     >Sign Up</button>
                 </div>
             </form>
