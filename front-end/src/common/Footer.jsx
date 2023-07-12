@@ -16,10 +16,10 @@ const Footer = () => {
           </div>
         </div>
         <div> 
-          <span>김용진</span>
+          <span>DevCo는 개발자 커뮤니티 사이트입니다.<br/> 많은 이용 바랍니다</span>
         </div>
         <div>
-          회사
+          {/* 회사 */}
         </div>
       </div>
     </div>

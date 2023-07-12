@@ -28,7 +28,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public UserItem updateUserItem(UserItem userItem) {
-        sqlSession.insert("userRepository.updateUser", userItem);
+        sqlSession.update("userRepository.updateUser", userItem);
         return null;
     }
 

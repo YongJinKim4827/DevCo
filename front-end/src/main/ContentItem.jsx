@@ -11,11 +11,19 @@ const ContentItem = ({contentItem}) => {
         navigation(`/view/${category.toLowerCase()}/${contentItem.boardNo}`);
     }
 
+    const moveUserActiviyPage = (event) => {
+        let category = contentItem.boardType;
+        if(contentItem.boardType.startsWith("W")){
+            category = contentItem.boardType.slice(1)
+        }
+        navigation(`/view/${category.toLowerCase()}/${contentItem.boardNo}`);
+    }
+
   return (
     <div style={{width:"95%", height : "70px", marginTop: "15px", borderBottom : "1px solid gray"}}>
         <div style={{display : "flex", justifyContent : "space-between"}}>
             <div style={{display: "flex"}}>
-                <a href="#" style={{fontSize:"small"}}>{contentItem.writer}</a>
+                <a style={{fontSize:"small"}} onClick={() => navigation(`/user/activity/${contentItem.writer}`)}>{contentItem.writer}</a>
                 <div style={{margin : "-2px 5px 1px 5px"}}>
                     <img src="src\assets\img\view.png"
                         style={{width : "18px", height : "18px", marginBottom : "3px"}}

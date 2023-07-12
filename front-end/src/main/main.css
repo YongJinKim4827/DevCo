@@ -25,6 +25,7 @@ a{
 a:hover {
     font-weight: bold;
     color: #0090F9 !important;
+    cursor: pointer;
 }
 
 .a-main-title:hover{

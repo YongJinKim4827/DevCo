@@ -18,9 +18,6 @@ const UserHistory = () => {
         axios.get(`${REQUEST_ORIGIN}/user/history`, {
             params : {
                 id : userId
-            },
-            headers : {
-                Authorization : `Bearer ${getCookie("token").accessToken}`
             }
         })
         .then((res) => {

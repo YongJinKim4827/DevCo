@@ -29,35 +29,44 @@
 
     <select id="mainBoardList" resultMap="boardResultMap">
         SELECT
-            B.BOARD_NO, B.BOARD_TYPE, B.BOARD_TITLE, B.WRITER, B.BOARD_SHARE, B.VIEWS, B.WRITE_DATE, 
-                (   SELECT COUNT(LIKE_USER) FROM BOARD_LIKE_INFO L WHERE L.IS_LIKE = 'Y' AND L.BOARD_NO = B.BOARD_NO
-                    ) AS BOARD_LIKE,
-                (
-                    SELECT COUNT(REPLY_NO) FROM REPLY_INFO R WHERE R.BOARD_NO = B.BOARD_NO
-                )AS REPLY_COUNT
-        FROM BOARD_INFO B 
-        WHERE B.BOARD_TYPE = #{boardType} 
-            AND B.BOARD_SHARE = 'Y' 
-            AND ROWNUM <![CDATA[<=]]> 5
-        ORDER BY WRITE_DATE
+        C.BOARD_NO, C.BOARD_TYPE, C.BOARD_TITLE, C.WRITER, C.BOARD_SHARE, C.VIEWS, C.WRITE_DATE,
+        C.BOARD_LIKE, C.REPLY_COUNT
+        FROM
+        (SELECT
+        B.BOARD_NO, B.BOARD_TYPE, B.BOARD_TITLE, B.WRITER, B.BOARD_SHARE, B.VIEWS, B.WRITE_DATE,
+        (   SELECT COUNT(LIKE_USER) FROM BOARD_LIKE_INFO L WHERE L.IS_LIKE = 'Y' AND L.BOARD_NO = B.BOARD_NO
+        ) AS BOARD_LIKE,
+        (
+        SELECT COUNT(REPLY_NO) FROM REPLY_INFO R WHERE R.BOARD_NO = B.BOARD_NO
+        )AS REPLY_COUNT
+        FROM BOARD_INFO B
+        WHERE B.BOARD_TYPE = #{boardType}
+        AND B.BOARD_SHARE = 'Y'
+        ORDER BY B.WRITE_DATE DESC) C
+        WHERE ROWNUM <![CDATA[<=]]> 5
     </select>
 
     <select id="weeklyBest" resultMap="boardResultMap">
-        SELECT 
-             B.BOARD_NO, 'W'||B.BOARD_TYPE AS BOARD_TYPE, B.BOARD_TITLE AS BOARD_TITLE, B.WRITER AS WRITER, B.BOARD_SHARE AS BOARD_SHARE, B.VIEWS AS VIEWS,
-                B.WRITE_DATE AS WRITE_DATE, 
-                (   SELECT COUNT(LIKE_USER) FROM BOARD_LIKE_INFO L WHERE L.IS_LIKE = 'Y' AND L.BOARD_NO = B.BOARD_NO
-                ) AS BOARD_LIKE,
-                (
-                    SELECT COUNT(REPLY_NO) FROM REPLY_INFO R WHERE R.BOARD_NO = B.BOARD_NO
-                )AS REPLY_COUNT
+        SELECT
+        C.BOARD_TYPE, C.BOARD_TITLE, C.WRITER, C.BOARD_SHARE, C.VIEWS, C.BOARD_LIKE, C.REPLY_COUNT
+        FROM
+        (SELECT
+        B.BOARD_NO, 'W'||B.BOARD_TYPE AS BOARD_TYPE, B.BOARD_TITLE AS BOARD_TITLE, B.WRITER AS WRITER, B.BOARD_SHARE AS BOARD_SHARE, B.VIEWS AS VIEWS,
+        B.WRITE_DATE AS WRITE_DATE,
+        (   SELECT COUNT(LIKE_USER) FROM BOARD_LIKE_INFO L WHERE L.IS_LIKE = 'Y' AND L.BOARD_NO = B.BOARD_NO
+        ) AS BOARD_LIKE,
+        (
+        SELECT COUNT(REPLY_NO) FROM REPLY_INFO R WHERE R.BOARD_NO = B.BOARD_NO
+        )AS REPLY_COUNT
         FROM BOARD_INFO B
         WHERE
-                WRITE_DATE 
-                BETWEEN TO_DATE(to_char( sysdate-( (select to_char(sysdate,'D') from dual) -2 ), 'yyyy-mm-dd')) 
-                AND TO_DATE(to_char( sysdate-( (select to_char(sysdate,'D') from dual) -2 )+7, 'yyyy-mm-dd'))
-                AND B.BOARD_SHARE = 'Y' AND ROWNUM <![CDATA[<=]]> 5
+        WRITE_DATE
+        BETWEEN TO_DATE(to_char( sysdate-( (select to_char(sysdate,'D') from dual) -2 ), 'yyyy-mm-dd'))
+        AND TO_DATE(to_char( sysdate-( (select to_char(sysdate,'D') from dual) -2 )+7, 'yyyy-mm-dd'))
+        AND B.BOARD_SHARE = 'Y'
         ORDER BY B.VIEWS DESC, B.BOARD_LIKE DESC
+        ) C
+        WHERE ROWNUM <![CDATA[<=]]> 5
     </select>
     <!-- 게시글 리스트 조회 -->
     <select id="selectBoardList" resultMap="boardResultMap">
@@ -71,7 +80,7 @@
               AND BOARD_NO = B.BOARD_NO
               )
             AS BOARD_LIKE,
-            TO_CHAR(B.WRITE_DATE, 'YYYY-MM-DD HH:MM:SS') AS WRITE_DATE, B.WRITER AS WRITER,
+            TO_CHAR(B.WRITE_DATE, 'YYYY-MM-DD hh24:mi:ss') AS WRITE_DATE, B.WRITER AS WRITER,
             (
                 SELECT
                     COUNT(REPLY_NO)
@@ -93,7 +102,7 @@
             AND WRITER = #{writer}
         </if>
         <if test="searchCondition != null and searchCondition != ''">
-            AND BOARD_CONTENT LIKE  '%' ||  #{searchCondition} || '%'
+            AND (BOARD_CONTENT LIKE  '%' ||  #{searchCondition} || '%' OR BOARD_CONTENT LIKE  '%' ||  #{searchCondition} || '%')
         </if>
         ORDER BY B.WRITE_DATE DESC
     </select>
@@ -103,7 +112,7 @@
         SELECT
             BOARD_NO, BOARD_CONTENT,
             BOARD_SHARE, VIEWS, BOARD_TYPE,
-            BOARD_TITLE, TO_CHAR(WRITE_DATE, 'YYYY-MM-DD HH:MM:SS') AS WRITE_DATE,
+            BOARD_TITLE, TO_CHAR(WRITE_DATE, 'YYYY-MM-DD HH24:MI:SS') AS WRITE_DATE,
             WRITER, (
                     SELECT LIKE_USER FROM BOARD_LIKE_INFO
                     WHERE BOARD_NO = #{boardNo}
@@ -121,7 +130,6 @@
         FROM
           BOARD_INFO
         WHERE 1=1
-        AND BOARD_SHARE = 'Y'
         <if test="boardNo != null and boardNo != ''">
             AND BOARD_NO = #{boardNo}
         </if>

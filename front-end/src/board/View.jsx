@@ -87,12 +87,17 @@ const View = () => {
     }
 
     const deleteBoard = () => {
-        axios.post(`${REQUEST_ORIGIN}/board/delete`, boardContent)
+        axios.post(`${REQUEST_ORIGIN}/board/delete`, boardContent,{
+            headers : {
+                Authorization : `Bearer ${getCookie("token").accessToken}`
+            }
+        })
         .then((res) => {
             navigation(`/${boardContent.boardType.toLowerCase()}`)
         })
         .catch((err) => {
             console.log(err);
+            alert("삭제가 불가능합니다.")
         })
     }
 
@@ -124,41 +129,44 @@ const View = () => {
     const onSubmit = (event) => {
         event.preventDefault();
         if(getCookie(TOKEN)){
-            if(inputReplyItem.replyNo){
-                axios.post(`${REQUEST_ORIGIN}/reply/update`, inputReplyItem)
-                .then((res) => {
-                    setInputReplyItem({// 입력 댓글 state 초기화
-                        replyNo: '',
-                        replyContent : '',
-                        writer : '',
-                        writeDate : '',
-                        boardNo : ''
-                    });
-                    setReplyItems([]);
-                    replyRef.current?.getInstance().setHTML(" ");
-                    refreshReply();
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-            }else{
-                axios.post(`${REQUEST_ORIGIN}/reply/registry`, inputReplyItem)
-                .then((res) => {
-                    setInputReplyItem({// 입력 댓글 state 초기화
-                        replyNo: '',
-                        replyContent : '',
-                        writer : '',
-                        writeDate : '',
-                        boardNo : ''
-                    });
-                    setReplyItems([]);
-                    replyRef.current?.getInstance().setHTML(" ");
-                    refreshReply();
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
+            if(inputReplyItem.replyContent.length > 0){
+                if(inputReplyItem.replyNo){
+                    axios.post(`${REQUEST_ORIGIN}/reply/update`, inputReplyItem)
+                    .then((res) => {
+                        setInputReplyItem({// 입력 댓글 state 초기화
+                            replyNo: '',
+                            replyContent : '',
+                            writer : '',
+                            writeDate : '',
+                            boardNo : ''
+                        });
+                        setReplyItems([]);
+                        replyRef.current?.getInstance().setHTML(" ");
+                        refreshReply();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+                }else{
+                    axios.post(`${REQUEST_ORIGIN}/reply/registry`, inputReplyItem)
+                    .then((res) => {
+                        setInputReplyItem({// 입력 댓글 state 초기화
+                            replyNo: '',
+                            replyContent : '',
+                            writer : '',
+                            writeDate : '',
+                            boardNo : ''
+                        });
+                        setReplyItems([]);
+                        replyRef.current?.getInstance().setHTML(" ");
+                        refreshReply();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+                }
             }
+            
             
         }else{
             alert(PLEASE_LOGIN_MSG);
@@ -203,7 +211,7 @@ const View = () => {
         <div style={{marginTop : '25px'}}>
             <div className='div-writer-area-wrapper'>{/* 작성자 정보 영역 */}
                 <div style={{display : "flex"}}>
-                    <span style={{fontWeight : "bold"}}>{boardContent.writer}</span>
+                    <span style={{fontWeight : "bold"}} className='div-writer' onClick={() => navigation(`/user/activity/${boardContent.writer}`)}>{boardContent.writer}</span>
                     {
                         boardContent.writer === getJwtUser() ?
                         ''
@@ -213,8 +221,16 @@ const View = () => {
                     {
                         (getJwtUser() === boardContent.writer || getJwtRole() === ADMIN_USER)?
                         <div>
-                            <button style={{fontSize : "small", marginLeft : "5px"}} onClick={updateBoard}> 수정하기 </button>
-                            <button style={{fontSize : "small", marginLeft : "5px"}} onClick={deleteBoard}> 삭제하기 </button>
+                            {
+                                 (getJwtUser() === boardContent.writer)?
+                                 <button style={{fontSize : "small", marginLeft : "5px"}} onClick={updateBoard}> 수정하기 </button>
+                                 : ''
+                            }
+                            {
+                                (getJwtUser() === boardContent.writer || getJwtRole() === ADMIN_USER)?
+                                 <button style={{fontSize : "small", marginLeft : "5px"}} onClick={deleteBoard}> 삭제하기 </button>
+                                 : ''
+                            }
                         </div>
                         :
                         ''

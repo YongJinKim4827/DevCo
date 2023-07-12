@@ -9,7 +9,7 @@ const convertDate = (date) => {
         return;
     }
     let convertDate = `${convertDateType.getFullYear()}-${addZero(convertDateType.getMonth() + 1)}-${addZero(convertDateType.getDate())}`
-    let convertTime = `${addZero(convertDateType.getUTCHours())}:${addZero(convertDateType.getUTCMinutes())}:${addZero(convertDateType.getUTCSeconds())}`
+    let convertTime = `${addZero(convertDateType.getHours())}:${addZero(convertDateType.getUTCMinutes())}:${addZero(convertDateType.getUTCSeconds())}`
     return `${convertDate} ${convertTime}`;
 }
 

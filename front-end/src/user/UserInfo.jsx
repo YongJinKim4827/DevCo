@@ -4,8 +4,10 @@ import { useEffect } from 'react'
 import jwtDecode from 'jwt-decode';
 import { useState } from 'react';
 import { getCookie, getJwtUser } from '../login/Cookies';
+import { useNavigate } from 'react-router-dom';
 
 const UserInfo = () => {
+    const navigation = useNavigate();
     const [userItem, setUserItem] = useState({
         userId : '',
         userName : '',
@@ -45,21 +47,23 @@ const UserInfo = () => {
             </div>
             <div className='div-user-info-input'>
                 <label>이름</label>
-                <input type='text' style={{padding : "10px"}} value={userItem.userName ? userItem.userName: ''} onChange={changeUserItem}/>
+                <input type='text' style={{padding : "10px"}} value={userItem.userName ? userItem.userName: ''} onChange={changeUserItem} disabled={true}/>
             </div>
             <div className='div-user-info-input'>
                 <label>패스워드</label>
-                <div>
+                {/* <div> */}
                     <input type='text' style={{padding : "10px"}} value={userItem.userPassword ? "***************" : ''} onChange={changeUserItem} disabled={true}/>
-                    <button>비밀번호 변경</button>
-                </div>
+                    {/* <button>비밀번호 변경</button> */}
+                {/* </div> */}
             </div>
             <div className='div-user-info-input'>
                 <label>이메일</label>
-                <input type='text' style={{padding : "10px"}} value={userItem.email ? userItem.email : ''} onChange={changeUserItem}/>
+                <input type='text' style={{padding : "10px"}} value={userItem.email ? userItem.email : ''} onChange={changeUserItem} disabled={true}/>
             </div>
             <div style={{display : 'flex', justifyContent : 'end', marginTop : '10px'}}>
-                <button style={{color : '#0d6efd', fontWeight : 'bold'}}>저장</button>
+                <button style={{color : '#0d6efd', fontWeight : 'bold'}} onClick={
+                    () => navigation(`/userinfo/${userItem.userId}`)
+                }>수정</button>
             </div>
         </div>
   )

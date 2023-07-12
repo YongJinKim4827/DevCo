@@ -27,7 +27,7 @@ const BoardContent = ({category, content}) => {
         } */}
         <div style={{marginLeft : "10px"}}>
             <div className='div-write-info'>
-                <div className='div-writer'>{content.writer}</div>
+                <div className='div-writer' onClick={() => navigation(`/user/activity/${content.writer}`)}>{content.writer}</div>
                 <div style={{marginLeft : "10px"}}>{convertDate(content.writeDate)}</div>
             </div>
             <div style={{display : "flex", flexDirection : "column", width : "59vw", maxWidth:"700px", minWidth : "350px"}}>

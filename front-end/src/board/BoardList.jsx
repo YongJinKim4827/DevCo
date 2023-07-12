@@ -22,6 +22,7 @@ const BoardList = ({category}) => {
         boardContent : "",
         writeDate : ""
     }]);
+    const [searchCondition, setSearchCondition] = useState("");
 
     useEffect(()=> {
         onSearch();
@@ -42,7 +43,8 @@ const BoardList = ({category}) => {
     const onSearch = () => {
         axios.get(`${REQUEST_ORIGIN}/board/`,{
             params : {
-                category : category
+                category : category,
+                searchCondition : searchCondition
             }
         })
         .then((res) => {
@@ -51,6 +53,16 @@ const BoardList = ({category}) => {
         .catch((err) => {
             console.dir(err);
         })
+    }
+
+    const onChangeSearchCondition = (event) => {
+        setSearchCondition(event.target.value);
+    }
+
+    const onKeyDown = (event) => {
+        if(event.keyCode === 13){
+            onSearch();
+        }
     }
 
   return (
@@ -67,14 +79,17 @@ const BoardList = ({category}) => {
                             />
                     </div>
                     <div className="input-group mb-3" style={{width : "40vw", maxWidth : "500px"}}>
-                        <span className="input-group-text" id="basic-addon1">
+                        <span className="input-group-text" id="basic-addon1" onClick={onSearch}>
                             <img src={searchImg}
                                 style={{width : "18px", height : "18px", marginBottom : "3px"}}
                             />
                         </span>
                         <input type="text" className="form-control"
-                            placeholder="검색" aria-label="search" aria-describedby="basic-addon1"/>
-                        <button>검색</button>
+                            placeholder="검색" aria-label="search" aria-describedby="basic-addon1" 
+                            onChange={onChangeSearchCondition}
+                            onKeyDown={onKeyDown}
+                            />
+                        <button onClick={onSearch}>검색</button>
                     </div>
                     {
                         category === "notice" ? 

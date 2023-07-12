@@ -73,10 +73,12 @@
     <update id="updateUser">
         UPDATE USER_INFO SET
           <if test="userPassword != '' and userPassword != null">
-              PASSWORD = #{userPassword, jdbcType=VARCHAR},
+              PASSWORD = #{userPassword},
           </if>
-          USER_NAME = #{userName, jdbcType=VARCHAR},
-          EMAIL = #{email, jdbcType=VARCHAR}
+        <if test="email != '' and email != null">
+            EMAIL = #{email, jdbcType=VARCHAR},
+        </if>
+          USER_NAME = #{userName, jdbcType=VARCHAR}
         WHERE 1=1
         AND USER_ID = #{userId, jdbcType=VARCHAR}
     </update>

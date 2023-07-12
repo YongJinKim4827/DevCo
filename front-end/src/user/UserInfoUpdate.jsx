@@ -1,12 +1,13 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getCookie, getJwtUser } from '../login/Cookies';
 
 const UserInfoUpdate = () =>  {
     const param = useParams();
-    const [userinfo, setUserInfo] = useState({});
+    const navigation = useNavigate();
+    const [userInfo, setUserInfo] = useState({});
 
     const [changeUserInfo, setChangeUserInfo] = useState({});
     const [authInfo , setAuthInfo] = useState({
@@ -68,8 +69,22 @@ const UserInfoUpdate = () =>  {
 
     const signUpHandler = (event) => {
         event.preventDefault();
+        // if(userInfo.userPassword == changeUserInfo.userPassword){
+        //     setChangeUserInfo((prev) => {
+        //         return(
+        //             {...changeUserInfo, userPassword : ''}
+        //         )
+        //     })
+        // }
+
+        // if(userInfo.email == changeUserInfo.email){
+        //     setChangeUserInfo((prev) => {
+        //         return(
+        //             {...changeUserInfo, email : ''}
+        //         )
+        //     })
+        // }
         console.dir(changeUserInfo);
-        debugger
         axios.post(`${REQUEST_ORIGIN}/user/update`, changeUserInfo,
         {
             headers : {
@@ -78,6 +93,7 @@ const UserInfoUpdate = () =>  {
         })
         .then((res) => {
             console.log(res);
+            navigation("/")
         })
         .catch((err) => {
             console.log(err);
@@ -103,6 +119,7 @@ const UserInfoUpdate = () =>  {
         axios.post(`${REQUEST_ORIGIN}/user/mail/confirm`, authInfo)
         .then((res) => {
             setIssuanceAuth(true);
+            alert("인증되었습니다");
         })
         .catch((err) => {
             console.log(err);
@@ -139,10 +156,44 @@ const UserInfoUpdate = () =>  {
         setIssuanceAuth(false);
     }
 
-    const changePasswordInput = () => {
-        setChangPassword(true)
+    const changePasswordInput = (event) => {
+        if(changePassword){
+            setChangPassword(false);
+            setChangeUserInfo((prev) => {
+                return(
+                    {...changeUserInfo, userPassword : userInfo.userPassword}
+                )
+            })
+        }else{
+            setChangPassword(true);
+            setChangeUserInfo((prev) => {
+                return(
+                    {...changeUserInfo, userPassword : ''}
+                )
+            })
+        }
     }
 
+    const updateUserInfo = () => {
+        console.log(userInfo);
+        if(userInfo.userPassword == changeUserInfo.userPassword){
+            setChangeUserInfo((prev) => {
+                return({...prev, userPassword : ""})
+            }
+            // prev.userPassword = ""
+            )
+        }
+        // if(userInfo.email == changeUserInfo.email && changeEmail){
+        //     debugger;
+        //     setChangeUserInfo((prev) => 
+        //     {
+        //         return({...prev, email : ""})
+        //     }
+        //     // prev.email = ""
+        //     )
+        // }
+
+    }
     return (
         <div className='div-signup-wrapper'>
             {/* <div style={{fontSize : "small"}}>회원가입시 필요한 정보를 입력해주세요</div> */}
@@ -168,13 +219,13 @@ const UserInfoUpdate = () =>  {
                         <button type="button" style={{width : "30%"}} onClick={changePasswordInput}>비밀번호 변경</button>
                     </div>
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                     <label htmlFor="changeReEnterPassword" className="form-label">비밀번호 재확인</label>
                     <input type="password" className="form-control" 
                         id="changeReEnterPassword"
                         value={changeUserInfo.reEnterPassword || ""} onChange={onChangeItem}
                         />
-                </div>
+                </div> */}
                 <div className="mb-3">
                     <label htmlFor= "changeName" className="form-label">이름</label>
                     <input type="text" className="form-control" 
@@ -211,7 +262,8 @@ const UserInfoUpdate = () =>  {
                         style={{width : "80%", backgroundColor : "#0B7FD3"}} disabled={
                             !(issuanceAuth)
                         }
-                    >회원가입</button>
+                        onClick={updateUserInfo}
+                    >수정하기</button>
                 </div>
             </form>
         </div>

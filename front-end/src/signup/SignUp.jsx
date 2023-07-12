@@ -3,8 +3,10 @@ import { useState,useEffect } from 'react';
 import axios from 'axios';
 import "./signup.css"
 import Welcome from '../common/Welcome';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () =>  {
+    const navigate = useNavigate();
     const [signUpInfo, setSignUpInfo] = useState({
         userId : '',
         userPassword : '',
@@ -53,6 +55,7 @@ const SignUp = () =>  {
         axios.post(`${REQUEST_ORIGIN}/signup`, signUpInfo)
         .then((res) => {
             console.log(res);
+            navigate("/login");
         })
         .catch((err) => {
             console.log(err);
@@ -68,7 +71,8 @@ const SignUp = () =>  {
             axios.post(`${REQUEST_ORIGIN}/user/mail`, signUpInfo)
             .then((res) => {
                 console.log(res);
-                setAuthInfo({...authInfo, email : signUpInfo.email})
+                setAuthInfo({...authInfo, email : signUpInfo.email});
+                nav
             })
             .catch((err) => {
                 console.log(err);
@@ -81,8 +85,8 @@ const SignUp = () =>  {
     const onCheckAuthNum = () => {
         axios.post(`${REQUEST_ORIGIN}/user/mail/confirm`, authInfo)
         .then((res) => {
-            
             setIssuanceAuth(true);
+            alert("인증되었습니다");
         })
         .catch((err) => {
             console.log(err);
@@ -135,13 +139,6 @@ const SignUp = () =>  {
                     <label htmlFor= "signUpPassword" className="form-label">Password</label>
                     <input type="password" className="form-control" 
                         id="signUpPassword" value={signUpInfo.userPassword} onChange={onChange}
-                        />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="signUpReEnterPassword" className="form-label">비밀번호 재확인</label>
-                    <input type="password" className="form-control" 
-                        id="signUpReEnterPassword"
-                        value={signUpInfo.reEnterPassword} onChange={onChange}
                         />
                 </div>
                 <div className="mb-3">

@@ -19,8 +19,10 @@ const ChatRoom = ({roomInfo, inputCurrentMessage, mousedown}) => {
     }
 
     const sendMessage = () => {
-        publish(inputMessage);
-        setInputMessage("");
+        if(inputMessage.length > 0){
+            publish(inputMessage);
+            setInputMessage("");
+        }
     }
 
     const selectChattingMessage = () => {
@@ -103,6 +105,11 @@ const ChatRoom = ({roomInfo, inputCurrentMessage, mousedown}) => {
         setUser(event.target.value);
     }
 
+    const onKeyDown = (event) => {
+        if(event.keyCode === 13){
+            sendMessage();
+        }
+    }
     return (
     <div className='div-chat-roomdetail-wrapper'>
         <div className='div-chat-room-header'>
@@ -132,7 +139,10 @@ const ChatRoom = ({roomInfo, inputCurrentMessage, mousedown}) => {
             }
         </div>
         <div className='div-chat-room-footer'>
-            <input type='text' style={{width : "80%", height : "100%"}} value={inputMessage} onChange={inputChat} onMouseDown={(event) => mousedown(event, roomInfo)}/>
+            <input type='text' style={{width : "80%", height : "100%"}} value={inputMessage} 
+                onChange={inputChat} onMouseDown={(event) => mousedown(event, roomInfo)}
+                onKeyDown={onKeyDown}
+                />
             <button style={{width : "20%", height : "100%"}} onClick={sendMessage} >전송</button>
         </div>
     </div>

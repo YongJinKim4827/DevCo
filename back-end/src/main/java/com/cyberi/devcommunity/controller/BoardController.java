@@ -30,9 +30,11 @@ public class BoardController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public List<BoardItem> selectBoardList(@RequestParam("category") String catrgory){
+    public List<BoardItem> selectBoardList(@RequestParam("category") String catrgory,
+                                           @RequestParam("searchCondition") String searchCondition){
         BoardItem param = new BoardItem();
         param.setBoardType(catrgory.toUpperCase());
+        param.setSearchCondition(searchCondition);
         List<BoardItem> items = new ArrayList();
         items = boardService.selectBoardList(param);
         return items;

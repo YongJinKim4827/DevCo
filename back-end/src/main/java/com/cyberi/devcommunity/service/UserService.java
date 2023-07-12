@@ -19,7 +19,7 @@ public class UserService {
     private final BoardRepository boradRepository;
     private final ChatRepository chatRepository;
     private final ReplyRepository replyRepository;
-
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     public UserService(UserRepository userRepository,
                        BoardRepository boardRepository,
                        ChatRepository chatRepository,
@@ -32,7 +32,7 @@ public class UserService {
 
     public int signUp(UserItem userItem) throws Exception {
         try{
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
             userItem.setUserPassword(passwordEncoder.encode(userItem.getUserPassword()));
             userRepository.signup(userItem);
             return 1;
@@ -143,6 +143,9 @@ public class UserService {
 
     public UserItem updateUserItem(UserItem userItem) throws Exception{
         UserItem updateItem = new UserItem();
+        if(!userItem.getUserPassword().equals("")){
+            userItem.setUserPassword(passwordEncoder.encode(userItem.getUserPassword()));
+        }
         try{
             updateItem = userRepository.updateUserItem(userItem);
         }catch(Exception e){
